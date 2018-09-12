@@ -22,4 +22,5 @@ body {
 #LeftSide p, #RightSide p {
     margin-top: 30%;
     color: white;
+    background-color: black;
 }
