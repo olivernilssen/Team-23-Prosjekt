@@ -1,26 +1,4 @@
 body {
   height: 500px;
-}
-
-#LeftSide {
-    width: 40%;
-    height: 50%;
-    float: left;
-    background-color: brown;
-}
-
-
-#RightSide {
-    width: 40%;
-    height: 50%;
-    float: right;
-    background-color: black;
-    color: white;
-    text-align: right;
-}
-
-#LeftSide p, #RightSide p {
-    margin-top: 30%;
-    color: white;
-    background-color: black;
+  width: 500px;
 }
