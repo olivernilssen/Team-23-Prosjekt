@@ -13,6 +13,8 @@ window.onload = function() {
     var spillerLastet = false;
     var keysLastet = false;
 
+    var winCondition = false;
+
     //variabler for gåfart, scoring og offsets.
     var speed = 25;
     var score = 0;
@@ -20,7 +22,9 @@ window.onload = function() {
     var modifier = 25;
     var objectSizes = 40; 
 
-    var xArrow = 18; 
+    var arrow_XR = 18; 
+    var arrow_XL = 1;
+    var arrow_Y = 9;
     var isMoving = false;
 
     //Funksjon for hva elementet moveable object inneholder
@@ -50,8 +54,8 @@ window.onload = function() {
 
 
         //Arrows
-        arrowObjArray.push(new mittElement(1, 9));
-        arrowObjArray.push(new mittElement(18, 9));
+        arrowObjArray.push(new mittElement(arrow_XR, arrow_Y));
+        arrowObjArray.push(new mittElement(arrow_XL, arrow_Y));
 
         //Nykkel objekter
         nykkelObjArray.push(new mittElement(8, 7));
@@ -96,6 +100,7 @@ window.onload = function() {
         unMoveObjArray.push(new mittElement(7, 7));
         unMoveObjArray.push(new mittElement(7, 6));
 
+        //ramme rundt nivået
         for(var x = 0; x < wid/objectSizes; x++){
           for(var y = 0; y < hig/objectSizes; y++)
           {
@@ -106,10 +111,14 @@ window.onload = function() {
         }
       }
 
+      //Sett alle elementer inn i Array
       makeArrays();
 
     //Laste alle bilder og elementer inn og definer dem 
     //Terraine bilde / Bakgrunns bilde 
+    var gameOverImage = new Image();
+    gameOverImage.src = "gameover.png";
+
     var terrainImage = new Image();
     terrainImage.onload = function() {
     bakgrunnLastet = true;
@@ -163,11 +172,17 @@ window.onload = function() {
     shooterImage.src = "arrowtrigger.png";
 
     //Arrow 
-    var arrowImage = new Image();
-    arrowImage.onload = function() {
+    var arrowImageRight = new Image();
+    arrowImageRight.onload = function() {
     assetsLoaded();
     };
-    arrowImage.src = "arrow.png";
+    arrowImageRight.src = "arrowRight.png";
+
+    var arrowImageLeft = new Image();
+    arrowImageLeft.onload = function() {
+    assetsLoaded();
+    };
+    arrowImageLeft.src = "arrowLeft.png";
 
     //Gate
     var gateImage = new Image();
@@ -175,6 +190,7 @@ window.onload = function() {
     };
     gateImage.src = "gate.png";
 
+    //Brukes for sprites
     var spritePosition = 0;
     var spriteItemDistance = 33;
 
@@ -189,7 +205,7 @@ window.onload = function() {
     
     var player = {
         x: 13,
-        y: 13,
+        y: 10,
         currentDirection: "stand",
         direction: {
             "stand": {
@@ -214,11 +230,6 @@ window.onload = function() {
             },
           }
         };
-
-        for(var i = 0; i < moveObjArray.length; i++){
-          moveObjArray[i].xx = moveObjArray[i].x;
-          moveObjArray[i].xy = moveObjArray[i].y;
-        }
     
     player.move = function(direction) {
 
@@ -227,7 +238,8 @@ window.onload = function() {
             y: player.y
         };
 
-        
+        //a function to keep the movable objects current position before it is potentially moved. The xx and yy values are used it the box collides
+        // so as to stop then from moving forward, but rather keep the old position.
         for(var i = 0; i < moveObjArray.length; i++){
           moveObjArray[i].xx = moveObjArray[i].x;
           moveObjArray[i].yy = moveObjArray[i].y;
@@ -252,6 +264,9 @@ window.onload = function() {
         break;
       }
 
+      /**
+       * Moves the hinder if the player is going on the same spot that the hinder is on
+       */
       for (var i = 0; i < moveObjArray.length; i++){
         if (player.x == moveObjArray[i].x && player.y == moveObjArray[i].y)
           {
@@ -260,15 +275,14 @@ window.onload = function() {
           }
       }
 
+      /**
+       * if there is a collision just fallback to the temp object i build before while not change back the direction so we can have a movement
+       */
       
       if (check_collision(player.x, player.y)) {
         player.x = hold_player.x;
         player.y = hold_player.y;
       } 
-
-      /**
-       * if there is a collision just fallback to the temp object i build before while not change back the direction so we can have a movement
-       */
 
       for(var i = 0; i < moveObjArray.length; i++){
         if (check_collision(moveObjArray[i].x, moveObjArray[i].y) || check_collision_stones(moveObjArray[i].x, moveObjArray[i].y, i))
@@ -292,13 +306,7 @@ window.onload = function() {
           nykkelObjArray[i].y = 50;
         }
       }
-
-
-      if(check_Trigger()){
-        //DO SOMETHING
-        console.log("BEGGE TRIGGERNE ER AKTIVERT");
-      }
-
+      
       update();
     };
   
@@ -344,13 +352,16 @@ window.onload = function() {
       //Genboard
       board();
 
+      //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate 
       if (check_Trigger() && keyPickedUp == 3){
         for(var i = 0; i < gateObjArray.length; i++)
         {
         //console.log("drew hinder " + unMoveObjArray[i].x + " " + unMoveObjArray[i].y);
         cantx.drawImage(gateImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, gateObjArray[i].x * objectSizes, gateObjArray[i].y * objectSizes, objectSizes, objectSizes);
         }
+        winCondition = true;
       }
+      else { winCondition = false;}
 
       
     }
@@ -364,8 +375,11 @@ window.onload = function() {
      */
 
      //Sjekker kollisjonen på, kanten av mappen, busker og steiner med andre steiner
-    function check_collision(x, y, j) {
+    function check_collision(x, y) {
       var foundCollision = false;
+
+      x = Math.floor(x);
+      y = Math.floor(y);
       
       //Check collision for edge of map or the arrow shooters
       if ((x < 0 || y < 0) || (x > 19 || y > 19) || (x == 1 && y == 9) || (x == 18 && y == 9))
@@ -382,13 +396,37 @@ window.onload = function() {
         }
       }
 
+      if(winCondition)
+      {
+        for (var i = 0; i < gateObjArray.length; i++)
+        {
+          if(x == gateObjArray[i].x && gateObjArray[i].y == y)
+          {
+            update();
+            gameOver();
+            return;
+          }
+        }
+      }
       return foundCollision;
     }
 
 
+    /**
+    * Checks if the stones has hit a wall or something else. 
+    * It does not check for itself in the array, but skips it as a continue. 
+    * @param {Integer} x - The x axis
+    * @param {Integer} y - The y axis
+    * @param {Integer} j - the index of the stone that is itself
+    * @function
+    * @name check_collision_stones
+    * */
     function check_collision_stones (x, y, j){
 
       var foundCollision = false;
+
+      x = Math.floor(x);
+      y = Math.floor(y);
 
       for (var i = 0; i < moveObjArray.length; i++){
         if(x == moveObjArray[i].x && y == moveObjArray[i].y){
@@ -404,7 +442,38 @@ window.onload = function() {
       return foundCollision;
     }
 
-    
+    /**
+    * Checks if the arrows have hit the player
+    * and returns true if they have. 
+    * But first turns the value into a whole number, as the player doesnt use decimal numbers when moving
+    * @param {Integer} x - The x axis
+    * @param {Integer} y - The y axis
+    * @function
+    * @name check_collision_arrow 
+    * */
+    function check_collision_arrow (x, y) {
+
+      var foundCollision = false;
+      var newX = Math.floor(arrow_XR);
+      var newXL = Math.floor(arrow_XL);
+
+      if((newX == player.x && y == player.y) || (newXL == player.x && y == player.y))
+      {
+        foundCollision = true;
+        console.log("There was a collision with arrow here");
+      }
+
+      return foundCollision;
+
+
+    }
+
+    /**
+    * Checks if the boxes/stones are on top of the trigger boxes
+    * and then returns a value of true for bothTriggered
+    * @function
+    * @name check_Trigger 
+    * */
     function check_Trigger (){
       var checkCount = 0;
       var bothTriggered = false;
@@ -427,9 +496,11 @@ window.onload = function() {
       return bothTriggered;
     }
     
-
-
-    //Funksjon for å flytte på hinderet, alt etter hvor spilleren var plassert FØR dem begynte kom vedsiden av elementet
+    /**
+    * Funksjon for å flytte på hinderet, alt etter hvor spilleren var plassert FØR dem begynte kom vedsiden av elementet
+    * @function
+    * @name shoot 
+    * */
     function moveHinder (x, y, i){
     if(hold_player.x > x && hold_player.y == y) //left
         {
@@ -450,7 +521,6 @@ window.onload = function() {
     }
     /**
      * Score bordet nede i venstre hjørne
-     * @todo maybe some mute button for the future?
      * @function
      * @name board
      */
@@ -474,33 +544,92 @@ window.onload = function() {
       }
     }
 
-   //arrowImage.onload = shoot();
+    var yHit = false;
+    var xHit = false;
+    var myTimer; //True if arrow on the left hits the wall, because the distance is shorter 
+    shoot();
 
-
+    /**
+     * Function for when the arrows are beeing shot 
+     * it updates each time there it moved the x amount
+     * @function
+     * @name shoot
+     */
     function shoot () { 
+      
       update();
-      cantx.drawImage(arrowImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, xArrow * objectSizes, 9 * objectSizes, objectSizes, objectSizes);                       // draw image at current position
-      xArrow -= 0.1;
+       
+      if(!xHit){
+        cantx.drawImage(arrowImageRight, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, arrow_XR * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes);
+      }
 
-      if (xArrow > 12) {   
-        console.log(xArrow + "moving");
-        requestAnimationFrame(shoot) 
-        isMoving = true;       // loop
+      if(!yHit)
+      {
+        cantx.drawImage(arrowImageLeft, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, arrow_XL * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes);
+      
+      }  
+     
+      arrow_XR -= 0.08;
+      arrow_XL += 0.08;
+
+      if(check_collision_arrow(arrow_XR, arrow_Y) || check_collision_arrow(arrow_XL, arrow_Y)) //if there is a collision with the player, gameOver() is called
+      {
+        gameOver ();
+        return;
+      }
+
+      if(arrow_XL >= 6 || check_collision_stones(arrow_XL + 1, arrow_Y, moveObjArray.length + 1)){ //if the arrow on the Left hits the wall, make yHit = true, as there is less room on the left side, compared to right side. 
+        arrow_XL = 1;
+        yHit = true;
+      }
+
+      if(check_collision_stones(arrow_XR, arrow_Y, moveObjArray.length + 1) || check_collision(arrow_XR, arrow_Y)){
+        xHit = true;
+        arrow_XR = 18;
+      }
+
+      
+      
+      if (yHit && xHit) {
+        console.log("shooting");
+        yHit = false;
+        xHit = false;
+        arrow_XR = 18;
+        arrow_XL = 1;
+        update();
+        myTimer = setTimeout(function() {shoot()}, 2000);
       }
       else {
-        isMoving = false;
+        //console.log(xArrow + " moving");
+        requestAnimationFrame(shoot) // loop
       }
     }
 
-    setInterval(shoot(), 100);
-  
+    /** 
+     * Game over function (NOT WORKING PROPERLY YET.)
+     * @todo Do something with canvas when player dies. 
+    */
+    var isGameover = false;
+    
+    function gameOver () {
+      isGameover = true;
+      
+      clearTimeout(myTimer);
+      update();
+      cantx.drawImage(gameOverImage, 150, 100);
+    }
+
     /**
      * Assign of the arrow keys to call the player move
      */
     document.onkeydown = function(e) {
       e = e || window.event;
-  
-      if (e.keyCode == "37" || e.keyCode == "65") player.move("left");
+      
+      if(isGameover)
+      {
+        
+      }
+      else if (e.keyCode == "37" || e.keyCode == "65") player.move("left");
       else if (e.keyCode == "38" || e.keyCode == "87") player.move("up");
       else if (e.keyCode == "39" || e.keyCode == "68") player.move("right");
       else if (e.keyCode == "40" || e.keyCode == "83") player.move("down");
