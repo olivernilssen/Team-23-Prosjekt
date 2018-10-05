@@ -17,6 +17,7 @@ window.onload = function() {
 
     //variabler for gåfart, scoring og offsets.
     var speed = 25;
+    var myTime = 0;
     var score = 0;
     var keyPickedUp = 0;
     var modifier = 25;
@@ -194,6 +195,43 @@ window.onload = function() {
     var spritePosition = 0;
     var spriteItemDistance = 33;
 
+    var timer = {
+      seconds: 0,
+      minutes: 0,
+      clearTime: -1
+    };
+
+
+    var startTimer = function() {
+      if (timer.seconds === 59) {
+        timer.minutes++;
+        timer.seconds = 0;
+      } else {
+        timer.seconds++;
+      };
+
+      // Ensure that single digit seconds are preceded with a 0
+    var formattedSec = "0";
+    if (timer.seconds < 10) {
+      formattedSec += timer.seconds;
+    } else {
+      formattedSec = String(timer.seconds);
+  } 
+
+    var time = String(timer.minutes) + ":" + formattedSec;
+    $(".timer").text(time);
+  };
+
+  // Resets timer state and restarts timer
+  function resetTimer() {
+    clearInterval(timer.clearTime);
+    timer.seconds = 0;
+    timer.minutes = 0;
+    $(".timer").text("0:00");
+
+    timer.clearTime = setInterval(startTimer, 1000);
+  }
+
     //Spiller objekt 
     /**
    * Holds all the player's info like x and y axis position, his current direction (facing).
@@ -309,6 +347,9 @@ window.onload = function() {
       
       update();
     };
+
+    startTimer();
+    resetTimer();
   
     /**
      * Handle all the updates of the canvas and creates the objects
@@ -359,9 +400,9 @@ window.onload = function() {
         //console.log("drew hinder " + unMoveObjArray[i].x + " " + unMoveObjArray[i].y);
         cantx.drawImage(gateImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, gateObjArray[i].x * objectSizes, gateObjArray[i].y * objectSizes, objectSizes, objectSizes);
         }
-        winCondition = true;
-      }
-      else { winCondition = false;}
+          winCondition = true;
+        }
+        else { winCondition = false;}
 
       
     }
@@ -531,6 +572,9 @@ window.onload = function() {
       cantx.font = "14px Arial";
       cantx.fillStyle = "rgba(255, 255, 255, 1)";
       cantx.fillText(keyPickedUp + " key Items", wid - 110, hig - 50);
+      if(winCondition){
+        cantx.fillText(myTime + " Was your time", wid - 110, hig - 30);
+      }
     }
   
     /**
@@ -605,6 +649,14 @@ window.onload = function() {
       }
     }
 
+    //SCORING SYSTEM
+    function scoreCalc () {
+      var pps = 100/60;
+      var mpps = myTime * pps;
+      score = 100 - mpps;
+      score = Math.floor(score);
+    }
+
     /** 
      * Game over function (NOT WORKING PROPERLY YET.)
      * @todo Do something with canvas when player dies. 
@@ -613,10 +665,20 @@ window.onload = function() {
     
     function gameOver () {
       isGameover = true;
-      
-      clearTimeout(myTimer);
-      update();
-      cantx.drawImage(gameOverImage, 150, 100);
+      if(winCondition){
+        update();
+        myTime = timer.seconds;
+        clearInterval(timer.clearTime);
+        scoreCalc();
+        var time = "Your score was: " + String(score);
+        $(".myScore").text(time);
+      }
+      else {
+        update();
+        myTime = timer.seconds;
+        clearInterval(timer.clearTime);
+        cantx.drawImage(gameOverImage, 150, 100);
+      }
     }
 
     /**
@@ -627,7 +689,7 @@ window.onload = function() {
       
       if(isGameover)
       {
-        
+        resetTimer();
       }
       else if (e.keyCode == "37" || e.keyCode == "65") player.move("left");
       else if (e.keyCode == "38" || e.keyCode == "87") player.move("up");
