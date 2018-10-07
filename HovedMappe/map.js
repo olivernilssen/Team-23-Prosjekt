@@ -12,7 +12,7 @@ window.onload = function() {
     var hinderLastet = false;
     var spillerLastet = false;
     var keysLastet = false;
-
+    
     var winCondition = false;
 
     //variabler for gåfart, scoring og offsets.
@@ -26,16 +26,13 @@ window.onload = function() {
     var arrow_XR = 18; 
     var arrow_XL = 1;
     var arrow_Y = 9;
-    var isMoving = false;
 
     //Funksjon for hva elementet moveable object inneholder
     function mittElement (x, y) {
       this.x = x;
       this.y = y;
-
-      //Brukes for å beholde tidligere x og y om det er kollisjon
-      this.xx = x;
-      this.yy = y;
+      this.oldX = x; 
+      this.oldY = y;
     };
     
     //Liste med objekter som kan beveges
@@ -50,18 +47,16 @@ window.onload = function() {
     var gateObjArray = [];
 
     var arrowObjArray = [];
+    var shooterObjArray = [];
 
     function makeArrays () {
-
 
         //Arrows
         arrowObjArray.push(new mittElement(arrow_XR, arrow_Y));
         arrowObjArray.push(new mittElement(arrow_XL, arrow_Y));
-
-        //Nykkel objekter
-        nykkelObjArray.push(new mittElement(8, 7));
-        nykkelObjArray.push(new mittElement(9, 7));
-        nykkelObjArray.push(new mittElement(10, 7));
+        //Arrows
+        shooterObjArray.push(new mittElement(18, 9));
+        shooterObjArray.push(new mittElement(1, 9));
 
         //Objekter som har en slags "trigger"
         triggerObjArray.push(new mittElement(2, 2));
@@ -72,6 +67,11 @@ window.onload = function() {
         gateObjArray.push(new mittElement(9, 0));
         gateObjArray.push(new mittElement(10, 0));
 
+        //Nykkel objekter
+        nykkelObjArray.push(new mittElement(8, 7));
+        nykkelObjArray.push(new mittElement(9, 7));
+        nykkelObjArray.push(new mittElement(10, 7));
+
         //Steiner som kan dyttes
         moveObjArray.push(new mittElement(10, 11));
         moveObjArray.push(new mittElement(10, 9));
@@ -79,27 +79,15 @@ window.onload = function() {
         moveObjArray.push(new mittElement(8, 11));
         moveObjArray.push(new mittElement(8, 9));
 
-        //Høyre side av barrikaden 
-        unMoveObjArray.push(new mittElement(11, 11));
-        unMoveObjArray.push(new mittElement(11, 10));
-        unMoveObjArray.push(new mittElement(11, 9));
-        unMoveObjArray.push(new mittElement(11, 8));
-        unMoveObjArray.push(new mittElement(11, 7));
-        unMoveObjArray.push(new mittElement(11, 6));
-
-        //Toppen av barrikaden
-        unMoveObjArray.push(new mittElement(10, 6));
-        unMoveObjArray.push(new mittElement(9, 6));
-        unMoveObjArray.push(new mittElement(8, 6));
-        unMoveObjArray.push(new mittElement(7, 6));
-        
-        //Venstre side av barrikaden
-        unMoveObjArray.push(new mittElement(7, 11));
-        unMoveObjArray.push(new mittElement(7, 10));
-        unMoveObjArray.push(new mittElement(7, 9));
-        unMoveObjArray.push(new mittElement(7, 8));
-        unMoveObjArray.push(new mittElement(7, 7));
-        unMoveObjArray.push(new mittElement(7, 6));
+        //barrikaden hoyre, topp og venstre side
+        for (var i = 0; i <= 11; i++)
+        {
+          for (var j = 0; j <= 11; j++){
+            if ((i == 11 && (j <= 11 && j >= 6)) || ((i <= 10 && i >= 7) && j == 6) || (i == 7 && (j <= 11 && j > 6))) {
+              unMoveObjArray.push(new mittElement(i, j));
+            }
+          }
+        }
 
         //ramme rundt nivået
         for(var x = 0; x < wid/objectSizes; x++){
@@ -144,12 +132,12 @@ window.onload = function() {
     keyImage.src = "pickup.png";
 
     //Stein
-    var hinderImage = new Image();
-    hinderImage.onload = function() {
+    var stoneImage = new Image();
+    stoneImage.onload = function() {
     hinderLastet = true;
     assetsLoaded();
     };
-    hinderImage.src = "stone.png";
+    stoneImage.src = "stone.png";
 
     //Stein
     var buskImage = new Image();
@@ -244,30 +232,7 @@ window.onload = function() {
     var player = {
         x: 13,
         y: 10,
-        currentDirection: "stand",
-        direction: {
-            "stand": {
-              x: 0,
-              y: 0
-            },
-            "down-1": {
-              x: 17,
-              y: 0
-            },
-            "up-1": {
-              x: 125,
-              y: 0
-            },
-            "left-1": {
-              x: 69,
-              y: 0
-            },
-            "right-1": {
-              x: 160,
-              y: 0
-            },
-          }
-        };
+    };
     
     player.move = function(direction) {
 
@@ -276,11 +241,11 @@ window.onload = function() {
             y: player.y
         };
 
-        //a function to keep the movable objects current position before it is potentially moved. The xx and yy values are used it the box collides
+        //a function to keep the movable objects current position before it is potentially moved. The oldX and oldY values are used it the box collides
         // so as to stop then from moving forward, but rather keep the old position.
         for(var i = 0; i < moveObjArray.length; i++){
-          moveObjArray[i].xx = moveObjArray[i].x;
-          moveObjArray[i].yy = moveObjArray[i].y;
+          moveObjArray[i].oldX = moveObjArray[i].x;
+          moveObjArray[i].oldY = moveObjArray[i].y;
         }
 
 
@@ -316,7 +281,6 @@ window.onload = function() {
       /**
        * if there is a collision just fallback to the temp object i build before while not change back the direction so we can have a movement
        */
-      
       if (check_collision(player.x, player.y)) {
         player.x = hold_player.x;
         player.y = hold_player.y;
@@ -325,8 +289,8 @@ window.onload = function() {
       for(var i = 0; i < moveObjArray.length; i++){
         if (check_collision(moveObjArray[i].x, moveObjArray[i].y) || check_collision_stones(moveObjArray[i].x, moveObjArray[i].y, i))
         {
-          moveObjArray[i].x = moveObjArray[i].xx;   
-          moveObjArray[i].y = moveObjArray[i].yy;
+          moveObjArray[i].x = moveObjArray[i].oldX;   
+          moveObjArray[i].y = moveObjArray[i].oldY;
           player.x = hold_player.x;
           player.y = hold_player.y;
         }
@@ -340,8 +304,8 @@ window.onload = function() {
           console.log("found a key!");
            keyPickedUp += 1;
           //Midlertidig, fjernes fra canvaset
-          nykkelObjArray[i].x = 500;
-          nykkelObjArray[i].y = 50;
+          nykkelObjArray[i].x = 20;
+          nykkelObjArray[i].y = 20;
         }
       }
       
@@ -358,53 +322,42 @@ window.onload = function() {
      */
     function update() {
       cantx.drawImage(terrainImage, 0, 0);
-      cantx.drawImage(shooterImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, 1 * objectSizes, 9 * objectSizes, objectSizes, objectSizes);
-      cantx.drawImage(shooterImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, 18 * objectSizes, 9 * objectSizes, objectSizes, objectSizes);
 
-      //Draw triggers 
-      for(var i = 0; i < triggerObjArray.length; i++)
+      for (var i = 0; i < triggerObjArray.length; i++){
+        cantx.drawImage(triggerImage, triggerObjArray[i].x * objectSizes, triggerObjArray[i].y * objectSizes, objectSizes, objectSizes);
+        cantx.drawImage(shooterImage, shooterObjArray[i].x * objectSizes, shooterObjArray[i].y * objectSizes, objectSizes, objectSizes);
+      }
+
+      for(var i = 0; i < unMoveObjArray.length; i++)
       {
-        cantx.drawImage(triggerImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, triggerObjArray[i].x * objectSizes, triggerObjArray[i].y * objectSizes, objectSizes, objectSizes);
+        cantx.drawImage(buskImage, unMoveObjArray[i].x * objectSizes, unMoveObjArray[i].y * objectSizes, objectSizes, objectSizes);
+        if (i < nykkelObjArray.length)
+        {
+          cantx.drawImage(keyImage, nykkelObjArray[i].x * objectSizes, nykkelObjArray[i].y * objectSizes, objectSizes, objectSizes);
+        }
+        if (i < moveObjArray.length)
+        {
+          cantx.drawImage(stoneImage, moveObjArray[i].x * objectSizes, moveObjArray[i].y * objectSizes, objectSizes, objectSizes);
+        }
       }
 
       //Draw player
       console.log("x: " + player.x + " y: " + player.y);
-      cantx.drawImage(playerImage, player.direction[player.currentDirection].x, player.direction[player.currentDirection].y, objectSizes - 2, objectSizes, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
-    
-      //Draw keys 
-      for (var i = 0; i < nykkelObjArray.length; i++){
-        cantx.drawImage(keyImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, nykkelObjArray[i].x * objectSizes, nykkelObjArray[i].y * objectSizes, objectSizes, objectSizes);
-      }
-
-      //Draw movable objects 
-      for(var i = 0; i < moveObjArray.length; i++)
-      {
-        //console.log("drew hinder " + moveObjArray[i].x  + " " + moveObjArray[i].y);
-        cantx.drawImage(hinderImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, moveObjArray[i].x * objectSizes, moveObjArray[i].y * objectSizes, objectSizes, objectSizes);
-      }
-
-      //Draw unmovable objects
-      for(var i = 0; i < unMoveObjArray.length; i++)
-      {
-        //console.log("drew hinder " + unMoveObjArray[i].x + " " + unMoveObjArray[i].y);
-        cantx.drawImage(buskImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, unMoveObjArray[i].x * objectSizes, unMoveObjArray[i].y * objectSizes, objectSizes, objectSizes);
-      }
-
-      //Genboard
+      cantx.drawImage(playerImage, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
+  
+      //keys collected Board
       board();
 
       //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate 
       if (check_Trigger() && keyPickedUp == 3){
-        for(var i = 0; i < gateObjArray.length; i++)
-        {
-        //console.log("drew hinder " + unMoveObjArray[i].x + " " + unMoveObjArray[i].y);
-        cantx.drawImage(gateImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, gateObjArray[i].x * objectSizes, gateObjArray[i].y * objectSizes, objectSizes, objectSizes);
-        }
+        for(var i = 0; i < gateObjArray.length; i++){
+          cantx.drawImage(gateImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, gateObjArray[i].x * objectSizes, gateObjArray[i].y * objectSizes, objectSizes, objectSizes);
+        } 
           winCondition = true;
+        } 
+        else { 
+          winCondition = false;
         }
-        else { winCondition = false;}
-
-      
     }
   
     /**
@@ -422,17 +375,10 @@ window.onload = function() {
       x = Math.floor(x);
       y = Math.floor(y);
       
-      //Check collision for edge of map or the arrow shooters
-      if ((x < 0 || y < 0) || (x > 19 || y > 19) || (x == 1 && y == 9) || (x == 18 && y == 9))
-      {
-        console.log("You hit an objects");
-        foundCollision = true;
-      }
-      
       //Check collision for bushes 
       for (var i = 0; i < unMoveObjArray.length; i++){
-        if(x == unMoveObjArray[i].x && y == unMoveObjArray[i].y){
-          console.log("There is a bush there");
+        if((x == unMoveObjArray[i].x && y == unMoveObjArray[i].y) || (x == 1 && y == 9) || (x == 18 && y == 9)){
+          console.log("There is something there");
           foundCollision = true;
         }
       }
@@ -445,7 +391,7 @@ window.onload = function() {
           {
             update();
             gameOver();
-            return;
+            return foundCollision = false;
           }
         }
       }
@@ -468,6 +414,13 @@ window.onload = function() {
 
       x = Math.floor(x);
       y = Math.floor(y);
+      
+      for(var i = 0; i < nykkelObjArray.length; i++)
+      {
+        if (x == nykkelObjArray[i].x && y == nykkelObjArray[i].y){
+          return foundCollision = true;
+        }
+      }
 
       for (var i = 0; i < moveObjArray.length; i++){
         if(x == moveObjArray[i].x && y == moveObjArray[i].y){
@@ -475,7 +428,6 @@ window.onload = function() {
             continue;
           }
           else {
-            console.log("There is another stone there");
             foundCollision = true;
           }
         }
@@ -490,9 +442,9 @@ window.onload = function() {
     * @param {Integer} x - The x axis
     * @param {Integer} y - The y axis
     * @function
-    * @name check_collision_arrow 
+    * @name check_col_player 
     * */
-    function check_collision_arrow (x, y) {
+    function check_col_player (x, y) {
 
       var foundCollision = false;
       var newX = Math.floor(arrow_XR);
@@ -520,18 +472,14 @@ window.onload = function() {
       var bothTriggered = false;
 
       for (var i = 0; i < moveObjArray.length; i++){
-        if(moveObjArray[i].x == triggerObjArray[0].x && moveObjArray[i].y == triggerObjArray[0].y)
-        {
-          checkCount++;
-        }
-        if (moveObjArray[i].x == triggerObjArray[1].x && moveObjArray[i].y == triggerObjArray[1].y)
-        {
-          checkCount++;
-        }
+        if(moveObjArray[i].x == triggerObjArray[0].x && moveObjArray[i].y == triggerObjArray[0].y) {
+          checkCount++; }
+        
+        if (moveObjArray[i].x == triggerObjArray[1].x && moveObjArray[i].y == triggerObjArray[1].y) {
+          checkCount++; }
         
         if(checkCount == 2){
-          bothTriggered = true;
-        }
+          bothTriggered = true; }
       }
 
       return bothTriggered;
@@ -567,14 +515,11 @@ window.onload = function() {
      */
     function board() {
       cantx.fillStyle = "rgba(0, 0, 0, 0.5)";
-      cantx.fillRect(wid - 125, hig - 95, 100, 70);
+      cantx.fillRect(wid - 140, hig - 110, 100, 70);
   
       cantx.font = "14px Arial";
       cantx.fillStyle = "rgba(255, 255, 255, 1)";
-      cantx.fillText(keyPickedUp + " key Items", wid - 110, hig - 50);
-      if(winCondition){
-        cantx.fillText(myTime + " Was your time", wid - 110, hig - 30);
-      }
+      cantx.fillText(keyPickedUp + " key Items", wid - 120, hig - 70);
     }
   
     /**
@@ -588,9 +533,10 @@ window.onload = function() {
       }
     }
 
-    var yHit = false;
-    var xHit = false;
-    var myTimer; //True if arrow on the left hits the wall, because the distance is shorter 
+
+    //To check collision of arrows
+    var leftArrowCol = false; 
+    var rightArrowCol = false;
     shoot();
 
     /**
@@ -600,60 +546,50 @@ window.onload = function() {
      * @name shoot
      */
     function shoot () { 
-      
+
+      if(isGameover)
+      { return; }      
+
       update();
        
-      if(!xHit){
-        cantx.drawImage(arrowImageRight, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, arrow_XR * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes);
-      }
+      if(!rightArrowCol){
+        cantx.drawImage(arrowImageRight, arrow_XR * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes); }
 
-      if(!yHit)
-      {
-        cantx.drawImage(arrowImageLeft, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, arrow_XL * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes);
-      
-      }  
+      if(!leftArrowCol){
+        cantx.drawImage(arrowImageLeft, arrow_XL * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes); }  
      
-      arrow_XR -= 0.08;
-      arrow_XL += 0.08;
+      arrow_XR -= 0.1;
+      arrow_XL += 0.1;
 
-      if(check_collision_arrow(arrow_XR, arrow_Y) || check_collision_arrow(arrow_XL, arrow_Y)) //if there is a collision with the player, gameOver() is called
-      {
+      if(check_col_player(arrow_XR, arrow_Y) || check_col_player(arrow_XL, arrow_Y)) { //if there is a collision with the player, gameOver() is called
         gameOver ();
-        return;
-      }
+        return; }
 
-      if(arrow_XL >= 6 || check_collision_stones(arrow_XL + 1, arrow_Y, moveObjArray.length + 1)){ //if the arrow on the Left hits the wall, make yHit = true, as there is less room on the left side, compared to right side. 
+      if(check_collision_stones(arrow_XL + 1, arrow_Y, moveObjArray.length + 1) || check_collision(arrow_XL + 1, arrow_Y)){ //if the arrow on the Left hits the wall, make leftArrowCol = true, as there is less room on the left side, compared to right side. 
         arrow_XL = 1;
-        yHit = true;
-      }
+        leftArrowCol = true; }
 
       if(check_collision_stones(arrow_XR, arrow_Y, moveObjArray.length + 1) || check_collision(arrow_XR, arrow_Y)){
-        xHit = true;
-        arrow_XR = 18;
-      }
-
+        rightArrowCol = true;
+        arrow_XR = 18; }
       
-      
-      if (yHit && xHit) {
-        console.log("shooting");
-        yHit = false;
-        xHit = false;
+      if (leftArrowCol && rightArrowCol) {
+        leftArrowCol = false;
+        rightArrowCol = false;
         arrow_XR = 18;
         arrow_XL = 1;
         update();
-        myTimer = setTimeout(function() {shoot()}, 2000);
-      }
-      else {
-        //console.log(xArrow + " moving");
+        setTimeout(function() {shoot()}, 2500);
+      } else {
         requestAnimationFrame(shoot) // loop
       }
     }
 
     //SCORING SYSTEM
     function scoreCalc () {
-      var pps = 100/60;
-      var mpps = myTime * pps;
-      score = 100 - mpps;
+      var points = 100/60;
+      var pointsTime = myTime * points;
+      score = 100 - pointsTime;
       score = Math.floor(score);
     }
 
@@ -665,17 +601,15 @@ window.onload = function() {
     
     function gameOver () {
       isGameover = true;
+      
       if(winCondition){
-        update();
         myTime = timer.seconds;
         clearInterval(timer.clearTime);
         scoreCalc();
-        var time = "Your score was: " + String(score);
-        $(".myScore").text(time);
-      }
-      else {
+        var myScore = "Your score was: " + String(score);
+        $(".myScore").text(myScore);  
+      } else {
         update();
-        myTime = timer.seconds;
         clearInterval(timer.clearTime);
         cantx.drawImage(gameOverImage, 150, 100);
       }
@@ -689,7 +623,7 @@ window.onload = function() {
       
       if(isGameover)
       {
-        resetTimer();
+        //stop keys from working :)
       }
       else if (e.keyCode == "37" || e.keyCode == "65") player.move("left");
       else if (e.keyCode == "38" || e.keyCode == "87") player.move("up");
@@ -698,7 +632,18 @@ window.onload = function() {
     };
 
     $("#reset").click(function  () {
-      document.location.reload();
+      player.x = 13; player.y = 13;
+      arrowObjArray.length = 0;
+      moveObjArray.length = 0;
+      unMoveObjArray.length = 0;
+      nykkelObjArray.length = 0;
+      shooterObjArray.length = 0;
+      triggerObjArray.length = 0; 
+      gateObjArray.length = 0; 
+      keyPickedUp = 0;
+      isGameover = false;
+      makeArrays();
+      update();
     });
   
   };
