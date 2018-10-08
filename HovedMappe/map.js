@@ -22,6 +22,7 @@ window.onload = function() {
     var keyPickedUp = 0;
     var modifier = 25;
     var objectSizes = 40; 
+    var friction = 0.98;
 
     var arrow_XR = 18; 
     var arrow_XL = 1;
@@ -263,9 +264,10 @@ window.onload = function() {
           player.y -= speed / modifier;
           break;
         case "down":
-        player.y += speed / modifier;
-        break;
+          player.y += speed / modifier;
+          break;
       }
+
 
       /**
        * Moves the hinder if the player is going on the same spot that the hinder is on
@@ -321,6 +323,7 @@ window.onload = function() {
      * @name update
      */
     function update() {
+    
       cantx.drawImage(terrainImage, 0, 0);
 
       for (var i = 0; i < triggerObjArray.length; i++){
@@ -342,9 +345,15 @@ window.onload = function() {
       }
 
       //Draw player
-      console.log("x: " + player.x + " y: " + player.y);
-      cantx.drawImage(playerImage, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
-  
+      if((player.x != player.oldX) || (player.y != player.oldY))
+      {
+        console.log("x: " + player.x + " y: " + player.y);
+        cantx.drawImage(playerImage, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
+        update();
+      }else{
+        cantx.drawImage(playerImage, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
+      }
+    
       //keys collected Board
       board();
 
@@ -587,9 +596,9 @@ window.onload = function() {
 
     //SCORING SYSTEM
     function scoreCalc () {
-      var points = 100/60;
+      var points = 1000/60;
       var pointsTime = myTime * points;
-      score = 100 - pointsTime;
+      score = 1000 - pointsTime;
       score = Math.floor(score);
     }
 
@@ -645,6 +654,5 @@ window.onload = function() {
       makeArrays();
       update();
     });
-  
   };
 
