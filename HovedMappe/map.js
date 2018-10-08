@@ -10,15 +10,25 @@ window.onload = function() {
       cantx.canvas.height = 600;
       cantx.canvas.width = 600;
     }
+    if($(window).width() < 321){
+      cantx.canvas.height = 250;
+      cantx.canvas.width = 250;
+    }
 
     var wid = canvas.offsetWidth;
     var hig = canvas.offsetHeight;
 
     //Variabler for å sjekke om at bilder og elementer er lastet inn i scenen.
     var bakgrunnLastet = false;
-    var hinderLastet = false;
+    var bushLastet = false;
     var spillerLastet = false;
     var keysLastet = false;
+    var keysLastet = false;
+    var steinerLastet = false;
+    var arrowLastet2 = false;
+    var arrowLastet1 = false;
+    var arrowShooterLastet = false;
+    var triggerLastet = false;
 
     var winCondition = false;
 
@@ -143,7 +153,7 @@ window.onload = function() {
     //Stein
     var stoneImage = new Image();
     stoneImage.onload = function() {
-    hinderLastet = true;
+    steinerLastet = true;
     assetsLoaded();
     };
     stoneImage.src = "stone.png";
@@ -151,6 +161,7 @@ window.onload = function() {
     //Stein
     var buskImage = new Image();
     buskImage.onload = function() {
+    bushLastet = true;
     assetsLoaded();
     };
     buskImage.src = "busk.png";
@@ -158,6 +169,7 @@ window.onload = function() {
     //Triggers
     var triggerImage = new Image();
     triggerImage.onload = function() {
+      triggerLastet = true;
     assetsLoaded();
     };
     triggerImage.src = "trigger.png";
@@ -165,6 +177,7 @@ window.onload = function() {
     //Arrow Shooter
     var shooterImage = new Image();
     shooterImage.onload = function() {
+      arrowShooterLastet = true;
     assetsLoaded();
     };
     shooterImage.src = "arrowtrigger.png";
@@ -172,12 +185,14 @@ window.onload = function() {
     //Arrow
     var arrowImageRight = new Image();
     arrowImageRight.onload = function() {
+      arrowLastet2 = true;
     assetsLoaded();
     };
     arrowImageRight.src = "arrowRight.png";
 
     var arrowImageLeft = new Image();
     arrowImageLeft.onload = function() {
+      arrowLastet1 = true;
     assetsLoaded();
     };
     arrowImageLeft.src = "arrowLeft.png";
@@ -263,6 +278,7 @@ window.onload = function() {
      * Decide here the direction of the user and do the neccessary changes on the directions
      */
     var movement = speed / modifier;
+    
     switch (direction) {
         case "left":
           player.x -= movement;
@@ -541,7 +557,7 @@ window.onload = function() {
      * @name assetsLoaded
      */
     function assetsLoaded() {
-      if (bakgrunnLastet == true && keysLastet == true && spillerLastet == true && hinderLastet == true) {
+      if (bakgrunnLastet == true && keysLastet == true && spillerLastet == true && bushLastet == true && arrowShooterLastet == true && triggerLastet == true && steinerLastet == true) {
         update();
       }
     }
@@ -631,7 +647,7 @@ window.onload = function() {
     /**
      * Assign of the arrow keys to call the player move
      */
-    document.onkeydown = function(e) {
+    $(document).keydown( function(e) {
       e = e || window.event;
 
       if(isGameover)
@@ -642,8 +658,8 @@ window.onload = function() {
       else if (e.keyCode == "38" || e.keyCode == "87") player.move("up");
       else if (e.keyCode == "39" || e.keyCode == "68") player.move("right");
       else if (e.keyCode == "40" || e.keyCode == "83") player.move("down");
-    };
-
+    });
+    
     $("#reset").click(function  () {
       player.x = 13; player.y = 13;
       arrowObjArray.length = 0;
