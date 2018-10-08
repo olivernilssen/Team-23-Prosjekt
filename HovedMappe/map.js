@@ -4,6 +4,13 @@ window.onload = function() {
     //variabler for å definere spillervinduet vårt, altså en canvas i 2D.
     var canvas = document.getElementById("ourMap");
     var cantx = canvas.getContext("2d");
+
+    if($(window).width() < 960)
+    {
+      cantx.canvas.height = 600;
+      cantx.canvas.width = 600;
+    }
+
     var wid = canvas.offsetWidth;
     var hig = canvas.offsetHeight;
 
@@ -21,7 +28,8 @@ window.onload = function() {
     var score = 0;
     var keyPickedUp = 0;
     var modifier = 10;
-    var objectSizes = 40;
+    var ObjectSizeWid = wid/20;
+    var ObjectSizeHei = hig/20;
     var friction = 0.98;
 
     var arrow_XR = 18;
@@ -91,8 +99,8 @@ window.onload = function() {
         }
 
         //ramme rundt nivået
-        for(var x = 0; x < wid/objectSizes; x++){
-          for(var y = 0; y < hig/objectSizes; y++)
+        for(var x = 0; x < ObjectSizeWid; x++){
+          for(var y = 0; y < ObjectSizeHei; y++)
           {
             if((x == 0) || (y == 0) || (x < 20 && y == 19) || (x == 19 && y < 20)){
               unMoveObjArray.push(new mittElement(x, y));
@@ -329,25 +337,25 @@ window.onload = function() {
       cantx.drawImage(terrainImage, 0, 0);
 
       for (var i = 0; i < triggerObjArray.length; i++){
-        cantx.drawImage(triggerImage, triggerObjArray[i].x * objectSizes, triggerObjArray[i].y * objectSizes, objectSizes, objectSizes);
-        cantx.drawImage(shooterImage, shooterObjArray[i].x * objectSizes, shooterObjArray[i].y * objectSizes, objectSizes, objectSizes);
+        cantx.drawImage(triggerImage, triggerObjArray[i].x * ObjectSizeWid, triggerObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        cantx.drawImage(shooterImage, shooterObjArray[i].x * ObjectSizeWid, shooterObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
 
       for(var i = 0; i < unMoveObjArray.length; i++)
       {
-        cantx.drawImage(buskImage, unMoveObjArray[i].x * objectSizes, unMoveObjArray[i].y * objectSizes, objectSizes, objectSizes);
+        cantx.drawImage(buskImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
         if (i < nykkelObjArray.length)
         {
-          cantx.drawImage(keyImage, nykkelObjArray[i].x * objectSizes, nykkelObjArray[i].y * objectSizes, objectSizes, objectSizes);
+          cantx.drawImage(keyImage, nykkelObjArray[i].x * ObjectSizeWid, nykkelObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
         }
         if (i < moveObjArray.length)
         {
-          cantx.drawImage(stoneImage, moveObjArray[i].x * objectSizes, moveObjArray[i].y * objectSizes, objectSizes, objectSizes);
+          cantx.drawImage(stoneImage, moveObjArray[i].x * ObjectSizeWid, moveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
         }
       }
 
       //Draw player
-      cantx.drawImage(playerImage, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
+      cantx.drawImage(playerImage, player.x * ObjectSizeWid, player.y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
 
 
       //keys collected Board
@@ -356,7 +364,7 @@ window.onload = function() {
       //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
       if (check_Trigger() && keyPickedUp == 3){
         for(var i = 0; i < gateObjArray.length; i++){
-          cantx.drawImage(gateImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, gateObjArray[i].x * objectSizes, gateObjArray[i].y * objectSizes, objectSizes, objectSizes);
+          cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
         }
           winCondition = true;
         }
@@ -558,10 +566,10 @@ window.onload = function() {
       update();
 
       if(!rightArrowCol){
-        cantx.drawImage(arrowImageRight, arrow_XR * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes); }
+        cantx.drawImage(arrowImageRight, arrow_XR * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
 
       if(!leftArrowCol){
-        cantx.drawImage(arrowImageLeft, arrow_XL * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes); }
+        cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
 
       arrow_XR -= 0.1;
       arrow_XL += 0.1;
