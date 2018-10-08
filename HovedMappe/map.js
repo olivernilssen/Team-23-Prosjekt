@@ -7,24 +7,24 @@ window.onload = function() {
     var wid = canvas.offsetWidth;
     var hig = canvas.offsetHeight;
 
-    //Variabler for å sjekke om at bilder og elementer er lastet inn i scenen.
+    //Variabler for å sjekke om at bilder og elementer er lastet inn i scenen. 
     var bakgrunnLastet = false;
     var hinderLastet = false;
     var spillerLastet = false;
     var keysLastet = false;
-
+    
     var winCondition = false;
 
     //variabler for gåfart, scoring og offsets.
-    var speed = 25;
+    var speed = 10;
     var myTime = 0;
     var score = 0;
     var keyPickedUp = 0;
-    var modifier = 25;
-    var objectSizes = 40;
+    var modifier = 10;
+    var objectSizes = 40; 
     var friction = 0.98;
 
-    var arrow_XR = 18;
+    var arrow_XR = 18; 
     var arrow_XL = 1;
     var arrow_Y = 9;
 
@@ -32,10 +32,10 @@ window.onload = function() {
     function mittElement (x, y) {
       this.x = x;
       this.y = y;
-      this.oldX = x;
+      this.oldX = x; 
       this.oldY = y;
     };
-
+    
     //Liste med objekter som kan beveges
     var moveObjArray = [];
     //Liste med objekter som IKKE kan beveges
@@ -62,7 +62,7 @@ window.onload = function() {
         //Objekter som har en slags "trigger"
         triggerObjArray.push(new mittElement(2, 2));
         triggerObjArray.push(new mittElement(17, 2));
-
+        
         //Gate objekt som kommer på slutten
         gateObjArray.push(new mittElement(8, 0));
         gateObjArray.push(new mittElement(9, 0));
@@ -104,8 +104,8 @@ window.onload = function() {
       //Sett alle elementer inn i Array
       makeArrays();
 
-    //Laste alle bilder og elementer inn og definer dem
-    //Terraine bilde / Bakgrunns bilde
+    //Laste alle bilder og elementer inn og definer dem 
+    //Terraine bilde / Bakgrunns bilde 
     var gameOverImage = new Image();
     gameOverImage.src = "gameover.png";
 
@@ -115,14 +115,14 @@ window.onload = function() {
     assetsLoaded();
     };
     terrainImage.src = "terrain.png";
-
-    //Spiller bilde
+    
+    //Spiller bilde 
     var playerImage = new Image();
     playerImage.onload = function() {
     spillerLastet = true;
     assetsLoaded();
     };
-    playerImage.src = "Kong_Sverre-fat.png";
+    playerImage.src = "Kong_Sverre.png";
 
     //PickupItem
     var keyImage = new Image();
@@ -161,7 +161,7 @@ window.onload = function() {
     };
     shooterImage.src = "arrowtrigger.png";
 
-    //Arrow
+    //Arrow 
     var arrowImageRight = new Image();
     arrowImageRight.onload = function() {
     assetsLoaded();
@@ -205,7 +205,7 @@ window.onload = function() {
       formattedSec += timer.seconds;
     } else {
       formattedSec = String(timer.seconds);
-  }
+  } 
 
     var time = String(timer.minutes) + ":" + formattedSec;
     $(".timer").text(time);
@@ -221,7 +221,7 @@ window.onload = function() {
     timer.clearTime = setInterval(startTimer, 1000);
   }
 
-    //Spiller objekt
+    //Spiller objekt 
     /**
    * Holds all the player's info like x and y axis position, his current direction (facing).
    * I have also incuded an object to hold the sprite position of each movement so i can call them
@@ -229,12 +229,13 @@ window.onload = function() {
    */
     //Gjør variabelen for spiller og hinder objektet globalt, slik at du kan hente det fra flere plasser i scriptet.
     var hold_player;
-
+  
+    
     var player = {
         x: 13,
         y: 10,
     };
-
+    
     player.move = function(direction) {
 
         hold_player = {
@@ -253,18 +254,19 @@ window.onload = function() {
     /**
      * Decide here the direction of the user and do the neccessary changes on the directions
      */
+    var movement = speed / modifier;
     switch (direction) {
         case "left":
-          player.x -= speed / modifier;
-          break;
+          player.x -= movement;
+            break;
         case "right":
-          player.x += speed / modifier;
+          player.x += movement;
           break;
         case "up":
-          player.y -= speed / modifier;
+          player.y -= movement;
           break;
         case "down":
-          player.y += speed / modifier;
+          player.y += movement;
           break;
       }
 
@@ -286,12 +288,12 @@ window.onload = function() {
       if (check_collision(player.x, player.y)) {
         player.x = hold_player.x;
         player.y = hold_player.y;
-      }
+      } 
 
       for(var i = 0; i < moveObjArray.length; i++){
         if (check_collision(moveObjArray[i].x, moveObjArray[i].y) || check_collision_stones(moveObjArray[i].x, moveObjArray[i].y, i))
         {
-          moveObjArray[i].x = moveObjArray[i].oldX;
+          moveObjArray[i].x = moveObjArray[i].oldX;   
           moveObjArray[i].y = moveObjArray[i].oldY;
           player.x = hold_player.x;
           player.y = hold_player.y;
@@ -299,10 +301,10 @@ window.onload = function() {
       }
 
       /**
-       * If player finds the coordinates of keyitem
+       * If player finds the coordinates of keyitem 
        */
       for (var i = 0; i < nykkelObjArray.length; i++){
-        if (player.x == nykkelObjArray[i].x && player.y == nykkelObjArray[i].y) {
+        if (player.x == nykkelObjArray[i].x && player.y == nykkelObjArray[i].y) { 
           console.log("found a key!");
            keyPickedUp += 1;
           //Midlertidig, fjernes fra canvaset
@@ -310,20 +312,20 @@ window.onload = function() {
           nykkelObjArray[i].y = 20;
         }
       }
-
+      
       update();
     };
 
     startTimer();
     resetTimer();
-
+  
     /**
      * Handle all the updates of the canvas and creates the objects
      * @function
      * @name update
      */
     function update() {
-
+    
       cantx.drawImage(terrainImage, 0, 0);
 
       for (var i = 0; i < triggerObjArray.length; i++){
@@ -345,30 +347,24 @@ window.onload = function() {
       }
 
       //Draw player
-      if((player.x != player.oldX) || (player.y != player.oldY))
-      {
-        console.log("x: " + player.x + " y: " + player.y);
-        cantx.drawImage(playerImage, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
-        update();
-      }else{
-        cantx.drawImage(playerImage, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
-      }
-
+      cantx.drawImage(playerImage, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
+      
+    
       //keys collected Board
       board();
 
-      //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
+      //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate 
       if (check_Trigger() && keyPickedUp == 3){
         for(var i = 0; i < gateObjArray.length; i++){
           cantx.drawImage(gateImage, spritePosition * spriteItemDistance, 0, objectSizes, objectSizes, gateObjArray[i].x * objectSizes, gateObjArray[i].y * objectSizes, objectSizes, objectSizes);
-        }
+        } 
           winCondition = true;
-        }
-        else {
+        } 
+        else { 
           winCondition = false;
         }
     }
-
+  
     /**
      * Our function that decides if there is a collision on the objects or not
      * @function
@@ -383,8 +379,8 @@ window.onload = function() {
 
       x = Math.floor(x);
       y = Math.floor(y);
-
-      //Check collision for bushes
+      
+      //Check collision for bushes 
       for (var i = 0; i < unMoveObjArray.length; i++){
         if((x == unMoveObjArray[i].x && y == unMoveObjArray[i].y) || (x == 1 && y == 9) || (x == 18 && y == 9)){
           console.log("There is something there");
@@ -409,8 +405,8 @@ window.onload = function() {
 
 
     /**
-    * Checks if the stones has hit a wall or something else.
-    * It does not check for itself in the array, but skips it as a continue.
+    * Checks if the stones has hit a wall or something else. 
+    * It does not check for itself in the array, but skips it as a continue. 
     * @param {Integer} x - The x axis
     * @param {Integer} y - The y axis
     * @param {Integer} j - the index of the stone that is itself
@@ -423,7 +419,7 @@ window.onload = function() {
 
       x = Math.floor(x);
       y = Math.floor(y);
-
+      
       for(var i = 0; i < nykkelObjArray.length; i++)
       {
         if (x == nykkelObjArray[i].x && y == nykkelObjArray[i].y){
@@ -446,20 +442,20 @@ window.onload = function() {
 
     /**
     * Checks if the arrows have hit the player
-    * and returns true if they have.
+    * and returns true if they have. 
     * But first turns the value into a whole number, as the player doesnt use decimal numbers when moving
     * @param {Integer} x - The x axis
     * @param {Integer} y - The y axis
     * @function
-    * @name check_col_player
+    * @name check_col_player 
     * */
     function check_col_player (x, y) {
 
       var foundCollision = false;
-      var newX = Math.floor(arrow_XR);
-      var newXL = Math.floor(arrow_XL);
+      var newX = Math.floor(x);
+      //var newXL = Math.floor(arrow_XL);
 
-      if((newX == player.x && y == player.y) || (newXL == player.x && y == player.y))
+      if((newX == player.x && y == player.y) || (newX == player.x && y == player.y))
       {
         foundCollision = true;
         console.log("There was a collision with arrow here");
@@ -474,7 +470,7 @@ window.onload = function() {
     * Checks if the boxes/stones are on top of the trigger boxes
     * and then returns a value of true for bothTriggered
     * @function
-    * @name check_Trigger
+    * @name check_Trigger 
     * */
     function check_Trigger (){
       var checkCount = 0;
@@ -483,21 +479,21 @@ window.onload = function() {
       for (var i = 0; i < moveObjArray.length; i++){
         if(moveObjArray[i].x == triggerObjArray[0].x && moveObjArray[i].y == triggerObjArray[0].y) {
           checkCount++; }
-
+        
         if (moveObjArray[i].x == triggerObjArray[1].x && moveObjArray[i].y == triggerObjArray[1].y) {
           checkCount++; }
-
+        
         if(checkCount == 2){
           bothTriggered = true; }
       }
 
       return bothTriggered;
     }
-
+    
     /**
     * Funksjon for å flytte på hinderet, alt etter hvor spilleren var plassert FØR dem begynte kom vedsiden av elementet
     * @function
-    * @name shoot
+    * @name shoot 
     * */
     function moveHinder (x, y, i){
     if(hold_player.x > x && hold_player.y == y) //left
@@ -525,12 +521,12 @@ window.onload = function() {
     function board() {
       cantx.fillStyle = "rgba(0, 0, 0, 0.5)";
       cantx.fillRect(wid - 140, hig - 110, 100, 70);
-
+  
       cantx.font = "14px Arial";
       cantx.fillStyle = "rgba(255, 255, 255, 1)";
       cantx.fillText(keyPickedUp + " key Items", wid - 120, hig - 70);
     }
-
+  
     /**
      * Decide here if all the assets are ready to start updating
      * @function
@@ -544,29 +540,29 @@ window.onload = function() {
 
 
     //To check collision of arrows
-    var leftArrowCol = false;
+    var leftArrowCol = false; 
     var rightArrowCol = false;
     shoot();
 
     /**
-     * Function for when the arrows are beeing shot
+     * Function for when the arrows are beeing shot 
      * it updates each time there it moved the x amount
      * @function
      * @name shoot
      */
-    function shoot () {
+    function shoot () { 
 
       if(isGameover)
-      { return; }
+      { return; }      
 
       update();
-
+       
       if(!rightArrowCol){
         cantx.drawImage(arrowImageRight, arrow_XR * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes); }
 
       if(!leftArrowCol){
-        cantx.drawImage(arrowImageLeft, arrow_XL * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes); }
-
+        cantx.drawImage(arrowImageLeft, arrow_XL * objectSizes, arrow_Y * objectSizes, objectSizes, objectSizes); }  
+     
       arrow_XR -= 0.1;
       arrow_XL += 0.1;
 
@@ -574,14 +570,14 @@ window.onload = function() {
         gameOver ();
         return; }
 
-      if(check_collision_stones(arrow_XL + 1, arrow_Y, moveObjArray.length + 1) || check_collision(arrow_XL + 1, arrow_Y)){ //if the arrow on the Left hits the wall, make leftArrowCol = true, as there is less room on the left side, compared to right side.
+      if(check_collision_stones(arrow_XL + 1, arrow_Y, moveObjArray.length + 1) || check_collision(arrow_XL + 1, arrow_Y)){ //if the arrow on the Left hits the wall, make leftArrowCol = true, as there is less room on the left side, compared to right side. 
         arrow_XL = 1;
         leftArrowCol = true; }
 
       if(check_collision_stones(arrow_XR, arrow_Y, moveObjArray.length + 1) || check_collision(arrow_XR, arrow_Y)){
         rightArrowCol = true;
         arrow_XR = 18; }
-
+      
       if (leftArrowCol && rightArrowCol) {
         leftArrowCol = false;
         rightArrowCol = false;
@@ -602,21 +598,21 @@ window.onload = function() {
       score = Math.floor(score);
     }
 
-    /**
+    /** 
      * Game over function (NOT WORKING PROPERLY YET.)
-     * @todo Do something with canvas when player dies.
+     * @todo Do something with canvas when player dies. 
     */
     var isGameover = false;
-
+    
     function gameOver () {
       isGameover = true;
-
+      
       if(winCondition){
         myTime = timer.seconds;
         clearInterval(timer.clearTime);
         scoreCalc();
         var myScore = "Your score was: " + String(score);
-        $(".myScore").text(myScore);
+        $(".myScore").text(myScore);  
       } else {
         update();
         clearInterval(timer.clearTime);
@@ -629,7 +625,7 @@ window.onload = function() {
      */
     document.onkeydown = function(e) {
       e = e || window.event;
-
+      
       if(isGameover)
       {
         //stop keys from working :)
@@ -647,11 +643,12 @@ window.onload = function() {
       unMoveObjArray.length = 0;
       nykkelObjArray.length = 0;
       shooterObjArray.length = 0;
-      triggerObjArray.length = 0;
-      gateObjArray.length = 0;
+      triggerObjArray.length = 0; 
+      gateObjArray.length = 0; 
       keyPickedUp = 0;
       isGameover = false;
       makeArrays();
       update();
     });
   };
+
