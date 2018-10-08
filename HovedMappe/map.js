@@ -5,7 +5,7 @@ window.onload = function() {
     var canvas = document.getElementById("ourMap");
     var cantx = canvas.getContext("2d");
 
-    if($(window).width() < 960)
+    if($(window).width() < 1367)
     {
       cantx.canvas.height = 600;
       cantx.canvas.width = 600;
@@ -130,7 +130,7 @@ window.onload = function() {
     spillerLastet = true;
     assetsLoaded();
     };
-    playerImage.src = "Kong_sverre_viking_40_opaque.png";
+    playerImage.src = "Kong_sverre.png";
 
     //PickupItem
     var keyImage = new Image();
