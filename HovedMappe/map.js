@@ -1,10 +1,13 @@
+var canvas = document.getElementById("ourMap");
+var cantx = canvas.getContext("2d");
+
+var playerImage = new Image();
+playerImage.src = "";
+
 window.onload = function() {
     "use strict";
 
-    //variabler for å definere spillervinduet vårt, altså en canvas i 2D.
-    var canvas = document.getElementById("ourMap");
-    var cantx = canvas.getContext("2d");
-
+    //variabler for å definere spillervinduet vårt, altså en canvas i 2D
     if($(window).width() < 1367)
     {
       cantx.canvas.height = 600;
@@ -129,40 +132,44 @@ window.onload = function() {
 
     var terrainImage = new Image();
     terrainImage.onload = function() {
-    bakgrunnLastet = true;
-    assetsLoaded();
+      bakgrunnLastet = true;
+      console.log("bakgrunn lastet");
+      assetsLoaded();
     };
     terrainImage.src = "terrain.png";
 
     //Spiller bilde
-    var playerImage = new Image();
     playerImage.onload = function() {
-    spillerLastet = true;
-    assetsLoaded();
+      spillerLastet = true; 
+      console.log("spiller lastet");
+      assetsLoaded();
     };
-    playerImage.src = "Kong_sverre.png";
+    playerImage.src = "KongSverre.png";
 
     //PickupItem
     var keyImage = new Image();
     keyImage.onload = function() {
-    keysLastet = true;
-    assetsLoaded();
+      keysLastet = true;
+      console.log("keys lastet");
+      assetsLoaded();
     };
     keyImage.src = "pickup.png";
 
     //Stein
     var stoneImage = new Image();
     stoneImage.onload = function() {
-    steinerLastet = true;
-    assetsLoaded();
+      steinerLastet = true;
+      console.log("steiner lastet");
+      assetsLoaded();
     };
     stoneImage.src = "stone.png";
 
     //Stein
     var buskImage = new Image();
     buskImage.onload = function() {
-    bushLastet = true;
-    assetsLoaded();
+      bushLastet = true;
+      console.log("busker lastet");
+      assetsLoaded();
     };
     buskImage.src = "busk.png";
 
@@ -170,7 +177,8 @@ window.onload = function() {
     var triggerImage = new Image();
     triggerImage.onload = function() {
       triggerLastet = true;
-    assetsLoaded();
+      console.log("triggers lastet");
+      assetsLoaded();
     };
     triggerImage.src = "trigger.png";
 
@@ -178,41 +186,27 @@ window.onload = function() {
     var shooterImage = new Image();
     shooterImage.onload = function() {
       arrowShooterLastet = true;
-    assetsLoaded();
+      console.log("skytere lastet");
+      assetsLoaded();
     };
     shooterImage.src = "arrowtrigger.png";
 
     //Arrow
     var arrowImageRight = new Image();
-    arrowImageRight.onload = function() {
-      arrowLastet2 = true;
-    assetsLoaded();
-    };
     arrowImageRight.src = "arrowRight.png";
 
     var arrowImageLeft = new Image();
-    arrowImageLeft.onload = function() {
-      arrowLastet1 = true;
-    assetsLoaded();
-    };
     arrowImageLeft.src = "arrowLeft.png";
 
     //Gate
     var gateImage = new Image();
-    gateImage.onload = function(){
-    };
     gateImage.src = "gate.png";
-
-    //Brukes for sprites
-    var spritePosition = 0;
-    var spriteItemDistance = 33;
 
     var timer = {
       seconds: 0,
       minutes: 0,
       clearTime: -1
     };
-
 
     var startTimer = function() {
       if (timer.seconds === 59) {
@@ -340,8 +334,6 @@ window.onload = function() {
       update();
     };
 
-    startTimer();
-    resetTimer();
 
     /**
      * Handle all the updates of the canvas and creates the objects
@@ -558,7 +550,10 @@ window.onload = function() {
      */
     function assetsLoaded() {
       if (bakgrunnLastet == true && keysLastet == true && spillerLastet == true && bushLastet == true && arrowShooterLastet == true && triggerLastet == true && steinerLastet == true) {
+        shoot();
+        startTimer();
         update();
+        resetTimer();
       }
     }
 
@@ -566,7 +561,6 @@ window.onload = function() {
     //To check collision of arrows
     var leftArrowCol = false;
     var rightArrowCol = false;
-    shoot();
 
     /**
      * Function for when the arrows are beeing shot
