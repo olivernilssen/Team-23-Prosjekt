@@ -1,5 +1,8 @@
 
-MenuLoad ();
+//MenuLoad ();
+window.onload = function () {
+  myGame();
+};
 
 function MenuLoad () {
       var canvas = document.getElementById("ourMap");
@@ -281,6 +284,12 @@ var myGame = function () {
     var gateImage = new Image();
     gateImage.src = "gate.png";
 
+    var enemeySprite = new Image();
+    enemeySprite.onload = function () {
+      console.log("loaded");
+    }
+    enemeySprite.src = "enemy.png";
+    
     var timer = {
       seconds: 0,
       minutes: 0,
@@ -419,7 +428,7 @@ var myGame = function () {
           nykkelObjArray[i].y = 20;
         }
       }
-
+      console.log("x: " + player.x + " y: " + player.y)
       update();
     };
 
@@ -453,7 +462,6 @@ var myGame = function () {
 
       //Draw player
       cantx.drawImage(playerImage, player.x * ObjectSizeWid, player.y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-
 
       //keys collected Board
       board();
@@ -647,6 +655,60 @@ var myGame = function () {
       }
     }
 
+   
+    var frameSize = enemeySprite.width/7;
+    var thisFrame = 40;
+    var frameIndex = 1;
+    var enemyX = 16;
+    var enemyY = 4;
+    var turnEnemey = false;
+    var enemySpeed = 0.2;
+    
+    sprite();
+
+    function sprite () {
+      
+      update();
+      if(check_col_player(enemyX, enemyY)) { //if there is a collision with the player, gameOver() is called
+        gameOver ();
+        return; }
+
+      if (frameIndex == 6)
+      {
+        frameIndex = 0;
+        thisFrame = 40;
+        update();
+        sprite();
+      }
+      else 
+      {
+        if (enemyX <= 2)
+        {
+          turnEnemey = true;
+        }
+        else if (enemyX >= 17)
+        {
+          turnEnemey = false;
+        }
+
+        if (enemyX >=2 && !turnEnemey)
+        {
+          enemyX -= enemySpeed;
+        }
+        else if (turnEnemey)
+        {
+          enemyX += enemySpeed;
+        }
+  
+        cantx.drawImage(enemeySprite, thisFrame, 0, ObjectSizeWid, ObjectSizeHei, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        thisFrame += frameSize;
+        frameIndex ++;
+        setTimeout(function() {requestAnimationFrame(sprite);}, 70);
+        
+      }
+    }
+    
+
 
     //To check collision of arrows
     var leftArrowCol = false;
@@ -765,4 +827,5 @@ var myGame = function () {
       
     });
 };
+
 
