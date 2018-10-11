@@ -1,20 +1,99 @@
-var canvas = document.getElementById("ourMap");
-var cantx = canvas.getContext("2d");
 
-window.onload = function() {
-    "use strict";
+MenuLoad ();
 
-    //variabler for å definere spillervinduet vårt, altså en canvas i 2D
-    if($(window).width() < 1367)
-    {
-      cantx.canvas.height = 600;
-      cantx.canvas.width = 600;
-    }
-    if($(window).width() < 321){
-      cantx.canvas.height = 250;
-      cantx.canvas.width = 250;
-    }
+function MenuLoad () {
+      var canvas = document.getElementById("ourMap");
+      var cantx = canvas.getContext("2d");
 
+      //variabler for å definere spillervinduet vårt, altså en canvas i 2D
+      if($(window).width() < 1367)
+      {
+        cantx.canvas.height = 600;
+        cantx.canvas.width = 600;
+      }
+      if($(window).width() < 321){
+        cantx.canvas.height = 250;
+        cantx.canvas.width = 250;
+      }
+      
+      var background;
+      var startButton;
+
+      var backgroundLoaded = false;
+      var startButtonLoaded = false;
+      var startClicked = false;
+      var gameStarted = false;
+
+      var startButtonHeight = 100;
+      var startButtonWidth = 200;
+
+      var STB_x = (cantx.canvas.width/2) - startButtonWidth/2;
+      var STB_y = (cantx.canvas.height/2) - startButtonHeight/2;
+      
+      loadAssets();
+
+      function loadAssets () {
+        background = new Image ();
+        background.onload = function () {
+            backgroundLoaded = true;
+            isAssetsLoaded();
+        }
+        background.src = "menuBG.png";
+    
+        startButton = new Image ();
+        startButton.onload = function () {
+            startButtonLoaded = true;
+            isAssetsLoaded();
+        }
+        startButton.src = "start.png";
+    
+      }
+
+      if (gameStarted){
+        
+      }
+      else {
+        $(window).mousemove ( function (event) {
+          if((event.clientX > STB_x && event.clientX < STB_x + startButtonWidth) && (event.clientY > STB_y && event.clientY < STB_y + startButtonHeight) && !gameStarted) {
+            console.log("Over button");
+            startButton.src = "startHover.png";
+            startClicked = true;
+          }
+          else {
+            startButton.src = "start.png";
+            startClicked = false;
+          }
+        });
+
+        $("#ourMap").click ( function () {
+          console.log("clicked on canvas");
+          if(startClicked == true){
+            myGame(); 
+            gameStarted = true;
+            $(window).unbind("mousemove");
+            $("#ourMap").unbind("click");
+          }
+        });
+      }
+
+
+      function startMenuupdate(){ 
+          cantx.drawImage(background, 0, 0);
+          cantx.drawImage(startButton, STB_x, STB_y, startButtonWidth, startButtonHeight);
+      }
+      
+      function isAssetsLoaded() {
+        if (backgroundLoaded == true && startButtonLoaded == true){
+          startMenuupdate();
+        }
+      }
+  }
+
+var myGame = function () {
+
+    var canvas = document.getElementById("ourMap");
+    var cantx = canvas.getContext("2d");
+    
     var wid = canvas.offsetWidth;
     var hig = canvas.offsetHeight;
 
@@ -666,4 +745,5 @@ window.onload = function() {
       makeArrays();
       update();
     });
-  };
+};
+
