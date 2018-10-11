@@ -110,6 +110,7 @@ var myGame = function () {
     var triggerLastet = false;
 
     var winCondition = false;
+    var level1Started = false;
 
     //variabler for gåfart, scoring og offsets.
     var speed = 10;
@@ -203,6 +204,7 @@ var myGame = function () {
 
     //Laste alle bilder og elementer inn og definer dem
     //Terraine bilde / Bakgrunns bilde
+
     var gameOverImage = new Image();
     gameOverImage.src = "gameover.png";
 
@@ -221,7 +223,7 @@ var myGame = function () {
       console.log("spiller lastet");
       assetsLoaded();
     };
-    playerImage.src = "KongSverre.png";
+    playerImage.src = "KongSverreFront.png";
 
     //PickupItem
     var keyImage = new Image();
@@ -358,10 +360,20 @@ var myGame = function () {
           player.x += movement;
           break;
         case "up":
-          player.y -= movement;
+          if(playerImage.getAttribute('src') == "KongSverreBack.png"){
+            player.y -= movement;
+          }
+          else{
+            playerImage.src = "KongSverreBack.png"
+          }
           break;
         case "down":
+        if(playerImage.getAttribute('src') == "KongSverreFront.png"){
           player.y += movement;
+        }
+        else{
+          playerImage.src = "KongSverreFront.png"
+        }
           break;
       }
 
@@ -626,11 +638,12 @@ var myGame = function () {
      * @name assetsLoaded
      */
     function assetsLoaded() {
-      if (bakgrunnLastet == true && keysLastet == true && spillerLastet == true && bushLastet == true && arrowShooterLastet == true && triggerLastet == true && steinerLastet == true) {
+      if (bakgrunnLastet == true && keysLastet == true && spillerLastet == true && bushLastet == true && arrowShooterLastet == true && triggerLastet == true && steinerLastet == true && !level1Started) {
         shoot();
         startTimer();
         update();
         resetTimer();
+        level1Started = true;
       }
     }
 
@@ -718,7 +731,7 @@ var myGame = function () {
     /**
      * Assign of the arrow keys to call the player move
      */
-    $(document).keydown( function(e) {
+    $(document).keypress( function(e) {
       e = e || window.event;
 
       if(isGameover)
@@ -732,18 +745,24 @@ var myGame = function () {
     });
     
     $("#reset").click(function  () {
-      player.x = 13; player.y = 13;
-      arrowObjArray.length = 0;
-      moveObjArray.length = 0;
-      unMoveObjArray.length = 0;
-      nykkelObjArray.length = 0;
-      shooterObjArray.length = 0;
-      triggerObjArray.length = 0;
-      gateObjArray.length = 0;
-      keyPickedUp = 0;
-      isGameover = false;
-      makeArrays();
-      update();
+
+      if(winCondition){
+        
+      } else {
+        player.x = 13; player.y = 13;
+        arrowObjArray.length = 0;
+        moveObjArray.length = 0;
+        unMoveObjArray.length = 0;
+        nykkelObjArray.length = 0;
+        shooterObjArray.length = 0;
+        triggerObjArray.length = 0;
+        gateObjArray.length = 0;
+        keyPickedUp = 0;
+        isGameover = false;
+        makeArrays();
+        update();
+      }
+      
     });
 };
 
