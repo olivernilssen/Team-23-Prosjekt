@@ -363,10 +363,35 @@ var myGame = function () {
     
     switch (direction) {
         case "left":
+        if(playerImage.getAttribute('src') == "KongSverreLeft2.png"){
+          playerImage.src = "KongSverreLeft1.png"
           player.x -= movement;
+        }
+        else if (playerImage.getAttribute('src') == "KongSverreLeft1.png"){
+          playerImage.src = "KongSverreLeft2.png"
+          player.x -= movement;
+        }
+        else
+        {
+          playerImage.src = "KongSverreLeft1.png"
+          player.x -= movement;
+        }
+          
             break;
         case "right":
+        if(playerImage.getAttribute('src') == "KongSverreRight2.png"){
+          playerImage.src = "KongSverreRight1.png"
           player.x += movement;
+        }
+        else if (playerImage.getAttribute('src') == "KongSverreRight1.png"){
+          playerImage.src = "KongSverreRight2.png"
+          player.x += movement;
+        }
+        else
+        {
+          playerImage.src = "KongSverreRight2.png"
+          player.x += movement;
+        }
           break;
         case "up":
           if(playerImage.getAttribute('src') == "KongSverreBack.png"){
@@ -374,6 +399,7 @@ var myGame = function () {
           }
           else{
             playerImage.src = "KongSverreBack.png"
+            player.y -= movement;
           }
           break;
         case "down":
@@ -382,6 +408,7 @@ var myGame = function () {
         }
         else{
           playerImage.src = "KongSverreFront.png"
+          player.y += movement;
         }
           break;
       }
@@ -429,9 +456,14 @@ var myGame = function () {
         }
       }
       console.log("x: " + player.x + " y: " + player.y)
-      update();
     };
 
+    var spriteSpeed = 1;
+    var arrowSpeed = 0.5;
+    var frameRate = 0;
+    var frameSpeed = 0.5;
+    var maxFrames = 1.5;
+    var waitArrow = 0;
 
     /**
      * Handle all the updates of the canvas and creates the objects
@@ -440,13 +472,21 @@ var myGame = function () {
      */
     function update() {
 
-      cantx.drawImage(terrainImage, 0, 0);
+      if(isGameover){
+        return;
+      }
 
+      requestAnimationFrame(update);
+    
+      cantx.drawImage(terrainImage, 0, 0); //draw background
+
+      //draw triggers for stones and the arrowshooters
       for (var i = 0; i < triggerObjArray.length; i++){
         cantx.drawImage(triggerImage, triggerObjArray[i].x * ObjectSizeWid, triggerObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
         cantx.drawImage(shooterImage, shooterObjArray[i].x * ObjectSizeWid, shooterObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
 
+      //Draw unmovable objects
       for(var i = 0; i < unMoveObjArray.length; i++)
       {
         cantx.drawImage(buskImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
@@ -476,6 +516,50 @@ var myGame = function () {
         else {
           winCondition = false;
         }
+
+
+        //set framerate
+        frameRate += frameSpeed;
+
+        //draw the animations at different speeds
+        if (frameRate == maxFrames) {
+          frameRate = 0;
+        }
+        
+        if(frameRate == spriteSpeed)
+        {
+          sprite();
+        }
+        
+        if (frameRate == arrowSpeed)
+        {
+          if (leftArrowCol && rightArrowCol) {
+            
+            waitArrow++;
+
+            if(waitArrow == 20){
+              waitArrow = 0;
+              leftArrowCol = false;
+              rightArrowCol = false;
+              arrow_XR = 18;
+              arrow_XL = 1;
+              shoot();
+            }
+          }else
+          {
+            shoot();
+          }
+        }
+
+        //Draw the animations
+        if(!rightArrowCol){
+          cantx.drawImage(arrowImageRight, arrow_XR * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
+  
+        if(!leftArrowCol){
+          cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
+
+        cantx.drawImage(enemeySprite, thisFrame, 0, ObjectSizeWid, ObjectSizeHei, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      
     }
 
     /**
@@ -494,7 +578,7 @@ var myGame = function () {
       y = Math.floor(y);
 
       //Check collision for bushes
-      for (var i = 0; i < unMoveObjArray.length; i++){
+      for (var i = 0; i < unMoveObjArray.length; i++){ //(x == unMoveObjArray[i].x && y == unMoveObjArray[i].y)
         if((x == unMoveObjArray[i].x && y == unMoveObjArray[i].y) || (x == 1 && y == 9) || (x == 18 && y == 9)){
           console.log("There is something there");
           foundCollision = true;
@@ -646,66 +730,70 @@ var myGame = function () {
      * @name assetsLoaded
      */
     function assetsLoaded() {
-      if (bakgrunnLastet == true && keysLastet == true && spillerLastet == true && bushLastet == true && arrowShooterLastet == true && triggerLastet == true && steinerLastet == true && !level1Started) {
+      if (bakgrunnLastet == true && keysLastet == true && spillerLastet == true && bushLastet == true && arrowShooterLastet == true && triggerLastet == true && steinerLastet == true && !level1Started && gameOver) {
         shoot();
         startTimer();
-        update();
         resetTimer();
         level1Started = true;
+        requestAnimationFrame(update);
       }
     }
 
    
     var frameSize = enemeySprite.width/7;
     var thisFrame = 40;
-    var frameIndex = 1;
+    var frameIndex = 0;
     var enemyX = 16;
     var enemyY = 4;
-    var turnEnemey = false;
+    var moveLeft = true;
+    var moveRight = false;
     var enemySpeed = 0.2;
-    
-    sprite();
 
     function sprite () {
       
-      update();
-      if(check_col_player(enemyX, enemyY)) { //if there is a collision with the player, gameOver() is called
+      if(isGameover)
+      { return; }
+
+      if(check_col_player(enemyX + 0.5, enemyY)) { //if there is a collision with the player, gameOver() is called
         gameOver ();
-        return; }
+        return; 
+      }
+
+        frameIndex++;
+      
+      if(((check_collision_stones(enemyX - 0.2, enemyY) || check_collision(enemyX, enemyY)) && moveLeft) || enemyX <= 1)
+      {
+        moveRight = true;
+        moveLeft = false;
+      }
+      else if(((check_collision_stones(enemyX + 1, enemyY) || check_collision(enemyX, enemyY)) && moveRight) || enemyX >= 18)
+      {
+        moveRight = false;
+        moveLeft = true;
+      }
+      
+      
 
       if (frameIndex == 6)
       {
         frameIndex = 0;
         thisFrame = 40;
-        update();
-        sprite();
       }
       else 
       {
-        if (enemyX <= 2)
-        {
-          turnEnemey = true;
-        }
-        else if (enemyX >= 17)
-        {
-          turnEnemey = false;
-        }
 
-        if (enemyX >=2 && !turnEnemey)
+        if (moveLeft)
         {
           enemyX -= enemySpeed;
         }
-        else if (turnEnemey)
+        else if (moveRight)
         {
           enemyX += enemySpeed;
         }
-  
-        cantx.drawImage(enemeySprite, thisFrame, 0, ObjectSizeWid, ObjectSizeHei, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+
         thisFrame += frameSize;
-        frameIndex ++;
-        setTimeout(function() {requestAnimationFrame(sprite);}, 70);
-        
       }
+
     }
     
 
@@ -725,16 +813,8 @@ var myGame = function () {
       if(isGameover)
       { return; }
 
-      update();
-
-      if(!rightArrowCol){
-        cantx.drawImage(arrowImageRight, arrow_XR * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
-
-      if(!leftArrowCol){
-        cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
-
-      arrow_XR -= 0.1;
-      arrow_XL += 0.1;
+      arrow_XR -= 0.25;
+      arrow_XL += 0.25;
 
       if(check_col_player(arrow_XR, arrow_Y) || check_col_player(arrow_XL, arrow_Y)) { //if there is a collision with the player, gameOver() is called
         gameOver ();
@@ -747,17 +827,6 @@ var myGame = function () {
       if(check_collision_stones(arrow_XR, arrow_Y, moveObjArray.length + 1) || check_collision(arrow_XR, arrow_Y)){
         rightArrowCol = true;
         arrow_XR = 18; }
-
-      if (leftArrowCol && rightArrowCol) {
-        leftArrowCol = false;
-        rightArrowCol = false;
-        arrow_XR = 18;
-        arrow_XL = 1;
-        update();
-        setTimeout(function() {shoot()}, 2500);
-      } else {
-        requestAnimationFrame(shoot) // loop
-      }
     }
 
     //SCORING SYSTEM
@@ -783,8 +852,9 @@ var myGame = function () {
         scoreCalc();
         var myScore = "Your score was: " + String(score);
         $(".myScore").text(myScore);
+        window.cancelAnimationFrame(update);
       } else {
-        update();
+        window.cancelAnimationFrame(update);
         clearInterval(timer.clearTime);
         cantx.drawImage(gameOverImage, 150, 100);
       }
@@ -822,7 +892,8 @@ var myGame = function () {
         keyPickedUp = 0;
         isGameover = false;
         makeArrays();
-        update();
+        window.cancelAnimationFrame(update);
+        assetsLoaded();
       }
       
     });
