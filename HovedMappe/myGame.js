@@ -1,7 +1,7 @@
 
 //MenuLoad ();
 window.onload = function () {
-  myGame();
+  MenuLoad();
 };
 
 function MenuLoad () {
@@ -18,7 +18,7 @@ function MenuLoad () {
         cantx.canvas.height = 250;
         cantx.canvas.width = 250;
       }
-      
+
       var background;
       var startButton;
 
@@ -32,7 +32,7 @@ function MenuLoad () {
 
       var STB_x = (cantx.canvas.width/2) - startButtonWidth/2;
       var STB_y = (cantx.canvas.height/2) - startButtonHeight/2;
-      
+
       loadAssets();
 
       function loadAssets () {
@@ -42,18 +42,18 @@ function MenuLoad () {
             isAssetsLoaded();
         }
         background.src = "menuBG.png";
-    
+
         startButton = new Image ();
         startButton.onload = function () {
             startButtonLoaded = true;
             isAssetsLoaded();
         }
         startButton.src = "start.png";
-    
+
       }
 
       if (gameStarted){
-        
+
       }
       else {
         $(window).mousemove ( function (event) {
@@ -71,7 +71,7 @@ function MenuLoad () {
         $("#ourMap").click ( function () {
           console.log("clicked on canvas");
           if(startClicked == true){
-            myGame(); 
+            myGame();
             gameStarted = true;
             $(window).unbind("mousemove");
             $("#ourMap").unbind("click");
@@ -80,11 +80,11 @@ function MenuLoad () {
       }
 
 
-      function startMenuupdate(){ 
+      function startMenuupdate(){
           cantx.drawImage(background, 0, 0);
           cantx.drawImage(startButton, STB_x, STB_y, startButtonWidth, startButtonHeight);
       }
-      
+
       function isAssetsLoaded() {
         if (backgroundLoaded == true && startButtonLoaded == true){
           startMenuupdate();
@@ -96,7 +96,7 @@ var myGame = function () {
 
     var canvas = document.getElementById("ourMap");
     var cantx = canvas.getContext("2d");
-    
+
     var wid = canvas.offsetWidth;
     var hig = canvas.offsetHeight;
 
@@ -222,7 +222,7 @@ var myGame = function () {
     //Spiller bilde
     var playerImage = new Image();
     playerImage.onload = function() {
-      spillerLastet = true; 
+      spillerLastet = true;
       console.log("spiller lastet");
       assetsLoaded();
     };
@@ -289,7 +289,7 @@ var myGame = function () {
       console.log("loaded");
     }
     enemeySprite.src = "enemy.png";
-    
+
     var timer = {
       seconds: 0,
       minutes: 0,
@@ -360,7 +360,7 @@ var myGame = function () {
      * Decide here the direction of the user and do the neccessary changes on the directions
      */
     var movement = speed / modifier;
-    
+
     switch (direction) {
         case "left":
         if(playerImage.getAttribute('src') == "KongSverreLeft2.png"){
@@ -376,7 +376,7 @@ var myGame = function () {
           playerImage.src = "KongSverreLeft1.png"
           player.x -= movement;
         }
-          
+
             break;
         case "right":
         if(playerImage.getAttribute('src') == "KongSverreRight2.png"){
@@ -477,7 +477,7 @@ var myGame = function () {
       }
 
       requestAnimationFrame(update);
-    
+
       cantx.drawImage(terrainImage, 0, 0); //draw background
 
       //draw triggers for stones and the arrowshooters
@@ -525,16 +525,16 @@ var myGame = function () {
         if (frameRate == maxFrames) {
           frameRate = 0;
         }
-        
+
         if(frameRate == spriteSpeed)
         {
           sprite();
         }
-        
+
         if (frameRate == arrowSpeed)
         {
           if (leftArrowCol && rightArrowCol) {
-            
+
             waitArrow++;
 
             if(waitArrow == 20){
@@ -554,12 +554,12 @@ var myGame = function () {
         //Draw the animations
         if(!rightArrowCol){
           cantx.drawImage(arrowImageRight, arrow_XR * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
-  
+
         if(!leftArrowCol){
           cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
 
         cantx.drawImage(enemeySprite, thisFrame, 0, ObjectSizeWid, ObjectSizeHei, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-      
+
     }
 
     /**
@@ -739,7 +739,7 @@ var myGame = function () {
       }
     }
 
-   
+
     var frameSize = enemeySprite.width/7;
     var thisFrame = 40;
     var frameIndex = 0;
@@ -750,17 +750,17 @@ var myGame = function () {
     var enemySpeed = 0.2;
 
     function sprite () {
-      
+
       if(isGameover)
       { return; }
 
       if(check_col_player(enemyX + 0.5, enemyY)) { //if there is a collision with the player, gameOver() is called
         gameOver ();
-        return; 
+        return;
       }
 
         frameIndex++;
-      
+
       if(((check_collision_stones(enemyX - 0.2, enemyY) || check_collision(enemyX, enemyY)) && moveLeft) || enemyX <= 1)
       {
         moveRight = true;
@@ -771,15 +771,15 @@ var myGame = function () {
         moveRight = false;
         moveLeft = true;
       }
-      
-      
+
+
 
       if (frameIndex == 6)
       {
         frameIndex = 0;
         thisFrame = 40;
       }
-      else 
+      else
       {
 
         if (moveLeft)
@@ -795,7 +795,7 @@ var myGame = function () {
       }
 
     }
-    
+
 
 
     //To check collision of arrows
@@ -863,7 +863,7 @@ var myGame = function () {
     /**
      * Assign of the arrow keys to call the player move
      */
-    $(document).keypress( function(e) {
+    $(document).keydown( function(e) {
       e = e || window.event;
 
       if(isGameover)
@@ -875,11 +875,11 @@ var myGame = function () {
       else if (e.keyCode == "39" || e.keyCode == "68") player.move("right");
       else if (e.keyCode == "40" || e.keyCode == "83") player.move("down");
     });
-    
+
     $("#reset").click(function  () {
 
       if(winCondition){
-        
+
       } else {
         player.x = 13; player.y = 13;
         arrowObjArray.length = 0;
@@ -895,8 +895,6 @@ var myGame = function () {
         window.cancelAnimationFrame(update);
         assetsLoaded();
       }
-      
+
     });
 };
-
-
