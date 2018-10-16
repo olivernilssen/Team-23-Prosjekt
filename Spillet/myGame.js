@@ -107,8 +107,8 @@ var myGame = function () {
     var keysLastet = false;
     var keysLastet = false;
     var steinerLastet = false;
-    var arrowLastet2 = false;
-    var arrowLastet1 = false;
+    //var arrowLastet2 = false;
+    //var arrowLastet1 = false;
     var arrowShooterLastet = false;
     var triggerLastet = false;
 
@@ -123,7 +123,6 @@ var myGame = function () {
     var modifier = 10;
     var ObjectSizeWid = wid/20;
     var ObjectSizeHei = hig/20;
-    var friction = 0.98;
 
     var arrow_XR = 18;
     var arrow_XL = 1;
@@ -289,6 +288,9 @@ var myGame = function () {
       console.log("loaded");
     }
     enemeySprite.src = "enemy.png";
+    enemeySprite.width = ObjectSizeWid * 7;
+    enemeySprite.height = ObjectSizeHei;
+    console.log(enemeySprite.width, ObjectSizeHei);
 
     var timer = {
       seconds: 0,
@@ -740,14 +742,14 @@ var myGame = function () {
     }
 
 
-    var frameSize = enemeySprite.width/7;
-    var thisFrame = 40;
+    var frameSize = ObjectSizeHei;
+    var thisFrame = ObjectSizeHei;
     var frameIndex = 0;
     var enemyX = 16;
     var enemyY = 4;
     var moveLeft = true;
     var moveRight = false;
-    var enemySpeed = 0.2;
+    var enemySpeed = 0.25;
 
     function sprite () {
 
@@ -777,7 +779,7 @@ var myGame = function () {
       if (frameIndex == 6)
       {
         frameIndex = 0;
-        thisFrame = 40;
+        thisFrame = ObjectSizeHei;
       }
       else
       {
