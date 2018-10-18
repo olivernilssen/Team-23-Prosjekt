@@ -124,6 +124,7 @@ var myGame = function () {
 
     var winCondition = false;
     var level1Started = false;
+    var enemeyonStone = false;
 
     //variabler for gåfart, scoring og offsets.
     var speed = 10;
@@ -444,7 +445,7 @@ var myGame = function () {
       }
 
       for(var i = 0; i < moveObjArray.length; i++){
-        if (check_collision(moveObjArray[i].x, moveObjArray[i].y) || check_collision_stones(moveObjArray[i].x, moveObjArray[i].y, i))
+        if (check_collision(moveObjArray[i].x, moveObjArray[i].y) || check_collision_stones(moveObjArray[i].x, moveObjArray[i].y, i) || enemeyonStone)
         {
           moveObjArray[i].x = moveObjArray[i].oldX;
           moveObjArray[i].y = moveObjArray[i].oldY;
@@ -640,10 +641,11 @@ var myGame = function () {
             continue;
           }
           else {
-            foundCollision = true;
+            return foundCollision = true;
           }
         }
       }
+
       return foundCollision;
     }
 
@@ -782,7 +784,12 @@ var myGame = function () {
         moveLeft = true;
       }
 
-
+      if(check_collision_stones(enemyX + 1, enemyY)){
+        enemeyonStone = true;
+      }
+      else {
+          enemeyonStone = false;
+      }
 
       if (frameIndex == 6)
       {
