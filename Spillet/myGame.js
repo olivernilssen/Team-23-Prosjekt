@@ -451,7 +451,17 @@ var myGame = function () {
           player.x = hold_player.x;
           player.y = hold_player.y;
         }
+        else if ((moveObjArray[i].x < enemyX + 0.5 && moveObjArray[i].x > enemyX - 0.5) && moveObjArray[i].y == enemyY){
+          moveObjArray[i].x = moveObjArray[i].oldX;
+          moveObjArray[i].y = moveObjArray[i].oldY;
+          if(check_collision_stones(player.x, player.y)){
+            player.x = hold_player.x;
+            player.y = hold_player.y;
+          }
+        }
       }
+
+
 
       /**
        * If player finds the coordinates of keyitem
@@ -531,7 +541,8 @@ var myGame = function () {
         //set framerate
         frameRate += frameSpeed;
 
-        //draw the animations at different speeds
+        //Get new values for the animation position and frames depending on how many 
+        // frames has passed since last time it played etc
         if (frameRate == maxFrames) {
           frameRate = 0;
         }
@@ -567,9 +578,8 @@ var myGame = function () {
 
         if(!leftArrowCol){
           cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei); }
-
+        
         cantx.drawImage(enemeySprite, thisFrame, 0, 40, 40, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-
     }
 
     /**
@@ -644,6 +654,8 @@ var myGame = function () {
           }
         }
       }
+    
+
       return foundCollision;
     }
 
@@ -753,7 +765,7 @@ var myGame = function () {
     var frameSize = enemeySprite.height;
     var thisFrame = enemeySprite.height;
     var frameIndex = 0;
-    var enemyX = 16;
+    var enemyX = 17;
     var enemyY = 4;
     var moveLeft = true;
     var moveRight = false;
