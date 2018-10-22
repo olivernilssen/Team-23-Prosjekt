@@ -226,7 +226,7 @@ var myGame = function () {
       console.log("bakgrunn lastet");
       assetsLoaded();
     };
-    terrainImage.src = "terrain.png";
+    terrainImage.src = "bakgrunngress.png";
 
     //Spiller bilde
     var playerImage = new Image();
@@ -823,8 +823,8 @@ var myGame = function () {
       if(isGameover)
       { return; }
 
-      arrow_XR -= 0.25;
-      arrow_XL += 0.25;
+      arrow_XR -= 0.35;
+      arrow_XL += 0.35;
 
       if(check_col_player(arrow_XR, arrow_Y) || check_col_player(arrow_XL, arrow_Y)) { //if there is a collision with the player, gameOver() is called
         gameOver ();
