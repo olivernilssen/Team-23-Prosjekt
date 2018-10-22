@@ -762,8 +762,8 @@ var myGame = function () {
     }
 
 
-    var frameSize = enemeySprite.height;
-    var thisFrame = enemeySprite.height;
+    var frameSize = 40;
+    var thisFrame = 40;
     var frameIndex = 0;
     var enemyX = 17;
     var enemyY = 4;
