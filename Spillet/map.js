@@ -138,7 +138,7 @@ window.onload = function() {
     //Spiller bilde
     var playerImage = new Image();
     playerImage.onload = function() {
-      spillerLastet = true; 
+      spillerLastet = true;
       console.log("spiller lastet");
       assetsLoaded();
     };
@@ -270,7 +270,7 @@ window.onload = function() {
      * Decide here the direction of the user and do the neccessary changes on the directions
      */
     var movement = speed / modifier;
-    
+
     switch (direction) {
         case "left":
           player.x -= movement;
@@ -651,7 +651,7 @@ window.onload = function() {
       else if (e.keyCode == "39" || e.keyCode == "68") player.move("right");
       else if (e.keyCode == "40" || e.keyCode == "83") player.move("down");
     });
-    
+
     $("#reset").click(function  () {
       player.x = 13; player.y = 13;
       arrowObjArray.length = 0;
