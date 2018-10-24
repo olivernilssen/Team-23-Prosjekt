@@ -508,7 +508,7 @@ var myGame = function() {
         ObjectSizeWid,
         ObjectSizeHei
       );
-      
+
       cantx.drawImage(
         shooterImage,
         shooterObjArray[i].x * ObjectSizeWid,
