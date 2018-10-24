@@ -39,14 +39,14 @@ function MenuLoad() {
       backgroundLoaded = true;
       isAssetsLoaded();
     };
-    background.src = "menuBG.png";
+    background.src = "Sprites/menuBG.png";
 
     startButton = new Image();
     startButton.onload = function() {
       startButtonLoaded = true;
       isAssetsLoaded();
     };
-    startButton.src = "start.png";
+    startButton.src = "Sprites/start.png";
   }
 
   if (gameStarted) {
@@ -59,10 +59,10 @@ function MenuLoad() {
         !gameStarted
       ) {
         console.log("Over button");
-        startButton.src = "startHover.png";
+        startButton.src = "Sprites/startHover.png";
         startClicked = true;
       } else {
-        startButton.src = "start.png";
+        startButton.src = "Sprites/start.png";
         startClicked = false;
       }
     });
@@ -221,7 +221,7 @@ var myGame = function() {
   //Terraine bilde / Bakgrunns bilde
 
   var gameOverImage = new Image();
-  gameOverImage.src = "gameover.png";
+  gameOverImage.src = "Sprites/gameover.png";
 
   var terrainImage = new Image();
   terrainImage.onload = function() {
@@ -229,7 +229,7 @@ var myGame = function() {
     console.log("bakgrunn lastet");
     assetsLoaded();
   };
-  terrainImage.src = "bakgrunngress.png";
+  terrainImage.src = "Sprites/bakgrunngress.png";
 
   //Spiller bilde
   var playerImage = new Image();
@@ -238,7 +238,7 @@ var myGame = function() {
     console.log("spiller lastet");
     assetsLoaded();
   };
-  playerImage.src = "KongSverreFront.png";
+  playerImage.src = "Sprites/KongSverreFront.png";
 
   //PickupItem
   var keyImage = new Image();
@@ -247,7 +247,7 @@ var myGame = function() {
     console.log("keys lastet");
     assetsLoaded();
   };
-  keyImage.src = "nøkkel.gif";
+  keyImage.src = "Sprites/nøkkel.gif";
 
   //Stein
   var stoneImage = new Image();
@@ -256,7 +256,7 @@ var myGame = function() {
     console.log("steiner lastet");
     assetsLoaded();
   };
-  stoneImage.src = "stone.png";
+  stoneImage.src = "Sprites/stone.png";
 
   //Stein
   var buskImage = new Image();
@@ -265,7 +265,7 @@ var myGame = function() {
     console.log("busker lastet");
     assetsLoaded();
   };
-  buskImage.src = "busk.png";
+  buskImage.src = "Sprites/busk.png";
 
   //Triggers
   var triggerImage = new Image();
@@ -274,7 +274,7 @@ var myGame = function() {
     console.log("triggers lastet");
     assetsLoaded();
   };
-  triggerImage.src = "trigger.png";
+  triggerImage.src = "Sprites/trigger.png";
 
   //Arrow Shooter
   var shooterImage = new Image();
@@ -283,24 +283,24 @@ var myGame = function() {
     console.log("skytere lastet");
     assetsLoaded();
   };
-  shooterImage.src = "arrowtrigger.png";
+  shooterImage.src = "Sprites/arrowtrigger.png";
 
   //Arrow
   var arrowImageRight = new Image();
-  arrowImageRight.src = "NewArrowRight.png";
+  arrowImageRight.src = "Sprites/NewArrowRight.png";
 
   var arrowImageLeft = new Image();
-  arrowImageLeft.src = "NewArrowLeft.png";
+  arrowImageLeft.src = "Sprites/NewArrowLeft.png";
 
   //Gate
   var gateImage = new Image();
-  gateImage.src = "gate.png";
+  gateImage.src = "Sprites/gate.png";
 
   var enemeySprite = new Image();
   enemeySprite.onload = function() {
     console.log("Enemy loaded");
   };
-  enemeySprite.src = "enemy.png";
+  enemeySprite.src = "Sprites/enemy.png";
   console.log(enemeySprite.width, ObjectSizeHei);
 
   var timer = {
@@ -374,26 +374,26 @@ var myGame = function() {
     switch (direction) {
       case "left":
         if (playerImage.getAttribute("src") == "KongSverreLeft2.png") {
-          playerImage.src = "KongSverreLeft1.png";
+          playerImage.src = "Sprites/KongSverreLeft1.png";
           player.x -= movement;
         } else if (playerImage.getAttribute("src") == "KongSverreLeft1.png") {
-          playerImage.src = "KongSverreLeft2.png";
+          playerImage.src = "Sprites/KongSverreLeft2.png";
           player.x -= movement;
         } else {
-          playerImage.src = "KongSverreLeft1.png";
+          playerImage.src = "Sprites/KongSverreLeft1.png";
           player.x -= movement;
         }
 
         break;
       case "right":
         if (playerImage.getAttribute("src") == "KongSverreRight2.png") {
-          playerImage.src = "KongSverreRight1.png";
+          playerImage.src = "Sprites/KongSverreRight1.png";
           player.x += movement;
         } else if (playerImage.getAttribute("src") == "KongSverreRight1.png") {
-          playerImage.src = "KongSverreRight2.png";
+          playerImage.src = "Sprites/KongSverreRight2.png";
           player.x += movement;
         } else {
-          playerImage.src = "KongSverreRight2.png";
+          playerImage.src = "Sprites/KongSverreRight2.png";
           player.x += movement;
         }
         break;
@@ -401,15 +401,15 @@ var myGame = function() {
         if (playerImage.getAttribute("src") == "KongSverreBack.png") {
           player.y -= movement;
         } else {
-          playerImage.src = "KongSverreBack.png";
+          playerImage.src = "Sprites/KongSverreBack.png";
           player.y -= movement;
         }
         break;
       case "down":
-        if (playerImage.getAttribute("src") == "KongSverreFront.png") {
+        if (playerImage.getAttribute("src") == "Sprites/KongSverreFront.png") {
           player.y += movement;
         } else {
-          playerImage.src = "KongSverreFront.png";
+          playerImage.src = "Sprites/KongSverreFront.png";
           player.y += movement;
         }
         break;
@@ -508,6 +508,7 @@ var myGame = function() {
         ObjectSizeWid,
         ObjectSizeHei
       );
+      
       cantx.drawImage(
         shooterImage,
         shooterObjArray[i].x * ObjectSizeWid,
@@ -898,8 +899,8 @@ var myGame = function() {
       return;
     }
 
-    arrow_XR -= 0.6;
-    arrow_XL += 0.6;
+    arrow_XR -= 0.5;
+    arrow_XL += 0.49;
 
     if (
       check_col_player(arrow_XR, arrow_Y) ||
@@ -921,8 +922,7 @@ var myGame = function() {
 
     if (
       check_collision_stones(arrow_XR, arrow_Y, moveObjArray.length + 1) ||
-      check_collision(arrow_XR, arrow_Y)
-    ) {
+      check_collision(arrow_XR, arrow_Y)) {
       rightArrowCol = true;
       arrow_XR = 18;
     }
