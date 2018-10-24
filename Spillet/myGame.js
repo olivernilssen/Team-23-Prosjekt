@@ -265,7 +265,7 @@ var myGame = function() {
     console.log("busker lastet");
     assetsLoaded();
   };
-  buskImage.src = "Sprites/busk.png";
+  buskImage.src = "Sprites/Busk4.png";
 
   //Triggers
   var triggerImage = new Image();
