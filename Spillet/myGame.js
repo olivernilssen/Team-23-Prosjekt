@@ -25,8 +25,8 @@ function MenuLoad() {
   var startClicked = false;
   var gameStarted = false;
 
-  var startButtonHeight = 99;
-  var startButtonWidth = 370;
+  var startButtonHeight = cantx.canvas.width / 6;
+  var startButtonWidth = cantx.canvas.width / 2;
 
   var STB_x = cantx.canvas.width / 2 - startButtonWidth / 2;
   var STB_y = cantx.canvas.height / 2 - startButtonHeight / 2;
@@ -59,7 +59,7 @@ function MenuLoad() {
         !gameStarted
       ) {
         console.log("Over button");
-        startButton.src = "Sprites/startHover.png";
+        startButton.src = "Sprites/startButtonHover.png";
         startClicked = true;
       } else {
         startButton.src = "Sprites/startButton.png";
