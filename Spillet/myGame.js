@@ -1,6 +1,6 @@
 //MenuLoad ();
 window.onload = function() {
-  myGame();
+  MenuLoad();
 };
 
 function MenuLoad() {
@@ -25,8 +25,8 @@ function MenuLoad() {
   var startClicked = false;
   var gameStarted = false;
 
-  var startButtonHeight = 100;
-  var startButtonWidth = 200;
+  var startButtonHeight = 99;
+  var startButtonWidth = 370;
 
   var STB_x = cantx.canvas.width / 2 - startButtonWidth / 2;
   var STB_y = cantx.canvas.height / 2 - startButtonHeight / 2;
@@ -39,14 +39,14 @@ function MenuLoad() {
       backgroundLoaded = true;
       isAssetsLoaded();
     };
-    background.src = "Sprites/menuBG.png";
+    background.src = "Sprites/bakgrunngress.png";
 
     startButton = new Image();
     startButton.onload = function() {
       startButtonLoaded = true;
       isAssetsLoaded();
     };
-    startButton.src = "Sprites/start.png";
+    startButton.src = "Sprites/startButton.png";
   }
 
   if (gameStarted) {
@@ -62,7 +62,7 @@ function MenuLoad() {
         startButton.src = "Sprites/startHover.png";
         startClicked = true;
       } else {
-        startButton.src = "Sprites/start.png";
+        startButton.src = "Sprites/startButton.png";
         startClicked = false;
       }
     });
