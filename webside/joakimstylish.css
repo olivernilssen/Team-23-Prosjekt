@@ -1,50 +1,53 @@
 /* CSS used here will be applied after bootstrap.css */
-html,body {
-  height:100%;
-
+html,
+body {
+  height: 100%;
 }
 
 .first {
-  padding-top:140px;
-  height:150vh;
-  min-height:400px;
-  background-size:cover;
-  background-image:url('joakimbilder/viking.jpg');
+  padding-top: 140px;
+  height: 150vh;
+  min-height: 400px;
+  background-size: cover;
+  background-image: url("joakimbilder/viking.jpg");
 }
 
 .affix {
-  -webkit-transition:padding 0.2s ease-out;
-  -moz-transition:padding 0.2s ease-out;
-  -o-transition:padding 0.2s ease-out;
-  transition:padding 0.2s ease-out;
-
+  -webkit-transition: padding 0.2s ease-out;
+  -moz-transition: padding 0.2s ease-out;
+  -o-transition: padding 0.2s ease-out;
+  transition: padding 0.2s ease-out;
 }
 
 .affix-top {
   /* navbar style at top */
-  background:transparent;
-  border-color:transparent;
+  background: transparent;
+  border-color: transparent;
   padding: 15px;
-  -webkit-transition:all 0.5s ease;
-  -moz-transition:all 0.5s ease;
-  -o-transition:all 0.5s ease;
-  transition:all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
-.affix-top .nav>li>a {
-   color: #000;
+.affix-top .nav > li > a {
+  color: #000;
 }
 
 .affix-top .navbar-collapse {
-   border-color:transparent;
-   box-shadow:initial;
+  border-color: transparent;
+  box-shadow: initial;
 }
 
 section {
-  height:calc(90% - 50px);
+  height: calc(90% - 50px);
   height: 25vh;
 }
 
 .second {
-  background-color: rgb(206,241,158);
+  background-color: rgb(206, 241, 158);
+}
+
+#linkButtons {
+  width: 150px;
 }
