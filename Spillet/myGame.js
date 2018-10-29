@@ -1,6 +1,6 @@
 //MenuLoad ();
 window.onload = function() {
-  MenuLoad();
+  myGame();
 };
 
 function MenuLoad() {
@@ -100,9 +100,10 @@ var myGame = function() {
   var canvas = document.getElementById("ourMap");
   var cantx = canvas.getContext("2d");
 
+  //variabler for å definere spillervinduet vårt, altså en canvas i 2D
   if ($(window).width() < 1367) {
-    cantx.canvas.height = 600;
-    cantx.canvas.width = 600;
+    cantx.canvas.height = 400;
+    cantx.canvas.width = 400;
   }
   if ($(window).width() < 321) {
     cantx.canvas.height = 250;
@@ -277,14 +278,22 @@ var myGame = function() {
   triggerImage.src = "Sprites/trigger.png";
 
   //Arrow Shooter
-  var shooterImage = new Image();
-  shooterImage.onload = function() {
+  var shooterImageRight = new Image();
+  shooterImageRight.onload = function() {
     arrowShooterLastet = true;
-    console.log("skytere lastet");
+    console.log("skyter høyre lastet");
     assetsLoaded();
   };
-  shooterImage.src = "Sprites/arrowtrigger.png";
-
+  shooterImageRight.src = "Sprites/crossbowRight.png";
+  
+  var shooterImageLeft = new Image();
+  shooterImageLeft.onload = function() {
+    arrowShooterLastet = true;
+    console.log("skyter venstre lastet");
+    assetsLoaded();
+  };
+  shooterImageLeft.src = "Sprites/crossbowLeft.png";
+  
   //Arrow
   var arrowImageRight = new Image();
   arrowImageRight.src = "Sprites/NewArrowRight.png";
@@ -397,7 +406,7 @@ var myGame = function() {
           playerImage.src = "Sprites/KongSverreRight2.png";
           player.x += movement;
         } else {
-          playerImage.src = "Sprites/KongSverreRight2.png";
+          playerImage.src = "Sprites/KongSverreRight1.png";
           player.x += movement;
         }
         break;
@@ -415,7 +424,7 @@ var myGame = function() {
           playerImage.src = "Sprites/KongSverreBackWalking2.png";
           player.y -= movement;
         } else {
-          playerImage.src = "Sprites/KongSverreBackWalking2.png";
+          playerImage.src = "Sprites/KongSverreBackWalking1.png";
           player.y -= movement;
         }
         break;
@@ -433,7 +442,8 @@ var myGame = function() {
           playerImage.src = "Sprites/KongSverreFrontWalking2.png";
           player.y += movement;
         } else {
-          playerImage.src = "Sprites/KongSverreFrontWalking2.png";
+          playerImage.src = "Sprites/KongSverreFrontWalking1.png";
+          player.y += movement;
         }
         break;
     }
@@ -531,15 +541,23 @@ var myGame = function() {
         ObjectSizeWid,
         ObjectSizeHei
       );
-
-      cantx.drawImage(
-        shooterImage,
-        shooterObjArray[i].x * ObjectSizeWid,
-        shooterObjArray[i].y * ObjectSizeHei,
-        ObjectSizeWid,
-        ObjectSizeHei
-      );
     }
+
+    cantx.drawImage(
+      shooterImageRight,
+      shooterObjArray[0].x * ObjectSizeWid,
+      shooterObjArray[0].y * ObjectSizeHei,
+      ObjectSizeWid,
+      ObjectSizeHei
+    );
+
+    cantx.drawImage(
+      shooterImageLeft,
+      shooterObjArray[1].x * ObjectSizeWid,
+      shooterObjArray[1].y * ObjectSizeHei,
+      ObjectSizeWid,
+      ObjectSizeHei
+    );
 
     //Draw unmovable objects
     for (var i = 0; i < unMoveObjArray.length; i++) {
@@ -922,8 +940,8 @@ var myGame = function() {
       return;
     }
 
-    arrow_XR -= 0.5;
-    arrow_XL += 0.49;
+    arrow_XR -= cantx.canvas.height / (cantx.canvas.height*2);
+    arrow_XL += cantx.canvas.height / (cantx.canvas.height*2);
 
     if (
       check_col_player(arrow_XR, arrow_Y) ||
