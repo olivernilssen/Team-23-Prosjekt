@@ -373,10 +373,12 @@ var myGame = function() {
 
     switch (direction) {
       case "left":
-        if (playerImage.getAttribute("src") == "KongSverreLeft2.png") {
+        if (playerImage.getAttribute("src") == "Sprites/KongSverreLeft2.png") {
           playerImage.src = "Sprites/KongSverreLeft1.png";
           player.x -= movement;
-        } else if (playerImage.getAttribute("src") == "KongSverreLeft1.png") {
+        } else if (
+          playerImage.getAttribute("src") == "Sprites/KongSverreLeft1.png"
+        ) {
           playerImage.src = "Sprites/KongSverreLeft2.png";
           player.x -= movement;
         } else {
@@ -386,10 +388,12 @@ var myGame = function() {
 
         break;
       case "right":
-        if (playerImage.getAttribute("src") == "KongSverreRight2.png") {
+        if (playerImage.getAttribute("src") == "Sprites/KongSverreRight2.png") {
           playerImage.src = "Sprites/KongSverreRight1.png";
           player.x += movement;
-        } else if (playerImage.getAttribute("src") == "KongSverreRight1.png") {
+        } else if (
+          playerImage.getAttribute("src") == "Sprites/KongSverreRight1.png"
+        ) {
           playerImage.src = "Sprites/KongSverreRight2.png";
           player.x += movement;
         } else {
@@ -398,19 +402,38 @@ var myGame = function() {
         }
         break;
       case "up":
-        if (playerImage.getAttribute("src") == "KongSverreBack.png") {
+        if (
+          playerImage.getAttribute("src") ==
+          "Sprites/KongSverreBackWalking2.png"
+        ) {
+          playerImage.src = "Sprites/KongSverreBackWalking1.png";
+          player.y -= movement;
+        } else if (
+          playerImage.getAttribute("src") ==
+          "Sprites/KongSverreBackWalking1.png"
+        ) {
+          playerImage.src = "Sprites/KongSverreBackWalking2.png";
           player.y -= movement;
         } else {
-          playerImage.src = "Sprites/KongSverreBack.png";
+          playerImage.src = "Sprites/KongSverreBackWalking2.png";
           player.y -= movement;
         }
         break;
       case "down":
-        if (playerImage.getAttribute("src") == "Sprites/KongSverreFront.png") {
+        if (
+          playerImage.getAttribute("src") ==
+          "Sprites/KongSverreFrontWalking2.png"
+        ) {
+          playerImage.src = "Sprites/KongSverreFrontWalking1.png";
+          player.y += movement;
+        } else if (
+          playerImage.getAttribute("src") ==
+          "Sprites/KongSverreFrontWalking1.png"
+        ) {
+          playerImage.src = "Sprites/KongSverreFrontWalking2.png";
           player.y += movement;
         } else {
-          playerImage.src = "Sprites/KongSverreFront.png";
-          player.y += movement;
+          playerImage.src = "Sprites/KongSverreFrontWalking2.png";
         }
         break;
     }
@@ -922,7 +945,8 @@ var myGame = function() {
 
     if (
       check_collision_stones(arrow_XR, arrow_Y, moveObjArray.length + 1) ||
-      check_collision(arrow_XR, arrow_Y)) {
+      check_collision(arrow_XR, arrow_Y)
+    ) {
       rightArrowCol = true;
       arrow_XR = 18;
     }
