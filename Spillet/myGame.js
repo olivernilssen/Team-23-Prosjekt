@@ -434,7 +434,6 @@ var myGame = function() {
           player.y += movement;
         } else {
           playerImage.src = "Sprites/KongSverreFrontWalking2.png";
-          player.y += movement;
         }
         break;
     }
