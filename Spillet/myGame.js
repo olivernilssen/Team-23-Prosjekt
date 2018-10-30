@@ -442,7 +442,11 @@ var myGame = function() {
           playerImage.src = "Sprites/KongSverreFrontWalking2.png";
           player.y += movement;
         } else {
+<<<<<<< HEAD
           playerImage.src = "Sprites/KongSverreFrontWalking1.png";
+=======
+          playerImage.src = "Sprites/KongSverreFrontWalking2.png";
+>>>>>>> parent of f7bd758... Revert "Sprites"
           player.y += movement;
         }
         break;
