@@ -309,7 +309,7 @@ var myGame = function() {
   enemeySprite.onload = function() {
     console.log("Enemy loaded");
   };
-  enemeySprite.src = "Sprites/enemy.png";
+  enemeySprite.src = "Sprites/NewSoldier.png";
   console.log(enemeySprite.width, ObjectSizeHei);
 
   var timer = {
@@ -442,11 +442,7 @@ var myGame = function() {
           playerImage.src = "Sprites/KongSverreFrontWalking2.png";
           player.y += movement;
         } else {
-<<<<<<< HEAD
           playerImage.src = "Sprites/KongSverreFrontWalking1.png";
-=======
-          playerImage.src = "Sprites/KongSverreFrontWalking2.png";
->>>>>>> parent of f7bd758... Revert "Sprites"
           player.y += movement;
         }
         break;
@@ -486,13 +482,11 @@ var myGame = function() {
         moveObjArray[i].y = moveObjArray[i].oldY;
         player.x = hold_player.x;
         player.y = hold_player.y;
-      } else if (
-        moveObjArray[i].x < enemyX + 0.5 &&
-        moveObjArray[i].x > enemyX - 0.5 &&
-        moveObjArray[i].y == enemyY
-      ) {
+
+      } else if (moveObjArray[i].x < enemyX + 0.5 && moveObjArray[i].x > enemyX - 0.5 && moveObjArray[i].y == enemyY) {
         moveObjArray[i].x = moveObjArray[i].oldX;
         moveObjArray[i].y = moveObjArray[i].oldY;
+        
         if (check_collision_stones(player.x, player.y)) {
           player.x = hold_player.x;
           player.y = hold_player.y;
@@ -515,11 +509,12 @@ var myGame = function() {
     console.log("x: " + player.x + " y: " + player.y);
   };
 
-  var spriteSpeed = 1;
-  var arrowSpeed = 0.5;
-  var frameRate = 0;
-  var frameSpeed = 0.5;
-  var maxFrames = 1.5;
+  var spriteDraw = 4;
+  var spriteDrawFrame = 0;
+  var arrowDraw = 0;
+  var arrowDrawFrame = 0;
+
+  var maxFrames = 4;
   var waitArrow = 0;
 
   /**
@@ -538,68 +533,27 @@ var myGame = function() {
 
     //draw triggers for stones and the arrowshooters
     for (var i = 0; i < triggerObjArray.length; i++) {
-      cantx.drawImage(
-        triggerImage,
-        triggerObjArray[i].x * ObjectSizeWid,
-        triggerObjArray[i].y * ObjectSizeHei,
-        ObjectSizeWid,
-        ObjectSizeHei
-      );
+      cantx.drawImage(triggerImage, triggerObjArray[i].x * ObjectSizeWid, triggerObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
-    cantx.drawImage(
-      shooterImageRight,
-      shooterObjArray[0].x * ObjectSizeWid,
-      shooterObjArray[0].y * ObjectSizeHei,
-      ObjectSizeWid,
-      ObjectSizeHei
-    );
+    cantx.drawImage(shooterImageRight, shooterObjArray[0].x * ObjectSizeWid, shooterObjArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
 
-    cantx.drawImage(
-      shooterImageLeft,
-      shooterObjArray[1].x * ObjectSizeWid,
-      shooterObjArray[1].y * ObjectSizeHei,
-      ObjectSizeWid,
-      ObjectSizeHei
-    );
+    cantx.drawImage(shooterImageLeft, shooterObjArray[1].x * ObjectSizeWid, shooterObjArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
 
     //Draw unmovable objects
     for (var i = 0; i < unMoveObjArray.length; i++) {
-      cantx.drawImage(
-        buskImage,
-        unMoveObjArray[i].x * ObjectSizeWid,
-        unMoveObjArray[i].y * ObjectSizeHei,
-        ObjectSizeWid,
-        ObjectSizeHei
-      );
+      cantx.drawImage(buskImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei,ObjectSizeWid, ObjectSizeHei);
       if (i < nykkelObjArray.length) {
-        cantx.drawImage(
-          keyImage,
-          nykkelObjArray[i].x * ObjectSizeWid,
-          nykkelObjArray[i].y * ObjectSizeHei,
-          ObjectSizeWid,
-          ObjectSizeHei
-        );
+        cantx.drawImage(keyImage, nykkelObjArray[i].x * ObjectSizeWid, nykkelObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei
+);
       }
       if (i < moveObjArray.length) {
-        cantx.drawImage(
-          stoneImage,
-          moveObjArray[i].x * ObjectSizeWid,
-          moveObjArray[i].y * ObjectSizeHei,
-          ObjectSizeWid,
-          ObjectSizeHei
-        );
+        cantx.drawImage(stoneImage, moveObjArray[i].x * ObjectSizeWid, moveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
     }
 
     //Draw player
-    cantx.drawImage(
-      playerImage,
-      player.x * ObjectSizeWid,
-      player.y * ObjectSizeHei,
-      ObjectSizeWid,
-      ObjectSizeHei
-    );
+    cantx.drawImage(playerImage, player.x * ObjectSizeWid, player.y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
 
     //keys collected Board
     board();
@@ -607,33 +561,31 @@ var myGame = function() {
     //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
     if (check_Trigger() && keyPickedUp == 3) {
       for (var i = 0; i < gateObjArray.length; i++) {
-        cantx.drawImage(
-          gateImage,
-          gateObjArray[i].x * ObjectSizeWid,
-          gateObjArray[i].y * ObjectSizeHei,
-          ObjectSizeWid,
-          ObjectSizeHei
-        );
+        cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
       winCondition = true;
     } else {
       winCondition = false;
     }
 
-    //set framerate
-    frameRate += frameSpeed;
+  
 
-    //Get new values for the animation position and frames depending on how many
+    //Get new values for the aimation position and frames depending on how many
     // frames has passed since last time it played etc
-    if (frameRate == maxFrames) {
-      frameRate = 0;
+    if (spriteDrawFrame == 5) {
+      spriteDrawFrame = 0;
     }
 
-    if (frameRate == spriteSpeed) {
+    if (arrowDrawFrame == 2) {
+      arrowDrawFrame = 0;
+    }
+
+    if (spriteDrawFrame == spriteDraw) {
       sprite();
+      //thisFrame += 40;
     }
 
-    if (frameRate == arrowSpeed) {
+    if (arrowDrawFrame == arrowDraw) {
       if (leftArrowCol && rightArrowCol) {
         waitArrow++;
 
@@ -649,39 +601,21 @@ var myGame = function() {
         shoot();
       }
     }
+    
+    spriteDrawFrame += 1;
+    arrowDrawFrame++;
 
     //Draw the animations
     if (!rightArrowCol) {
-      cantx.drawImage(
-        arrowImageRight,
-        arrow_XR * ObjectSizeWid,
-        arrow_Y * ObjectSizeHei,
-        ObjectSizeWid,
-        ObjectSizeHei
-      );
+      cantx.drawImage(arrowImageRight, arrow_XR * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
     if (!leftArrowCol) {
-      cantx.drawImage(
-        arrowImageLeft,
-        arrow_XL * ObjectSizeWid,
-        arrow_Y * ObjectSizeHei,
-        ObjectSizeWid,
-        ObjectSizeHei
-      );
+      cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
-    cantx.drawImage(
-      enemeySprite,
-      thisFrame,
-      0,
-      40,
-      40,
-      enemyX * ObjectSizeHei,
-      enemyY * ObjectSizeHei,
-      ObjectSizeWid,
-      ObjectSizeHei
-    );
+    cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
+    //enemyX * ObjectSizeHei, enemyY * ObjectSizeHei
   }
 
   /**
@@ -875,14 +809,13 @@ var myGame = function() {
     }
   }
 
-  var frameSize = 40;
-  var thisFrame = 40;
-  var frameIndex = 0;
+  var spriteFrame = 40;
   var enemyX = 17;
   var enemyY = 4;
   var moveLeft = true;
   var moveRight = false;
-  var enemySpeed = 0.25;
+  var enemySpeed = 0.2;
+  var doubleIndex = 0;
 
   function sprite() {
     if (isGameover) {
@@ -895,38 +828,47 @@ var myGame = function() {
       return;
     }
 
-    frameIndex++;
-
     if (
-      ((check_collision_stones(enemyX - 0.2, enemyY) ||
-        check_collision(enemyX, enemyY)) &&
-        moveLeft) ||
-      enemyX <= 1
-    ) {
-      moveRight = true;
-      moveLeft = false;
+      ((check_collision_stones(enemyX - 0.2, enemyY) || check_collision(enemyX, enemyY)) && moveLeft) || enemyX <= 1) {
+        moveRight = true;
+        moveLeft = false;
     } else if (
-      ((check_collision_stones(enemyX + 1, enemyY) ||
-        check_collision(enemyX, enemyY)) &&
-        moveRight) ||
-      enemyX >= 18
-    ) {
-      moveRight = false;
-      moveLeft = true;
+      ((check_collision_stones(enemyX + 1, enemyY) || check_collision(enemyX, enemyY)) && moveRight) || enemyX >= 18) {
+        moveRight = false;
+        moveLeft = true;
     }
-
-    if (frameIndex == 6) {
-      frameIndex = 0;
-      thisFrame = 40;
-    } else {
       if (moveLeft) {
         enemyX -= enemySpeed;
+        if(spriteFrame == 0 && doubleIndex == 1)
+        {
+          spriteFrame = 0;
+          doubleIndex++;
+        }
+        else if (spriteFrame == 0){
+          spriteFrame = 40;
+          doubleIndex = 0;
+        }
+        else {
+          spriteFrame = 0;
+          doubleIndex++;
+        }
+
       } else if (moveRight) {
         enemyX += enemySpeed;
+        if(spriteFrame == 80 && doubleIndex == 1)
+        {
+          spriteFrame = 80;
+          doubleIndex++;
+        }
+        else if (spriteFrame == 80){
+          spriteFrame = 120;
+          doubleIndex = 0;
+        }
+        else {
+          spriteFrame = 80;
+          doubleIndex++;
+        }
       }
-
-      thisFrame += frameSize;
-    }
   }
 
   //To check collision of arrows
