@@ -2,16 +2,6 @@ export let Level2 = function() {
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
 
-  //letiabler for å definere spillervinduet vårt, altså en canvas i 2D
-  if ($(window).width() < 1367) {
-    cantx.canvas.height = 400;
-    cantx.canvas.width = 400;
-  }
-  if ($(window).width() < 321) {
-    cantx.canvas.height = 250;
-    cantx.canvas.width = 250;
-  }
-
   let wid = canvas.offsetWidth;
   let hig = canvas.offsetHeight;
 
@@ -21,13 +11,11 @@ export let Level2 = function() {
   let spillerLastet = false;
   let keysLastet = false;
   let steinerLastet = false;
-  //let arrowLastet2 = false;
-  //let arrowLastet1 = false;
   let arrowShooterLastet = false;
   let triggerLastet = false;
 
   let winCondition = false;
-  let level1Started = false;
+  let level2Started = false;
 
   //letiabler for gåfart, scoring og offsets.
   let speed = 10;
@@ -40,7 +28,7 @@ export let Level2 = function() {
 
   let arrow_XR = 18;
   let arrow_XL = 1;
-  let arrow_Y = 9;
+  let arrow_Y = 8;
 
   //Funksjon for hva elementet moveable object inneholder
   function mittElement(x, y) {
@@ -57,41 +45,50 @@ export let Level2 = function() {
   //Liste med objekter som kan plukkes opp
   let nykkelObjArray = [];
   //Liste med objekter som kan steiner kan stå på
-  let triggerObjArray = [];
+  let stoneTriggers = [];
   //Liste over hvor gaten er
   let gateObjArray = [];
 
   let arrowObjArray = [];
-  let shooterObjArray = [];
+  let crossbowArray = [];
 
   function makeArrays() {
     //Arrows
     arrowObjArray.push(new mittElement(arrow_XR, arrow_Y));
     arrowObjArray.push(new mittElement(arrow_XL, arrow_Y));
-    //Arrows
-    shooterObjArray.push(new mittElement(18, 9));
-    shooterObjArray.push(new mittElement(1, 9));
+    //Crossbows
+    crossbowArray.push(new mittElement(18, 8));
+    crossbowArray.push(new mittElement(1, 8));
 
     //Objekter som har en slags "trigger"
-    triggerObjArray.push(new mittElement(9, 14));
-    triggerObjArray.push(new mittElement(10, 14));
-    triggerObjArray.push(new mittElement(10, 15));
+    stoneTriggers.push(new mittElement(9, 14));
+    stoneTriggers.push(new mittElement(10, 14));
+    stoneTriggers.push(new mittElement(10, 15));
+    stoneTriggers.push(new mittElement(5, 1));
+    stoneTriggers.push(new mittElement(9, 1));
 
     //Gate objekt som kommer på slutten
     gateObjArray.push(new mittElement(10, 12));
+    gateObjArray.push(new mittElement(6, 0));
+    gateObjArray.push(new mittElement(7, 0));
     gateObjArray.push(new mittElement(8, 0));
-    gateObjArray.push(new mittElement(9, 0));
-    gateObjArray.push(new mittElement(10, 0));
 
     //Nykkel objekter
-    nykkelObjArray.push(new mittElement(8, 7));
-    nykkelObjArray.push(new mittElement(9, 7));
-    nykkelObjArray.push(new mittElement(10, 7));
+    nykkelObjArray.push(new mittElement(9, 8));
+    nykkelObjArray.push(new mittElement(11, 8));
 
     //Steiner som kan dyttes
     moveObjArray.push(new mittElement(11, 14));
     moveObjArray.push(new mittElement(10, 16));
     moveObjArray.push(new mittElement(11, 16));
+    
+    moveObjArray.push(new mittElement(4, 12));
+    moveObjArray.push(new mittElement(4, 13));
+    moveObjArray.push(new mittElement(4, 14));
+
+    moveObjArray.push(new mittElement(16, 13));
+    moveObjArray.push(new mittElement(16, 14));
+    moveObjArray.push(new mittElement(16, 15));
 
 
     //barrikaden hoyre, topp og venstre side
@@ -106,7 +103,9 @@ export let Level2 = function() {
           (x == 8 && (y > 11 && y < 15)) ||
           (x == 7 && (y > 13 && y < 18)) ||
           ((x > 7 && x < 11) && y == 17) ||
-          (x == 10 && y == 18)
+          (x == 10 && y == 18) ||
+          ((x > 7 && x < 13) && y == 9) ||
+          (x == 10 && (y > 6 && y < 9))
         ) {
           unMoveObjArray.push(new mittElement(x, y));
         }
@@ -116,7 +115,11 @@ export let Level2 = function() {
     //ramme rundt nivået
     for (let x = 0; x < ObjectSizeWid; x++) {
       for (let y = 0; y < ObjectSizeHei; y++) {
-        if (x == 0 || y == 0 || (x < 11 && y == 19) || (x > 11 && y == 19) || (x == 19 && y < 20)) {
+        if (((x > 0 && x < 6) && y == 0) || 
+        ((x > 8 && x < 20) && y == 0) ||
+        (x == 0 && y < 19) || 
+        (x < 11 && y == 19) || 
+        (x > 11 && y == 19) || (x == 19 && y < 20)) {
           unMoveObjArray.push(new mittElement(x, y));
         }
       }
@@ -396,9 +399,13 @@ export let Level2 = function() {
         player.x = hold_player.x;
         player.y = hold_player.y;
 
-      } else if (moveObjArray[i].x < enemyX + 0.5 && moveObjArray[i].x > enemyX - 0.5 && moveObjArray[i].y == enemyY) {
+      } else if (moveObjArray[i].x < enemy1_Y + 0.5 && moveObjArray[i].x > enemy1_X - 0.5 && moveObjArray[i].y == enemy1_Y) {
         moveObjArray[i].x = moveObjArray[i].oldX;
         moveObjArray[i].y = moveObjArray[i].oldY;
+      
+      } else if (moveObjArray[i].x < enemy2_X + 0.5 && moveObjArray[i].x > enemy2_X - 0.5 && moveObjArray[i].y == enemy2_Y) {
+      moveObjArray[i].x = moveObjArray[i].oldX;
+      moveObjArray[i].y = moveObjArray[i].oldY;
         
         if (check_collision_stones(player.x, player.y)) {
           player.x = hold_player.x;
@@ -446,13 +453,13 @@ export let Level2 = function() {
     cantx.drawImage(gateImage, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
 
     //draw triggers for stones and the arrowshooters
-    for (let i = 0; i < triggerObjArray.length; i++) {
-      cantx.drawImage(triggerImage, triggerObjArray[i].x * ObjectSizeWid, triggerObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+    for (let i = 0; i < stoneTriggers.length; i++) {
+      cantx.drawImage(triggerImage, stoneTriggers[i].x * ObjectSizeWid, stoneTriggers[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
-    cantx.drawImage(shooterImageRight, shooterObjArray[0].x * ObjectSizeWid, shooterObjArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+    cantx.drawImage(shooterImageRight, crossbowArray[0].x * ObjectSizeWid, crossbowArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
 
-    cantx.drawImage(shooterImageLeft, shooterObjArray[1].x * ObjectSizeWid, shooterObjArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
+    cantx.drawImage(shooterImageLeft, crossbowArray[1].x * ObjectSizeWid, crossbowArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
 
     //Draw unmovable objects
     for (let i = 0; i < unMoveObjArray.length; i++) {
@@ -495,7 +502,8 @@ export let Level2 = function() {
     }
 
     if (spriteDrawFrame == spriteDraw) {
-      sprite();
+      sprite(1);
+      sprite(2)
       //thisFrame += 40;
     }
 
@@ -516,7 +524,7 @@ export let Level2 = function() {
       }
     }
     
-    spriteDrawFrame += 1;
+    spriteDrawFrame ++;
     arrowDrawFrame++;
 
     //Draw the animations
@@ -528,7 +536,8 @@ export let Level2 = function() {
       cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
-    cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
+    cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemy1_X * ObjectSizeHei, enemy1_Y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
+    cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemy2_X * ObjectSizeHei, enemy2_Y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
     //enemyX * ObjectSizeHei, enemyY * ObjectSizeHei
   }
 
@@ -549,13 +558,12 @@ export let Level2 = function() {
 
     //Check collision for bushes
     for (let i = 0; i < unMoveObjArray.length; i++) {
-      //(x == unMoveObjArray[i].x && y == unMoveObjArray[i].y)
       if (
         (x == unMoveObjArray[i].x && y == unMoveObjArray[i].y) ||
         (x == 1 && y == 9) ||
         (x == 18 && y == 9)
       ) {
-        console.log("There is something there");
+        //console.log("There is something there");
         foundCollision = true;
       }
     }
@@ -643,15 +651,15 @@ export let Level2 = function() {
 
     for (let i = 0; i < moveObjArray.length; i++) {
       if (
-        moveObjArray[i].x == triggerObjArray[0].x &&
-        moveObjArray[i].y == triggerObjArray[0].y
+        moveObjArray[i].x == stoneTriggers[0].x &&
+        moveObjArray[i].y == stoneTriggers[0].y
       ) {
         checkCount++;
       }
 
       if (
-        moveObjArray[i].x == triggerObjArray[1].x &&
-        moveObjArray[i].y == triggerObjArray[1].y
+        moveObjArray[i].x == stoneTriggers[1].x &&
+        moveObjArray[i].y == stoneTriggers[1].y
       ) {
         checkCount++;
       }
@@ -712,26 +720,43 @@ export let Level2 = function() {
       arrowShooterLastet == true &&
       triggerLastet == true &&
       steinerLastet == true &&
-      !level1Started &&
+      !level2Started &&
       gameOver
     ) {
       shoot();
       startTimer();
       resetTimer();
-      level1Started = true;
+      level2Started = true;
       requestAnimationFrame(update);
     }
   }
 
   let spriteFrame = 40;
-  let enemyX = 17;
-  let enemyY = 4;
+  let enemy1_X = 17;
+  let enemy1_Y = 7;
+  let enemy2_X = 2;
+  let enemy2_Y = 7;
   let moveLeft = true;
   let moveRight = false;
   let enemySpeed = 0.2;
   let doubleIndex = 0;
 
-  function sprite() {
+  let enemyX;
+  let enemyY;
+    
+
+  function sprite(soldier) {
+
+    if(soldier == 1)
+      {
+        enemyX - enemy1_X;
+        enemyY = enemy1_Y;
+      }
+      else if (soldier == 2){
+        enemyX = enemy2_X;
+        enemyY = enemy2_Y;
+      } 
+
     if (isGameover) {
       return;
     }
@@ -742,6 +767,7 @@ export let Level2 = function() {
       return;
     }
 
+    //FIKS MOVERIGHT OG LEFT MED FORSKJELLIGE X OG Y KOORDINATOR
     if (
       ((check_collision_stones(enemyX - 0.2, enemyY) || check_collision(enemyX, enemyY)) && moveLeft) || enemyX <= 1) {
         moveRight = true;
@@ -751,8 +777,16 @@ export let Level2 = function() {
         moveRight = false;
         moveLeft = true;
     }
+
       if (moveLeft) {
-        enemyX -= enemySpeed;
+        if(soldier == 1){
+          enemy1_X -= enemySpeed;
+        }
+        else if (soldier == 2)
+        {
+          enemy2_X -= enemySpeed;
+        }
+
         if(spriteFrame == 0 && doubleIndex == 1)
         {
           spriteFrame = 0;
@@ -768,7 +802,14 @@ export let Level2 = function() {
         }
 
       } else if (moveRight) {
-        enemyX += enemySpeed;
+        if(soldier == 1){
+          enemy1_X += enemySpeed;
+        }
+        else if (soldier == 2)
+        {
+          enemy2_X += enemySpeed;
+        }
+
         if(spriteFrame == 80 && doubleIndex == 1)
         {
           spriteFrame = 80;
@@ -782,7 +823,7 @@ export let Level2 = function() {
           spriteFrame = 80;
           doubleIndex++;
         }
-      }
+      } 
   }
 
   //To check collision of arrows
@@ -884,8 +925,8 @@ export let Level2 = function() {
       moveObjArray.length = 0;
       unMoveObjArray.length = 0;
       nykkelObjArray.length = 0;
-      shooterObjArray.length = 0;
-      triggerObjArray.length = 0;
+      crossbowArray.length = 0;
+      stoneTriggers.length = 0;
       gateObjArray.length = 0;
       keyPickedUp = 0;
       isGameover = false;

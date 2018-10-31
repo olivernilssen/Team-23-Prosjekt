@@ -1,8 +1,8 @@
-import { Level2 } from './map.js';
+import { Level2 } from './Level2.js';
 
 //MenuLoad ();
 window.onload = function() {
-  MenuLoad();
+  Level2();
 };
 
 function MenuLoad() {
@@ -72,7 +72,7 @@ function MenuLoad() {
     $("#ourMap").click(function() {
       console.log("clicked on canvas");
       if (startClicked == true) {
-        myGame();
+        Level1();
         gameStarted = true;
         $(window).unbind("mousemove");
         $("#ourMap").unbind("click");
@@ -98,7 +98,7 @@ function MenuLoad() {
   }
 }
 
-let myGame = function() {
+let Level1 = function() {
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
 
@@ -304,7 +304,7 @@ let myGame = function() {
 
   //Gate
   let gateImage = new Image();
-  gateImage.src = "Sprites/gate.png";
+  gateImage.src = "Sprites/NewGate.png";
 
   let enemeySprite = new Image();
   enemeySprite.onload = function() {
@@ -560,7 +560,7 @@ let myGame = function() {
     board();
 
     //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
-    if (!check_Trigger() && keyPickedUp == 0) {
+    if (check_Trigger() && keyPickedUp == 3 && !playerDead) {
       for (let i = 0; i < gateObjArray.length; i++) {
         cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
@@ -875,6 +875,7 @@ let myGame = function() {
   //To check collision of arrows
   let leftArrowCol = false;
   let rightArrowCol = false;
+  let playerDead = false;
 
   /**
    * Function for when the arrows are beeing shot
@@ -895,6 +896,7 @@ let myGame = function() {
       check_col_player(arrow_XL, arrow_Y)
     ) {
       //if there is a collision with the player, gameOver() is called
+      playerDead = true;
       gameOver();
       return;
     }
@@ -934,7 +936,7 @@ let myGame = function() {
   function gameOver() {
     isGameover = true;
 
-    if (winCondition) {
+    if (winCondition && !playerDead) {
       myTime = timer.seconds;
       clearInterval(timer.clearTime);
       scoreCalc();
@@ -942,7 +944,8 @@ let myGame = function() {
       $(".myScore").text(myScore);
       window.cancelAnimationFrame(update);
       setTimeout(Level2(), 1000);
-    } else {
+
+    } else if(playerDead){
       window.cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
       cantx.drawImage(gameOverImage, 150, 100);
