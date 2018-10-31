@@ -1,0 +1,115 @@
+/* CSS used here will be applied after bootstrap.css */
+body {
+  height: 100%;
+  background-color: black;
+  padding-top: 100px;
+}
+
+.first {
+  background-size: cover;
+  background-image: url('Spillet.PNG');
+  background-repeat: no-repeat;
+  background-size: 80%auto;
+  background-attachment: fixed;
+  background-position: center;
+  opacity:1;
+}
+
+.affix {
+  -webkit-transition: padding 0.2s ease-out;
+  -moz-transition: padding 0.2s ease-out;
+  -o-transition: padding 0.2s ease-out;
+  transition: padding 0.2s ease-out;
+  background-color: green;
+}
+
+.affix-top {
+  /* navbar style at top */
+  background: transparent;
+  border-color: transparent;
+  padding: 15px;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.affix-top .nav > li > a {
+  color: #000;
+}
+
+.affix-top .navbar-collapse {
+  border-color: transparent;
+  box-shadow: initial;
+}
+
+section {
+  height: calc(90% - 50px);
+  height: 25vh;
+}
+
+.second {
+  background-color:#040E08;
+}
+
+#linkButtons {
+  width: 150px;
+}
+#PlayGame {
+  text-align: center;
+}
+#content2{
+  background-color: #2c2f33;
+  color: white;
+
+}
+.gameInfo {
+  padding-left: 75px;
+}
+.gameInfo {
+  display: inline-block;
+  vertical-align: top
+}
+.myScore {
+  padding-left: 220px;
+}
+.timer {
+  padding-left:220px;
+}
+#buttons {
+  margin: 0 auto;
+}
+.button {
+    background-color: #13572F;
+    border: none;
+    color: #ffffff;
+    padding: 15px 32px;
+    margin-top: 115px;
+    text-decoration: none;
+    float: left;
+    margin-left: 0px;
+    font-size: 16px
+
+}
+.button:hover {
+  background-color:yellow;
+  color:black;
+}
+#controls{
+background-color: #E6F911;
+color:#23272a;
+
+}
+.resetButton {
+  background-color: #13572F;
+  border: none;
+  color: #ffffff;
+  padding: 15px 32px;
+  text-decoration: none;
+  font-size: 16px
+
+}
+.Score {
+  padding-left: 100px;
+  color:white;
+}
