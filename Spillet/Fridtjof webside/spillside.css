@@ -1,0 +1,122 @@
+
+{
+
+    margin: 0;
+    padding: 0;
+}
+html{
+  margin-left:0px;
+  margin-top:0px;
+  margin-right:0px;
+  background-color: #2c2f33;
+}
+header
+{
+    height:150px;
+    background-size: cover;
+    background-position:center;
+
+}
+canvas {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+
+}
+.main-nav
+{
+  float:right;
+  list-style:none;
+  margin-top: 0px;
+  background-color: #7289da;
+  height:100px;
+  width:1400px;
+
+}
+.main-nav li
+{
+    display: inline-block;
+    padding-right: 120px;
+    padding-left: 30px;
+    padding-top: 30px;
+}
+.main-nav li a
+{
+    color:#ffffff;
+    text-decoration: none;
+    padding: 5px 20px;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+}
+
+#hjemheader {
+  color: red;
+  font-size:80px;
+}
+
+.center-div {
+text-align: center;
+}
+.myScore {
+  color: white;
+}
+.timer {
+  color:white;
+}
+.bigHeader {
+  color: #99aab5;
+  text-align: center;
+}
+.howtoplay {
+  color:white;
+  padding:40px 20px;
+}
+
+.creditsbig {
+  font-size: 150%;
+  text-align: center;
+  color:white;
+}
+.creditssmall {
+  font-size:: 10px;
+  text-align: center;
+  color:white;
+}
+.longtext {
+  padding-left: 30px;
+  font-size: 20px;
+  text-align: center;
+  color:white;
+  padding-right: 50px;
+  line-height: 1.6;
+}
+.button {
+    background-color: #7289da;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    margin-left: 40px;
+    text-decoration: none;
+    display: inline-block;
+    float: left;
+    margin-right: 0px;
+    font-size: 16px;
+}
+.button:hover {
+  background-color:#99aab5
+}
+#howto {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+#buttons {
+  margin: 0 auto;
+  display: table;
+}
+#controls {
+  background-color:#99aab5;
+}
