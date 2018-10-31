@@ -940,6 +940,7 @@ var myGame = function() {
       var myScore = "Your score was: " + String(score);
       $(".myScore").text(myScore);
       window.cancelAnimationFrame(update);
+      document.getElementsByClassName("gameClass").src = "map.js"
     } else {
       window.cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
