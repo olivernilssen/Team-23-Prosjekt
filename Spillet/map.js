@@ -1,13 +1,8 @@
-//MenuLoad ();
-window.onload = function() {
-  myGame();
-};
+export let Level2 = function() {
+  let canvas = document.getElementById("ourMap");
+  let cantx = canvas.getContext("2d");
 
-function MenuLoad() {
-  var canvas = document.getElementById("ourMap");
-  var cantx = canvas.getContext("2d");
-
-  //variabler for å definere spillervinduet vårt, altså en canvas i 2D
+  //letiabler for å definere spillervinduet vårt, altså en canvas i 2D
   if ($(window).width() < 1367) {
     cantx.canvas.height = 400;
     cantx.canvas.width = 400;
@@ -17,129 +12,35 @@ function MenuLoad() {
     cantx.canvas.width = 250;
   }
 
-  var background;
-  var startButton;
+  let wid = canvas.offsetWidth;
+  let hig = canvas.offsetHeight;
 
-  var backgroundLoaded = false;
-  var startButtonLoaded = false;
-  var startClicked = false;
-  var gameStarted = false;
+  //letiabler for å sjekke om at bilder og elementer er lastet inn i scenen.
+  let bakgrunnLastet = false;
+  let bushLastet = false;
+  let spillerLastet = false;
+  let keysLastet = false;
+  let steinerLastet = false;
+  //let arrowLastet2 = false;
+  //let arrowLastet1 = false;
+  let arrowShooterLastet = false;
+  let triggerLastet = false;
 
-  var startButtonHeight = cantx.canvas.width / 6;
-  var startButtonWidth = cantx.canvas.width / 2;
+  let winCondition = false;
+  let level1Started = false;
 
-  var STB_x = cantx.canvas.width / 2 - startButtonWidth / 2;
-  var STB_y = cantx.canvas.height / 2 - startButtonHeight / 2;
+  //letiabler for gåfart, scoring og offsets.
+  let speed = 10;
+  let myTime = 0;
+  let score = 0;
+  let keyPickedUp = 0;
+  let modifier = 10;
+  let ObjectSizeWid = wid / 20;
+  let ObjectSizeHei = hig / 20;
 
-  loadAssets();
-
-  function loadAssets() {
-    background = new Image();
-    background.onload = function() {
-      backgroundLoaded = true;
-      isAssetsLoaded();
-    };
-    background.src = "Sprites/bakgrunngress.png";
-
-    startButton = new Image();
-    startButton.onload = function() {
-      startButtonLoaded = true;
-      isAssetsLoaded();
-    };
-    startButton.src = "Sprites/startButton.png";
-  }
-
-  if (gameStarted) {
-  } else {
-    $(window).mousemove(function(event) {
-      if (
-        event.clientX > STB_x &&
-        event.clientX < STB_x + startButtonWidth &&
-        (event.clientY > STB_y && event.clientY < STB_y + startButtonHeight) &&
-        !gameStarted
-      ) {
-        console.log("Over button");
-        startButton.src = "Sprites/startButtonHover.png";
-        startClicked = true;
-      } else {
-        startButton.src = "Sprites/startButton.png";
-        startClicked = false;
-      }
-    });
-
-    $("#ourMap").click(function() {
-      console.log("clicked on canvas");
-      if (startClicked == true) {
-        myGame();
-        gameStarted = true;
-        $(window).unbind("mousemove");
-        $("#ourMap").unbind("click");
-      }
-    });
-  }
-
-  function startMenuupdate() {
-    cantx.drawImage(background, 0, 0);
-    cantx.drawImage(
-      startButton,
-      STB_x,
-      STB_y,
-      startButtonWidth,
-      startButtonHeight
-    );
-  }
-
-  function isAssetsLoaded() {
-    if (backgroundLoaded == true && startButtonLoaded == true) {
-      startMenuupdate();
-    }
-  }
-}
-
-var myGame = function() {
-  var canvas = document.getElementById("ourMap");
-  var cantx = canvas.getContext("2d");
-
-  //variabler for å definere spillervinduet vårt, altså en canvas i 2D
-  if ($(window).width() < 1367) {
-    cantx.canvas.height = 400;
-    cantx.canvas.width = 400;
-  }
-  if ($(window).width() < 321) {
-    cantx.canvas.height = 250;
-    cantx.canvas.width = 250;
-  }
-
-  var wid = canvas.offsetWidth;
-  var hig = canvas.offsetHeight;
-
-  //Variabler for å sjekke om at bilder og elementer er lastet inn i scenen.
-  var bakgrunnLastet = false;
-  var bushLastet = false;
-  var spillerLastet = false;
-  var keysLastet = false;
-  var keysLastet = false;
-  var steinerLastet = false;
-  //var arrowLastet2 = false;
-  //var arrowLastet1 = false;
-  var arrowShooterLastet = false;
-  var triggerLastet = false;
-
-  var winCondition = false;
-  var level1Started = false;
-
-  //variabler for gåfart, scoring og offsets.
-  var speed = 10;
-  var myTime = 0;
-  var score = 0;
-  var keyPickedUp = 0;
-  var modifier = 10;
-  var ObjectSizeWid = wid / 20;
-  var ObjectSizeHei = hig / 20;
-
-  var arrow_XR = 18;
-  var arrow_XL = 1;
-  var arrow_Y = 9;
+  let arrow_XR = 18;
+  let arrow_XL = 1;
+  let arrow_Y = 9;
 
   //Funksjon for hva elementet moveable object inneholder
   function mittElement(x, y) {
@@ -150,18 +51,18 @@ var myGame = function() {
   }
 
   //Liste med objekter som kan beveges
-  var moveObjArray = [];
+  let moveObjArray = [];
   //Liste med objekter som IKKE kan beveges
-  var unMoveObjArray = [];
+  let unMoveObjArray = [];
   //Liste med objekter som kan plukkes opp
-  var nykkelObjArray = [];
+  let nykkelObjArray = [];
   //Liste med objekter som kan steiner kan stå på
-  var triggerObjArray = [];
+  let triggerObjArray = [];
   //Liste over hvor gaten er
-  var gateObjArray = [];
+  let gateObjArray = [];
 
-  var arrowObjArray = [];
-  var shooterObjArray = [];
+  let arrowObjArray = [];
+  let shooterObjArray = [];
 
   function makeArrays() {
     //Arrows
@@ -194,8 +95,8 @@ var myGame = function() {
 
 
     //barrikaden hoyre, topp og venstre side
-    for (var x = 0; x <= 20; x++) {
-      for (var y = 0; y <= 20; y++) {
+    for (let x = 0; x <= 20; x++) {
+      for (let y = 0; y <= 20; y++) {
         if (
           (x == 12 && (y > 11 && y < 15)) ||
           (x == 13 && (y > 13 && y < 19)) ||
@@ -213,8 +114,8 @@ var myGame = function() {
     }
 
     //ramme rundt nivået
-    for (var x = 0; x < ObjectSizeWid; x++) {
-      for (var y = 0; y < ObjectSizeHei; y++) {
+    for (let x = 0; x < ObjectSizeWid; x++) {
+      for (let y = 0; y < ObjectSizeHei; y++) {
         if (x == 0 || y == 0 || (x < 11 && y == 19) || (x > 11 && y == 19) || (x == 19 && y < 20)) {
           unMoveObjArray.push(new mittElement(x, y));
         }
@@ -228,10 +129,10 @@ var myGame = function() {
   //Laste alle bilder og elementer inn og definer dem
   //Terraine bilde / Bakgrunns bilde
 
-  var gameOverImage = new Image();
+  let gameOverImage = new Image();
   gameOverImage.src = "Sprites/gameover.png";
 
-  var terrainImage = new Image();
+  let terrainImage = new Image();
   terrainImage.onload = function() {
     bakgrunnLastet = true;
     console.log("bakgrunn lastet");
@@ -240,7 +141,7 @@ var myGame = function() {
   terrainImage.src = "Sprites/bakgrunngress.png";
 
   //Spiller bilde
-  var playerImage = new Image();
+  let playerImage = new Image();
   playerImage.onload = function() {
     spillerLastet = true;
     console.log("spiller lastet");
@@ -249,7 +150,7 @@ var myGame = function() {
   playerImage.src = "Sprites/KongSverreFront.png";
 
   //PickupItem
-  var keyImage = new Image();
+  let keyImage = new Image();
   keyImage.onload = function() {
     keysLastet = true;
     console.log("keys lastet");
@@ -258,7 +159,7 @@ var myGame = function() {
   keyImage.src = "Sprites/nøkkel.gif";
 
   //Stein
-  var stoneImage = new Image();
+  let stoneImage = new Image();
   stoneImage.onload = function() {
     steinerLastet = true;
     console.log("steiner lastet");
@@ -267,7 +168,7 @@ var myGame = function() {
   stoneImage.src = "Sprites/stone.png";
 
   //Stein
-  var buskImage = new Image();
+  let buskImage = new Image();
   buskImage.onload = function() {
     bushLastet = true;
     console.log("busker lastet");
@@ -276,7 +177,7 @@ var myGame = function() {
   buskImage.src = "Sprites/Busk4.png";
 
   //Triggers
-  var triggerImage = new Image();
+  let triggerImage = new Image();
   triggerImage.onload = function() {
     triggerLastet = true;
     console.log("triggers lastet");
@@ -285,7 +186,7 @@ var myGame = function() {
   triggerImage.src = "Sprites/trigger.png";
 
   //Arrow Shooter
-  var shooterImageRight = new Image();
+  let shooterImageRight = new Image();
   shooterImageRight.onload = function() {
     arrowShooterLastet = true;
     console.log("skyter høyre lastet");
@@ -293,7 +194,7 @@ var myGame = function() {
   };
   shooterImageRight.src = "Sprites/crossbowRight.png";
   
-  var shooterImageLeft = new Image();
+  let shooterImageLeft = new Image();
   shooterImageLeft.onload = function() {
     arrowShooterLastet = true;
     console.log("skyter venstre lastet");
@@ -302,30 +203,30 @@ var myGame = function() {
   shooterImageLeft.src = "Sprites/crossbowLeft.png";
   
   //Arrow
-  var arrowImageRight = new Image();
+  let arrowImageRight = new Image();
   arrowImageRight.src = "Sprites/NewArrowRight.png";
 
-  var arrowImageLeft = new Image();
+  let arrowImageLeft = new Image();
   arrowImageLeft.src = "Sprites/NewArrowLeft.png";
 
   //Gate
-  var gateImage = new Image();
+  let gateImage = new Image();
   gateImage.src = "Sprites/NewGate.png";
 
-  var enemeySprite = new Image();
+  let enemeySprite = new Image();
   enemeySprite.onload = function() {
     console.log("Enemy loaded");
   };
   enemeySprite.src = "Sprites/NewSoldier.png";
   console.log(enemeySprite.width, ObjectSizeHei);
 
-  var timer = {
+  let timer = {
     seconds: 0,
     minutes: 0,
     clearTime: -1
   };
 
-  var startTimer = function() {
+  let startTimer = function() {
     if (timer.seconds === 59) {
       timer.minutes++;
       timer.seconds = 0;
@@ -334,14 +235,14 @@ var myGame = function() {
     }
 
     // Ensure that single digit seconds are preceded with a 0
-    var formattedSec = "0";
+    let formattedSec = "0";
     if (timer.seconds < 10) {
       formattedSec += timer.seconds;
     } else {
       formattedSec = String(timer.seconds);
     }
 
-    var time = String(timer.minutes) + ":" + formattedSec;
+    let time = String(timer.minutes) + ":" + formattedSec;
     $(".timer").text(time);
   };
 
@@ -361,10 +262,10 @@ var myGame = function() {
    * I have also incuded an object to hold the sprite position of each movement so i can call them
    * I also included the move function in order to move the player - all the functionality for the movement is in there
    */
-  //Gjør variabelen for spiller og hinder objektet globalt, slik at du kan hente det fra flere plasser i scriptet.
-  var hold_player;
+  //Gjør letiabelen for spiller og hinder objektet globalt, slik at du kan hente det fra flere plasser i scriptet.
+  let hold_player;
 
-  var player = {
+  let player = {
     x: 11,
     y: 19
   };
@@ -377,7 +278,7 @@ var myGame = function() {
 
     //a function to keep the movable objects current position before it is potentially moved. The oldX and oldY values are used it the box collides
     // so as to stop then from moving forward, but rather keep the old position.
-    for (var i = 0; i < moveObjArray.length; i++) {
+    for (let i = 0; i < moveObjArray.length; i++) {
       moveObjArray[i].oldX = moveObjArray[i].x;
       moveObjArray[i].oldY = moveObjArray[i].y;
     }
@@ -385,7 +286,7 @@ var myGame = function() {
     /**
      * Decide here the direction of the user and do the neccessary changes on the directions
      */
-    var movement = speed / modifier;
+    let movement = speed / modifier;
 
     switch (direction) {
       case "left":
@@ -458,7 +359,7 @@ var myGame = function() {
     /**
      * Moves the hinder if the player is going on the same spot that the hinder is on
      */
-    for (var i = 0; i < moveObjArray.length; i++) {
+    for (let i = 0; i < moveObjArray.length; i++) {
       if (player.x == moveObjArray[i].x && player.y == moveObjArray[i].y) {
         console.log(
           "moving stone " +
@@ -485,7 +386,7 @@ var myGame = function() {
       player.y = hold_player.y;
     }
 
-    for (var i = 0; i < moveObjArray.length; i++) {
+    for (let i = 0; i < moveObjArray.length; i++) {
       if (
         check_collision(moveObjArray[i].x, moveObjArray[i].y) ||
         check_collision_stones(moveObjArray[i].x, moveObjArray[i].y, i)
@@ -509,7 +410,7 @@ var myGame = function() {
     /**
      * If player finds the coordinates of keyitem
      */
-    for (var i = 0; i < nykkelObjArray.length; i++) {
+    for (let i = 0; i < nykkelObjArray.length; i++) {
       if (player.x == nykkelObjArray[i].x && player.y == nykkelObjArray[i].y) {
         console.log("found a key!");
         keyPickedUp += 1;
@@ -521,13 +422,13 @@ var myGame = function() {
     console.log("x: " + player.x + " y: " + player.y);
   };
 
-  var spriteDraw = 4;
-  var spriteDrawFrame = 0;
-  var arrowDraw = 0;
-  var arrowDrawFrame = 0;
+  let spriteDraw = 4;
+  let spriteDrawFrame = 0;
+  let arrowDraw = 0;
+  let arrowDrawFrame = 0;
 
-  var maxFrames = 4;
-  var waitArrow = 0;
+  let maxFrames = 4;
+  let waitArrow = 0;
 
   /**
    * Handle all the updates of the canvas and creates the objects
@@ -545,7 +446,7 @@ var myGame = function() {
     cantx.drawImage(gateImage, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
 
     //draw triggers for stones and the arrowshooters
-    for (var i = 0; i < triggerObjArray.length; i++) {
+    for (let i = 0; i < triggerObjArray.length; i++) {
       cantx.drawImage(triggerImage, triggerObjArray[i].x * ObjectSizeWid, triggerObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
@@ -554,7 +455,7 @@ var myGame = function() {
     cantx.drawImage(shooterImageLeft, shooterObjArray[1].x * ObjectSizeWid, shooterObjArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
 
     //Draw unmovable objects
-    for (var i = 0; i < unMoveObjArray.length; i++) {
+    for (let i = 0; i < unMoveObjArray.length; i++) {
       cantx.drawImage(buskImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei,ObjectSizeWid, ObjectSizeHei);
       if (i < nykkelObjArray.length) {
         cantx.drawImage(keyImage, nykkelObjArray[i].x * ObjectSizeWid, nykkelObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei
@@ -573,7 +474,7 @@ var myGame = function() {
 
     //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
     if (check_Trigger() && keyPickedUp == 3) {
-      for (var i = 0; i < gateObjArray.length; i++) {
+      for (let i = 0; i < gateObjArray.length; i++) {
         cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
       winCondition = true;
@@ -641,13 +542,13 @@ var myGame = function() {
 
   //Sjekker kollisjonen på, kanten av mappen, busker og steiner med andre steiner
   function check_collision(x, y) {
-    var foundCollision = false;
+    let foundCollision = false;
 
     x = Math.floor(x);
     y = Math.floor(y);
 
     //Check collision for bushes
-    for (var i = 0; i < unMoveObjArray.length; i++) {
+    for (let i = 0; i < unMoveObjArray.length; i++) {
       //(x == unMoveObjArray[i].x && y == unMoveObjArray[i].y)
       if (
         (x == unMoveObjArray[i].x && y == unMoveObjArray[i].y) ||
@@ -660,7 +561,7 @@ var myGame = function() {
     }
 
     if (winCondition) {
-      for (var i = 0; i < gateObjArray.length; i++) {
+      for (let i = 0; i < gateObjArray.length; i++) {
         if (x == gateObjArray[i].x && gateObjArray[i].y == y) {
           update();
           gameOver();
@@ -681,18 +582,18 @@ var myGame = function() {
    * @name check_collision_stones
    * */
   function check_collision_stones(x, y, j) {
-    var foundCollision = false;
+    let foundCollision = false;
 
     x = Math.floor(x);
     y = Math.floor(y);
 
-    for (var i = 0; i < nykkelObjArray.length; i++) {
+    for (let i = 0; i < nykkelObjArray.length; i++) {
       if (x == nykkelObjArray[i].x && y == nykkelObjArray[i].y) {
         return (foundCollision = true);
       }
     }
 
-    for (var i = 0; i < moveObjArray.length; i++) {
+    for (let i = 0; i < moveObjArray.length; i++) {
       if (x == moveObjArray[i].x && y == moveObjArray[i].y) {
         if (i == j) {
           continue;
@@ -715,9 +616,9 @@ var myGame = function() {
    * @name check_col_player
    * */
   function check_col_player(x, y) {
-    var foundCollision = false;
-    var newX = Math.floor(x);
-    //var newXL = Math.floor(arrow_XL);
+    let foundCollision = false;
+    let newX = Math.floor(x);
+    //let newXL = Math.floor(arrow_XL);
 
     if (
       (newX == player.x && y == player.y) ||
@@ -737,10 +638,10 @@ var myGame = function() {
    * @name check_Trigger
    * */
   function check_Trigger() {
-    var checkCount = 0;
-    var bothTriggered = false;
+    let checkCount = 0;
+    let bothTriggered = false;
 
-    for (var i = 0; i < moveObjArray.length; i++) {
+    for (let i = 0; i < moveObjArray.length; i++) {
       if (
         moveObjArray[i].x == triggerObjArray[0].x &&
         moveObjArray[i].y == triggerObjArray[0].y
@@ -764,7 +665,7 @@ var myGame = function() {
   }
 
   /**
-   * Funksjon for å flytte på hinderet, alt etter hvor spilleren var plassert FØR dem begynte kom vedsiden av elementet
+   * Funksjon for å flytte på hinderet, alt etter hvor spilleren let plassert FØR dem begynte kom vedsiden av elementet
    * @function
    * @name shoot
    * */
@@ -822,13 +723,13 @@ var myGame = function() {
     }
   }
 
-  var spriteFrame = 40;
-  var enemyX = 17;
-  var enemyY = 4;
-  var moveLeft = true;
-  var moveRight = false;
-  var enemySpeed = 0.2;
-  var doubleIndex = 0;
+  let spriteFrame = 40;
+  let enemyX = 17;
+  let enemyY = 4;
+  let moveLeft = true;
+  let moveRight = false;
+  let enemySpeed = 0.2;
+  let doubleIndex = 0;
 
   function sprite() {
     if (isGameover) {
@@ -885,8 +786,8 @@ var myGame = function() {
   }
 
   //To check collision of arrows
-  var leftArrowCol = false;
-  var rightArrowCol = false;
+  let leftArrowCol = false;
+  let rightArrowCol = false;
 
   /**
    * Function for when the arrows are beeing shot
@@ -931,8 +832,8 @@ var myGame = function() {
 
   //SCORING SYSTEM
   function scoreCalc() {
-    var points = 1000 / 60;
-    var pointsTime = myTime * points;
+    let points = 1000 / 60;
+    let pointsTime = myTime * points;
     score = 1000 - pointsTime;
     score = Math.floor(score);
   }
@@ -941,7 +842,7 @@ var myGame = function() {
    * Game over function (NOT WORKING PROPERLY YET.)
    * @todo Do something with canvas when player dies.
    */
-  var isGameover = false;
+  let isGameover = false;
 
   function gameOver() {
     isGameover = true;
@@ -950,7 +851,7 @@ var myGame = function() {
       myTime = timer.seconds;
       clearInterval(timer.clearTime);
       scoreCalc();
-      var myScore = "Your score was: " + String(score);
+      let myScore = "Your score was: " + String(score);
       $(".myScore").text(myScore);
       window.cancelAnimationFrame(update);
     } else {
