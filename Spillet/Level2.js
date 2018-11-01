@@ -38,7 +38,7 @@ export let Level2 = function() {
     this.oldY = y;
   }
 
-  function mittElement(x, y) {
+  function soldierElement(x, y) {
     this.x = x;
     this.y = y;
     this.oldX = x;
