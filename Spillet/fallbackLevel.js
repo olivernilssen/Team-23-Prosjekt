@@ -1,4 +1,4 @@
-import { loadLevel2 } from './Level2.js';
+
 
 //MenuLoad ();
 window.onload = function() {
@@ -943,7 +943,7 @@ let Level1 = function() {
       let myScore = "Your score was: " + String(score);
       $(".myScore").text(myScore);
       window.cancelAnimationFrame(update);
-      setTimeout(loadLevel2(), 1000);
+      //SetTimeout(loadLevel2(), 1000);
 
     } else if(playerDead){
       window.cancelAnimationFrame(update);

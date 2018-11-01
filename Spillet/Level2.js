@@ -1,4 +1,7 @@
-export let Level2 = function() {
+
+
+export let loadLevel2 = function() {
+
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
 
@@ -38,7 +41,7 @@ export let Level2 = function() {
     this.oldY = y;
   }
 
-  function soldierElement(x, y) {
+  function SoldierElement(x, y) {
     this.x = x;
     this.y = y;
     this.oldX = x;
