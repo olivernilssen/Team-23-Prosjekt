@@ -2,7 +2,7 @@ import { Level2 } from './Level2.js';
 
 //MenuLoad ();
 window.onload = function() {
-  MenuLoad();
+  Level1();
 };
 
 function MenuLoad() {
@@ -286,7 +286,7 @@ let Level1 = function() {
     assetsLoaded();
   };
   shooterImageRight.src = "Sprites/crossbowRight.png";
-  
+
   let shooterImageLeft = new Image();
   shooterImageLeft.onload = function() {
     arrowShooterLastet = true;
@@ -294,7 +294,7 @@ let Level1 = function() {
     assetsLoaded();
   };
   shooterImageLeft.src = "Sprites/crossbowLeft.png";
-  
+
   //Arrow
   let arrowImageRight = new Image();
   arrowImageRight.src = "Sprites/NewArrowRight.png";
@@ -487,7 +487,7 @@ let Level1 = function() {
       } else if (moveObjArray[i].x < enemyX + 0.5 && moveObjArray[i].x > enemyX - 0.5 && moveObjArray[i].y == enemyY) {
         moveObjArray[i].x = moveObjArray[i].oldX;
         moveObjArray[i].y = moveObjArray[i].oldY;
-        
+
         if (check_collision_stones(player.x, player.y)) {
           player.x = hold_player.x;
           player.y = hold_player.y;
@@ -569,7 +569,7 @@ let Level1 = function() {
       winCondition = false;
     }
 
-  
+
 
     //Get new values for the aimation position and frames depending on how many
     // frames has passed since last time it played etc
@@ -602,7 +602,7 @@ let Level1 = function() {
         shoot();
       }
     }
-    
+
     spriteDrawFrame += 1;
     arrowDrawFrame++;
 

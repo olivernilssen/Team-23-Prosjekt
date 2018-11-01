@@ -10,7 +10,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="buttons.js"></script>
-  <link rel="stylesheet" href="joakimstylish.css">
+  <link rel="stylesheet" href="play.css">
 
   </head>
   <body class=>
@@ -42,31 +42,31 @@
   </div>
 </div><!-- /.navbar -->
 <div class="row">
-<div class="gameInfo">
-</div>
+<div class="centerwrapper">
   <div class="gameInfo">
     <canvas id="ourMap" width="600" height="600">
-      <script src="myGame.js"></script>
+      <script src="Level1.js" type='module'></script>
     </canvas>
     <br>
   </div>
   <div class="gameInfo">
   </div>
   <div class="gameInfo">
-    <img src="sprites/Controls.png" id="howto">
+    <img src="controls.png" width="400" height="400" id="howto">
   </div>
   <div class="gameInfo">
     <div id="buttons">
       <button class="button" id="controls" onclick="controls()"> Controls </button> <br>
       <button class="button" id="items" onclick="items()"> Items </button> <br>
-      <button class="button" id="enemies" onclick="enemies()"> Enemies </button>
+      <button class="button" id="enemies" onclick="enemies()"> Enemies </button> <br>
     </div>
   </div> <br>
-  <div class="Score">
+  </div>
+</div>
+<div class="Score">
   <span class="myScore">Din Score kommer her</span><br>
 
   <span class="timer">0:00</span>
   <button class="resetButton" type="button" id="reset">Reset Game</button>
-  </div>
   </body>
 </html>
