@@ -1,7 +1,7 @@
 /* CSS used here will be applied after bootstrap.css */
 body {
   height: 100%;
-  background: url("bakgrunn team23.png");
+  background: url("websidefiler/bakgrunn team23.png");
   background-size: 100%;
   padding-top: 10%;
   overflow-y:hidden;
@@ -11,7 +11,7 @@ body {
 
 .first {
   background-size: cover;
-  background-image: url('Spillet.PNG');
+  background-image: url('websidefiler/Spillet.PNG');
   background-repeat: no-repeat;
   background-size:100%;
   background-attachment: fixed;
@@ -46,18 +46,13 @@ body {
   box-shadow: initial;
 }
 
-section {
-  height: calc(90% - 50px);
-  height: 25vh;
-}
-
 .second {
   background-color:#040E08;
   text-align: center;
 }
 
 #linkButtons {
-  width:70%;
+  width:75%;
 }
 #PlayGame {
   align-items: center;
@@ -90,22 +85,21 @@ section {
     margin-left: 0%;
     font-size: 120%;
   }
-.button:hover {
-  background-color:yellow;
-  color:black;
-}
 #controls {
-background-color: #E6F911;
+background-color: #2FD474;
 color:#23272a;
 }
 .resetButton {
-  background-color: #13572F;
+  background-color: #0E4023;
   border: none;
   color: #ffffff;
   padding: 1% 2%;
   text-decoration: none;
   font-size: 120%;
-
+}
+.resetButton:hover {
+  background-color:#2FD474;
+  color:black;
 }
 .Score {
   padding-left: 15%;

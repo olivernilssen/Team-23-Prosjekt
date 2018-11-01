@@ -7,10 +7,12 @@ body {
 
 .first {
   background-size: cover;
-  background-image: url('bakgrunn team23.png');
+  background-image: url('websidefiler/bakgrunn team23.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  margin-left: auto;
+  margin-right: auto;
   opacity:0.8;
   height:1200px;
   Width:1200px;
@@ -61,7 +63,7 @@ section {
   padding-left: 1%;
 }
 .linkButtons {
-  width: 50%;
+  width: 75%;
   /* 150px istedenfor */
 }
 #PlayGame {
