@@ -38,6 +38,13 @@ export let Level2 = function() {
     this.oldY = y;
   }
 
+  function mittElement(x, y) {
+    this.x = x;
+    this.y = y;
+    this.oldX = x;
+    this.oldY = y;
+  }
+
   //Liste med objekter som kan beveges
   let moveObjArray = [];
   //Liste med objekter som IKKE kan beveges
