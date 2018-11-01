@@ -33,6 +33,9 @@ function MenuLoad() {
   let STB_x = cantx.canvas.width / 2 - startButtonWidth / 2;
   let STB_y = cantx.canvas.height / 2 - startButtonHeight / 2;
 
+  let offLeft = canvas.offsetLeft;
+  let offTop = canvas.offsetTop;
+
   loadAssets();
 
   function loadAssets() {
@@ -53,11 +56,9 @@ function MenuLoad() {
 
   if (gameStarted) {
   } else {
-    $(window).mousemove(function(event) {
-      if (
-        event.clientX > STB_x &&
-        event.clientX < STB_x + startButtonWidth &&
-        (event.clientY > STB_y && event.clientY < STB_y + startButtonHeight) &&
+    $(cantx.canvas).mousemove(function(event) {
+      if ((event.clientX > offLeft + STB_x && event.clientX < offLeft + STB_x + startButtonWidth) &&
+        (event.clientY > offTop + STB_y && event.clientY < offTop + STB_y + startButtonHeight) &&
         !gameStarted
       ) {
         console.log("Over button");
