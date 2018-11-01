@@ -1,15 +1,19 @@
 /* CSS used here will be applied after bootstrap.css */
 body {
   height: 100%;
-  background-color: black;
-  padding-top: 100px;
+  background: url("bakgrunn team23.png");
+  background-size: 100%;
+  padding-top: 10%;
+  overflow-y:hidden;
+  overflow-x: hidden;
+
 }
 
 .first {
   background-size: cover;
   background-image: url('Spillet.PNG');
   background-repeat: no-repeat;
-  background-size: 1100px 1100px;
+  background-size:100%;
   background-attachment: fixed;
   background-position: center;
   opacity:1;
@@ -26,7 +30,7 @@ body {
   /* navbar style at top */
   background: transparent;
   border-color: transparent;
-  padding: 15px;
+  padding: 1.5%;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -53,7 +57,7 @@ section {
 }
 
 #linkButtons {
-  width: 150px;
+  width:70%;
 }
 #PlayGame {
   align-items: center;
@@ -65,27 +69,26 @@ section {
 }
 .row {
   text-align:center;
+  padding-left: 5%;
 }
 .gameInfo {
   float: left;
   display:inline-block;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 100px;
-}
-#buttons {
+  padding-left: 5%;
 }
 .button {
     background-color: #13572F;
     border: none;
     color: #ffffff;
-    width:200%;
+    width:150%;
     height:60px;
     margin-top:50%;
     text-decoration: none;
     float: left;
-    margin-left: 0px;
-    font-size: 16px
+    margin-left: 0%;
+    font-size: 120%;
   }
 .button:hover {
   background-color:yellow;
@@ -99,13 +102,13 @@ color:#23272a;
   background-color: #13572F;
   border: none;
   color: #ffffff;
-  padding: 15px 32px;
+  padding: 1% 2%;
   text-decoration: none;
-  font-size: 16px
+  font-size: 120%;
 
 }
 .Score {
-  padding-left: 100px;
+  padding-left: 15%;
   color:white;
 }
 
