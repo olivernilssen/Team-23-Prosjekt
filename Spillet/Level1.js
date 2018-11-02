@@ -2,7 +2,7 @@ import { loadLevel2 } from './Level2.js';
 
 //MenuLoad ();
 window.onload = function() {
-  MenuLoad();
+  loadLevel2();
 };
 
 function MenuLoad() {

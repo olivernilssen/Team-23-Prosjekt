@@ -46,6 +46,9 @@ export let loadLevel2 = function() {
     this.y = y;
     this.oldX = x;
     this.oldY = y;
+    this.moveRight = false;
+    this.spriteFrameON;
+    this.spriteIndex;
   }
 
   //Liste med objekter som kan beveges
@@ -61,6 +64,7 @@ export let loadLevel2 = function() {
 
   let arrowObjArray = [];
   let crossbowArray = [];
+  let soldierArray = [];
 
   function makeArrays() {
     //Arrows
@@ -99,6 +103,9 @@ export let loadLevel2 = function() {
     moveObjArray.push(new mittElement(16, 13));
     moveObjArray.push(new mittElement(16, 14));
     moveObjArray.push(new mittElement(16, 15));
+
+    soldierArray.push(new SoldierElement(1, 7, 1, 7, true, 0));
+    soldierArray.push(new SoldierElement(18, 7, 18, 7, false, 80));
 
 
     //barrikaden hoyre, topp og venstre side
@@ -460,8 +467,12 @@ export let loadLevel2 = function() {
     requestAnimationFrame(update);
 
     cantx.drawImage(terrainImage, 0, 0); //draw background
-    cantx.drawImage(gateImage, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
-
+    
+    // for(let i = 0; gateObjArray.length; i++)
+    // {
+    //   cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
+    // }
+  
     //draw triggers for stones and the arrowshooters
     for (let i = 0; i < stoneTriggers.length; i++) {
       cantx.drawImage(triggerImage, stoneTriggers[i].x * ObjectSizeWid, stoneTriggers[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
@@ -512,8 +523,8 @@ export let loadLevel2 = function() {
     }
 
     if (spriteDrawFrame == spriteDraw) {
-      sprite(1);
-      sprite(2)
+      sprite(0);
+      sprite(1)
       //thisFrame += 40;
     }
 
@@ -546,8 +557,8 @@ export let loadLevel2 = function() {
       cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
-    cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemy1_X * ObjectSizeHei, enemy1_Y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
-    cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemy2_X * ObjectSizeHei, enemy2_Y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
+    cantx.drawImage(enemeySprite, soldierArray[0].spriteFrameON, 0, 40, 40, soldierArray[0].x * ObjectSizeHei, soldierArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
+    cantx.drawImage(enemeySprite, soldierArray[1].spriteFrameON, 0, 40, 40, soldierArray[1].x * ObjectSizeHei, soldierArray[1].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
     //enemyX * ObjectSizeHei, enemyY * ObjectSizeHei
   }
 
@@ -742,96 +753,75 @@ export let loadLevel2 = function() {
   }
 
   let spriteFrame = 40;
-  let enemy1_X = 17;
-  let enemy1_Y = 7;
-  let enemy2_X = 2;
-  let enemy2_Y = 7;
-  let moveLeft = true;
-  let moveRight = false;
+
   let enemySpeed = 0.2;
-  let doubleIndex = 0;
 
-  let enemyX;
-  let enemyY;
-    
-
-  function sprite(soldier) {
-
-    if(soldier == 1)
-      {
-        enemyX - enemy1_X;
-        enemyY = enemy1_Y;
-      }
-      else if (soldier == 2){
-        enemyX = enemy2_X;
-        enemyY = enemy2_Y;
-      } 
+  function sprite(i) {
 
     if (isGameover) {
       return;
     }
 
-    if (check_col_player(enemyX + 0.5, enemyY)) {
+    if (check_col_player(soldierArray[i].x + 0.5, soldierArray[i].y)) {
       //if there is a collision with the player, gameOver() is called
       gameOver();
       return;
     }
 
     //FIKS MOVERIGHT OG LEFT MED FORSKJELLIGE X OG Y KOORDINATOR
-    if (
-      ((check_collision_stones(enemyX - 0.2, enemyY) || check_collision(enemyX, enemyY)) && moveLeft) || enemyX <= 1) {
-        moveRight = true;
-        moveLeft = false;
-    } else if (
-      ((check_collision_stones(enemyX + 1, enemyY) || check_collision(enemyX, enemyY)) && moveRight) || enemyX >= 18) {
-        moveRight = false;
-        moveLeft = true;
-    }
+      if (
+        (check_collision_stones(soldierArray[i].x - 0.2, soldierArray[i].y) || 
+        (check_collision(soldierArray[i].x, soldierArray[i].y)) && !soldierArray[i].moveRight) || 
+        soldierArray[i].x <= 1 ||
+        (check_collision(soldierArray[i].x - 0.2, soldierArray[i].y))) {
 
-      if (moveLeft) {
-        if(soldier == 1){
-          enemy1_X -= enemySpeed;
-        }
-        else if (soldier == 2)
-        {
-          enemy2_X -= enemySpeed;
-        }
+          soldierArray[i].moveRight = true;
 
-        if(spriteFrame == 0 && doubleIndex == 1)
+      } else if (
+        (check_collision_stones(soldierArray[i].x + 1, soldierArray[i].y) || 
+        (check_collision(soldierArray[i].x + 1, soldierArray[i].y)) && soldierArray[i].moveRight) || 
+        soldierArray[i].x >= 18) {
+
+          soldierArray[i].moveRight = false;
+      }
+
+      if (!soldierArray[i].moveRight) {
+        
+        soldierArray[i].x -= enemySpeed;
+        
+        if(soldierArray[i].spriteFrameON == 0 && soldierArray[i].spriteIndex == 1)
         {
-          spriteFrame = 0;
-          doubleIndex++;
+          soldierArray[i].spriteFrameON = 0;
+          soldierArray[i].spriteIndex++;
         }
-        else if (spriteFrame == 0){
-          spriteFrame = 40;
-          doubleIndex = 0;
+        else if (soldierArray[i].spriteFrameON == 0){
+          soldierArray[i].spriteFrameON = 40;
+          soldierArray[i].spriteIndex = 0;
+          soldierArray[i].spriteIndex++;
         }
         else {
-          spriteFrame = 0;
-          doubleIndex++;
+          soldierArray[i].spriteFrameON = 0;
+          soldierArray[i].spriteIndex++;
         }
 
-      } else if (moveRight) {
-        if(soldier == 1){
-          enemy1_X += enemySpeed;
-        }
-        else if (soldier == 2)
+      } else if (soldierArray[i].moveRight) {
+        
+        soldierArray[i].x += enemySpeed;
+
+        if(soldierArray[i].spriteFrameON == 80 && soldierArray[i].spriteIndex == 1)
         {
-          enemy2_X += enemySpeed;
+          soldierArray[i].spriteFrameON = 80;
+          soldierArray[i].spriteIndex++;
         }
 
-        if(spriteFrame == 80 && doubleIndex == 1)
-        {
-          spriteFrame = 80;
-          doubleIndex++;
-        }
-        else if (spriteFrame == 80){
-          spriteFrame = 120;
-          doubleIndex = 0;
+        else if (soldierArray[i].spriteFrameON == 80){
+          soldierArray[i].spriteFrameON = 120;
+          soldierArray[i].spriteIndex = 0;
+          soldierArray[i].spriteIndex++;
         }
         else {
-          spriteFrame = 80;
-          doubleIndex++;
+          soldierArray[i].spriteFrameON = 80;
+          soldierArray[i].spriteIndex++;
         }
       } 
   }
