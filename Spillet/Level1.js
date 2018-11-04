@@ -1,11 +1,16 @@
 import { loadLevel2 } from './Level2.js';
-export let score = 0;
+export let score = 0; //Score value is export, so it can be used in Level 2 aswell 
 
-//MenuLoad ();
 window.onload = function() {
-  Level1();
+  loadLevel2();
 };
 
+
+/**
+   * Function to draw the loading screen for the menu at the start of the game 
+   * @function
+   * @name MenuLoad ()
+   */
 function MenuLoad() {
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
@@ -100,6 +105,11 @@ function MenuLoad() {
   }
 }
 
+/**
+   * State to Level 1, hold all the coordinates and values of different objects
+   * @function
+   * @name Level1
+   */
 let Level1 = function() {
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
@@ -493,25 +503,25 @@ let Level1 = function() {
 
     /**
      * If player finds the coordinates of keyitem
+     * then move it out of the canvas and increase the amount of picked up items
      */
     for (let i = 0; i < keyobjectArray.length; i++) {
       if (player.x == keyobjectArray[i].x && player.y == keyobjectArray[i].y) {
         console.log("found a key!");
         keyPickedUp += 1;
         //Midlertidig, fjernes fra canvaset
-        keyobjectArray[i].x = 20;
-        keyobjectArray[i].y = 20;
+        keyobjectArray[i].x = 0;
+        keyobjectArray[i].y = 0;
       }
     }
     console.log("x: " + player.x + " y: " + player.y);
   };
 
+  // values to handle the drawing of arrows and soldiers, so they have different times etc
   let spriteDraw = 4;
   let spriteDrawFrame = 0;
   let arrowDraw = 0;
   let arrowDrawFrame = 0;
-
-  let maxFrames = 4;
   let waitArrow = 0;
 
   /**
@@ -528,15 +538,13 @@ let Level1 = function() {
 
     cantx.drawImage(terrainImage, 0, 0); //draw background
 
-    //draw triggers for stones and the arrowshooters
     for (let i = 0; i < stoneTriggerArray.length; i++) {
       cantx.drawImage(triggerImage, stoneTriggerArray[i].x * ObjectSizeWid, stoneTriggerArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
     cantx.drawImage(crossbowRightImage, crossbowArray[0].x * ObjectSizeWid, crossbowArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
 
-    cantx.drawImage(crossbowLeftImage
-  , crossbowArray[1].x * ObjectSizeWid, crossbowArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
+    cantx.drawImage(crossbowLeftImage, crossbowArray[1].x * ObjectSizeWid, crossbowArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
 
     //Draw unmovable objects
     for (let i = 0; i < unMoveObjArray.length; i++) {
@@ -600,7 +608,7 @@ let Level1 = function() {
       }
     }
 
-    spriteDrawFrame += 1;
+    spriteDrawFrame ++;
     arrowDrawFrame++;
 
     //Draw the animations
@@ -646,7 +654,7 @@ let Level1 = function() {
 
     if (winCondition) {
       for (let i = 0; i < gateObjArray.length; i++) {
-        if (x == gateObjArray[i].x && gateObjArray[i].y == y) {
+        if (x == gateObjArray[i].x && y == gateObjArray[i].y) {
           update();
           gameOver();
           return (foundCollision = false);
@@ -747,11 +755,15 @@ let Level1 = function() {
 
     return bothTriggered;
   }
+  
 
   /**
    * Funksjon for å flytte på hinderet, alt etter hvor spilleren let plassert FØR dem begynte kom vedsiden av elementet
    * @function
-   * @name shoot
+   * @param {Integer} x - The x axis
+   * @param {Integer} y - The y axis
+   * @param {Integer} i - index of the stone that is being checked
+   * @name moveHinder
    * */
   function moveHinder(x, y, i) {
     if (hold_player.x > x && hold_player.y == y) {
@@ -815,6 +827,13 @@ let Level1 = function() {
   let enemySpeed = 0.2;
   let doubleIndex = 0;
 
+  
+  /**
+   * The function that controls the movement of the enemy solider 
+   * Checks collisions and changes the frame and x or y axis of soldier
+   * @function
+   * @name Sprite
+   */
   function sprite() {
     if (isGameover) {
       return;
@@ -927,7 +946,9 @@ let Level1 = function() {
 
   /**
    * Game over function (NOT WORKING PROPERLY YET.)
-   * @todo Do something with canvas when player dies.
+   * Stops the frames, moved to next level or has a popup for when player has died
+   * @function 
+   * @name gameOver()
    */
   let isGameover = false;
 
@@ -964,6 +985,14 @@ let Level1 = function() {
     else if (e.keyCode == "40" || e.keyCode == "83") player.move("down");
   });
 
+
+  /**
+   * What happens when player clicks the reset button
+   * Resets all arrays, but keeps the timer the same 
+   * Restarts the update frames functions
+   * @function
+   * @name onclick
+   */
   $("#reset").click(function() {
     if (winCondition) {
     } else {
