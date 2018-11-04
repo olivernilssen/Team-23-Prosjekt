@@ -1,4 +1,4 @@
-
+import { score } from './Level1.js';
 
 export let loadLevel2 = function() {
 
@@ -23,7 +23,7 @@ export let loadLevel2 = function() {
   //letiabler for gåfart, scoring og offsets.
   let speed = 10;
   let myTime = 0;
-  let score = 0;
+  let lv2Score = score;
   let keyPickedUp = 0;
   let modifier = 10;
   let ObjectSizeWid = wid / 20;
@@ -764,6 +764,7 @@ export let loadLevel2 = function() {
 
     if (check_col_player(soldierArray[i].x + 0.5, soldierArray[i].y)) {
       //if there is a collision with the player, gameOver() is called
+      playerDead = true;
       gameOver();
       return;
     }
@@ -875,7 +876,7 @@ export let loadLevel2 = function() {
   function scoreCalc() {
     let points = 1000 / 60;
     let pointsTime = myTime * points;
-    score = 1000 - pointsTime;
+    score += (1000 - pointsTime);
     score = Math.floor(score);
   }
 
