@@ -468,10 +468,10 @@ export let loadLevel2 = function() {
 
     cantx.drawImage(terrainImage, 0, 0); //draw background
     
-    // for(let i = 0; gateObjArray.length; i++)
-    // {
-    //   cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
-    // }
+    for(let i = 0; i < gateObjArray.length; i++)
+    {
+      cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
+    }
   
     //draw triggers for stones and the arrowshooters
     for (let i = 0; i < stoneTriggers.length; i++) {
