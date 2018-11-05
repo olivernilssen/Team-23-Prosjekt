@@ -2,7 +2,7 @@ import { loadLevel2 } from './Level2.js';
 export let score = 0; //Score value is export, so it can be used in Level 2 aswell 
 
 window.onload = function() {
-  loadLevel2();
+  MenuLoad();
 };
 
 
@@ -57,7 +57,7 @@ function MenuLoad() {
       startButtonLoaded = true;
       isAssetsLoaded();
     };
-    startButton.src = "Sprites/startButton.png";
+    startButton.src = "Sprites/startB.png";
   }
 
   if (gameStarted) {
@@ -68,10 +68,10 @@ function MenuLoad() {
         !gameStarted
       ) {
         console.log("Over button");
-        startButton.src = "Sprites/startButtonHover.png";
+        startButton.src = "Sprites/startBH.png";
         startClicked = true;
       } else {
-        startButton.src = "Sprites/startButton.png";
+        startButton.src = "Sprites/startB.png";
         startClicked = false;
       }
     });
