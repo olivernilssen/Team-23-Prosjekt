@@ -438,8 +438,8 @@ export let loadLevel2 = function() {
         console.log("found a key!");
         keyPickedUp++;
         //Midlertidig, fjernes fra canvaset
-        keyitemArray[i].x = 20;
-        keyitemArray[i].y = 20;
+        keyobjectArray[i].x = i;
+        keyobjectArray[i].y = 19;
       }
     }
     console.log("x: " + player.x + " y: " + player.y);
@@ -490,12 +490,14 @@ export let loadLevel2 = function() {
     //Draw unmovable objects
     for (let i = 0; i < unMoveObjArray.length; i++) {
       cantx.drawImage(buskImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei,ObjectSizeWid, ObjectSizeHei);
-      if (i < keyitemArray.length) {
-        cantx.drawImage(keyImage, keyitemArray[i].x * ObjectSizeWid, keyitemArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-      }
       if (i < moveObjArray.length) {
         cantx.drawImage(stoneImage, moveObjArray[i].x * ObjectSizeWid, moveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
+    }
+
+    for(let i = 0; i < keyitemArray.length; i++)
+    {
+      cantx.drawImage(keyImage, keyitemArray[i].x * ObjectSizeWid, keyitemArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
     //Draw player
@@ -523,7 +525,6 @@ export let loadLevel2 = function() {
     if (spriteDrawFrame == spriteDraw) {
       sprite(0);
       sprite(1)
-      //thisFrame += 40;
     }
 
     if (arrowDrawFrame == arrowDraw) {

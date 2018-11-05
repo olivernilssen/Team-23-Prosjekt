@@ -2,7 +2,7 @@ import { loadLevel2 } from './Level2.js';
 export let score = 0; //Score value is export, so it can be used in Level 2 aswell 
 
 window.onload = function() {
-  Level1();
+  MenuLoad();
 };
 
 
@@ -219,7 +219,7 @@ let Level1 = function() {
     //ramme rundt nivået
     for (let x = 0; x < ObjectSizeWid; x++) {
       for (let y = 0; y < ObjectSizeHei; y++) {
-        if (x == 0 || y == 0 || (x < 20 && y == 19) || (x == 19 && y < 20)) {
+        if ((x < 8 && y == 0) || (x > 10 && y == 0) || (x == 0 && y < 20) || (x < 20 && y == 19) || (x == 19 && y < 20)) {
           unMoveObjArray.push(new aElement(x, y));
         }
       }
@@ -508,10 +508,10 @@ let Level1 = function() {
     for (let i = 0; i < keyobjectArray.length; i++) {
       if (player.x == keyobjectArray[i].x && player.y == keyobjectArray[i].y) {
         console.log("found a key!");
-        keyPickedUp += 1;
+        keyPickedUp++;
         //Midlertidig, fjernes fra canvaset
-        keyobjectArray[i].x = 0;
-        keyobjectArray[i].y = 0;
+        keyobjectArray[i].x = i;
+        keyobjectArray[i].y = 19;
       }
     }
     console.log("x: " + player.x + " y: " + player.y);
@@ -549,26 +549,25 @@ let Level1 = function() {
     //Draw unmovable objects
     for (let i = 0; i < unMoveObjArray.length; i++) {
       cantx.drawImage(bushImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei,ObjectSizeWid, ObjectSizeHei);
-      if (i < keyobjectArray.length) {
-        cantx.drawImage(keyImage, keyobjectArray[i].x * ObjectSizeWid, keyobjectArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei
-);
-      }
       if (i < moveObjArray.length) {
         cantx.drawImage(stoneImage, moveObjArray[i].x * ObjectSizeWid, moveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
     }
 
+    for(let i = 0; i < keyobjectArray.length; i++)
+    {
+      cantx.drawImage(keyImage, keyobjectArray[i].x * ObjectSizeWid, keyobjectArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+    }
+
     //Draw player
     cantx.drawImage(playerImage, player.x * ObjectSizeWid, player.y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
 
-    //keys collected Board
-    board();
+    for (let i = 0; i < gateObjArray.length; i++) {
+      cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+    }
 
     //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
     if (check_Trigger() && keyPickedUp == 3 && !playerDead) {
-      for (let i = 0; i < gateObjArray.length; i++) {
-        cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-      }
       winCondition = true;
     } else {
       winCondition = false;
@@ -661,6 +660,15 @@ let Level1 = function() {
         }
       }
     }
+    else 
+    {
+      for (let i = 0; i < gateObjArray.length; i++) {
+        if (x == gateObjArray[i].x && y == gateObjArray[i].y) {
+          return (foundCollision = true);
+        }
+      }
+    }
+
     return foundCollision;
   }
 
