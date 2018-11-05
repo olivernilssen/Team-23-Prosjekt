@@ -2,7 +2,7 @@ import { loadLevel2 } from './Level2.js';
 export let score = 0; //Score value is export, so it can be used in Level 2 aswell 
 
 window.onload = function() {
-  loadLevel2();
+  Level1();
 };
 
 

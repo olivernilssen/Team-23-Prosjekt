@@ -27,6 +27,7 @@ export let loadLevel2 = function() {
   let modifier = 10;
   let ObjectSizeWid = wid / 20;
   let ObjectSizeHei = hig / 20;
+  let scoreLvl2 = score;
 
   let arrow_XR = 18;
   let arrow_XL = 1;
@@ -435,7 +436,7 @@ export let loadLevel2 = function() {
     for (let i = 0; i < keyitemArray.length; i++) {
       if (player.x == keyitemArray[i].x && player.y == keyitemArray[i].y) {
         console.log("found a key!");
-        keyPickedUp += 1;
+        keyPickedUp++;
         //Midlertidig, fjernes fra canvaset
         keyitemArray[i].x = 20;
         keyitemArray[i].y = 20;
@@ -464,10 +465,19 @@ export let loadLevel2 = function() {
 
     cantx.drawImage(terrainImage, 0, 0); //draw background
     
-    for(let i = 0; i < gateObjArray.length; i++)
-    {
-      cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
+    if(firstTriggers == 3){
+      for(let i = 1; i < gateObjArray.length; i++)
+      {
+        cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
+      }
     }
+    else {
+      for(let i = 0; i < gateObjArray.length; i++)
+      {
+        cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
+      }
+    }
+    
   
     //draw triggers for stones and the arrowshooters
     for (let i = 0; i < stoneTriggers.length; i++) {
@@ -475,7 +485,6 @@ export let loadLevel2 = function() {
     }
 
     cantx.drawImage(crossbowImageRight, crossbowArray[0].x * ObjectSizeWid, crossbowArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-
     cantx.drawImage(crossbowLeftImage, crossbowArray[1].x * ObjectSizeWid, crossbowArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
 
     //Draw unmovable objects
@@ -572,26 +581,30 @@ export let loadLevel2 = function() {
         //console.log("There is something there");
         foundCollision = true;
       }
-    } 
-
+    }
     if (winCondition) {
-      for (let i = 0; i < gateObjArray.length; i++) {
-        if (x == gateObjArray[i].x && y == gateObjArray[i].y && i != 0) {
-          update();
-          gameOver();
-          return foundCollision = false;
+          for (let i = 1; i < gateObjArray.length; i++) {
+            if (x == gateObjArray[i].x && y == gateObjArray[i].y) {
+              update();
+              gameOver();
+              return foundCollision = false;
+            }
+          }
         }
-        else return foundCollision = true;
-      }
-
+      if (firstTriggers == 3){
+        for (let i = 1; i < gateObjArray.length; i++) {
+          if (x == gateObjArray[i].x && y == gateObjArray[i].y) {
+            return foundCollision = true;
+          }
+        }
       }
       else {
         for (let i = 0; i < gateObjArray.length; i++) {
           if (x == gateObjArray[i].x && y == gateObjArray[i].y) {
             return foundCollision = true;
           }
-      }
-    }
+         }
+        } 
     return foundCollision;
   }
   
@@ -654,6 +667,7 @@ export let loadLevel2 = function() {
     return foundCollision;
   }
 
+  let firstTriggers = 0;
   /**
    * Checks if the boxes/stones are on top of the trigger boxes
    * and then returns a value of true for onallTriggers
@@ -670,6 +684,9 @@ export let loadLevel2 = function() {
           checkCount++;
           //console.log(checkCount);
         }
+      }
+      if(checkCount >= 3) {
+        firstTriggers = 3;
       }
 
       if (checkCount == 5) {
@@ -844,8 +861,9 @@ export let loadLevel2 = function() {
   function scoreCalc() {
     let points = 1000 / 60;
     let pointsTime = myTime * points;
-    score += (1000 - pointsTime);
-    score = Math.floor(score);
+    let newscore = (1000 - pointsTime);
+    scoreLvl2 = scoreLvl2 + newscore;
+    scoreLvl2 = Math.floor(scoreLvl2);
   }
 
   /**
@@ -861,9 +879,10 @@ export let loadLevel2 = function() {
       myTime = timer.seconds;
       clearInterval(timer.clearTime);
       scoreCalc();
-      let myScore = "Your score was: " + String(score);
+      let myScore = "Your score was: " + String(scoreLvl2);
       $(".myScore").text(myScore);
       window.cancelAnimationFrame(update);
+      cantx.drawImage(terrainImage, 150, 100);
     } else {
       window.cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
