@@ -576,12 +576,20 @@ export let loadLevel2 = function() {
 
     if (winCondition) {
       for (let i = 0; i < gateObjArray.length; i++) {
-        if (x == gateObjArray[i].x && gateObjArray[i].y == y && i != 0) {
+        if (x == gateObjArray[i].x && y == gateObjArray[i].y && i != 0) {
           update();
           gameOver();
           return foundCollision = false;
         }
         else return foundCollision = true;
+      }
+
+      }
+      else {
+        for (let i = 0; i < gateObjArray.length; i++) {
+          if (x == gateObjArray[i].x && y == gateObjArray[i].y) {
+            return foundCollision = true;
+          }
       }
     }
     return foundCollision;
@@ -657,8 +665,11 @@ export let loadLevel2 = function() {
     let onallTriggers = false;
 
     for (let i = 0; i < moveObjArray.length; i++) {
-      if (moveObjArray[i].x == stoneTriggers[0].x && moveObjArray[i].y == stoneTriggers[0].y) {
-        checkCount++;
+      for(let j = 0; j < stoneTriggers.length; j++){
+        if (moveObjArray[i].x == stoneTriggers[j].x && moveObjArray[i].y == stoneTriggers[j].y) {
+          checkCount++;
+          //console.log(checkCount);
+        }
       }
 
       if (checkCount == 5) {
