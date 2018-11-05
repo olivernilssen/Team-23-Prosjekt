@@ -175,7 +175,7 @@ export let loadLevel2 = function() {
     console.log("keys lastet");
     assetsLoaded();
   };
-  keyImage.src = "Sprites/nøkkel.gif";
+  keyImage.src = "Sprites/keyItem.gif";
 
   //Stein
   let stoneImage = new Image();
