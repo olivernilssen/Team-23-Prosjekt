@@ -70,7 +70,15 @@ body {
   display:inline-block;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 5%;
+}
+.spillcontainer {
+  position:fixed !important;
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+}
 }
 .button {
     background-color: #13572F;
@@ -111,22 +119,4 @@ color:#23272a;
 #buttons {
   text-align: top;
 
-}
-@media screen and (max-width:959px) {
-  .row {
-    width:90vw;
-    height:90vh;
-  }
-  #theGame {
-    width:35vw;
-    height:35vh;
-  }
-  #instructions {
-    width:35vw;
-    height:35vh;
-  }
-  #buttons {
-    width:20vw;
-    height:40vh;
-  }
 }

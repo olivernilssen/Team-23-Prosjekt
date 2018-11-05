@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Play Preussens Labyrint</title>
+    <link rel="icon" href="websidefiler/LogoTab.png" type="image/png" sizes="18x18">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="buttons.js"></script>
+  <link rel="stylesheet" href="test.css">
+
+  </head>
+  <body>
+
+<section class="first">
+  <div class="container">
+    <h1 class="text-center"></h1>
+  </div>
+</section>
+<div class="spillcontainer">
+  <div class="gameInfo" id="theGame">
+    <canvas id="ourMap" height="400" width="400">
+      <script src="fallbackLevel.js"></script>
+      <script type="module" src="Level1.js"></script>
+    </canvas>
+    <br>
+  </div>
+  <div class="gameInfo" id="instructions" >
+    <img src="websidefiler/controls.png" width="400" height="400" id="howto">
+  </div>
+  <div class="gameInfo" id="buttons">
+      <button class="button" id="controls" onclick="controls()"> Controls </button> <br>
+      <button class="button" id="items" onclick="items()"> Items </button> <br>
+      <button class="button" id="enemies" onclick="enemies()"> Enemies </button> <br>
+  </div> 
+</div>
+
+  </body>
+</html>
