@@ -1,5 +1,5 @@
 import { loadLevel2 } from './Level2.js';
-export let score = 0; //Score value is export, so it can be used in Level 2 aswell 
+export let score = 0; //Score value is export, so it can be used in Level 2 aswell
 
 window.onload = function() {
   MenuLoad();
@@ -7,7 +7,7 @@ window.onload = function() {
 
 
 /**
-   * Function to draw the loading screen for the menu at the start of the game 
+   * Function to draw the loading screen for the menu at the start of the game
    * @function
    * @name MenuLoad ()
    */
@@ -660,7 +660,7 @@ let Level1 = function() {
         }
       }
     }
-    else 
+    else
     {
       for (let i = 0; i < gateObjArray.length; i++) {
         if (x == gateObjArray[i].x && y == gateObjArray[i].y) {
@@ -763,7 +763,7 @@ let Level1 = function() {
 
     return bothTriggered;
   }
-  
+
 
   /**
    * Funksjon for å flytte på hinderet, alt etter hvor spilleren let plassert FØR dem begynte kom vedsiden av elementet
@@ -835,9 +835,9 @@ let Level1 = function() {
   let enemySpeed = 0.2;
   let doubleIndex = 0;
 
-  
+
   /**
-   * The function that controls the movement of the enemy solider 
+   * The function that controls the movement of the enemy solider
    * Checks collisions and changes the frame and x or y axis of soldier
    * @function
    * @name Sprite
@@ -955,7 +955,7 @@ let Level1 = function() {
   /**
    * Game over function (NOT WORKING PROPERLY YET.)
    * Stops the frames, moved to next level or has a popup for when player has died
-   * @function 
+   * @function
    * @name gameOver()
    */
   let isGameover = false;
@@ -996,7 +996,7 @@ let Level1 = function() {
 
   /**
    * What happens when player clicks the reset button
-   * Resets all arrays, but keeps the timer the same 
+   * Resets all arrays, but keeps the timer the same
    * Restarts the update frames functions
    * @function
    * @name onclick

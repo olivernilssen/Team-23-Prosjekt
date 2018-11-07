@@ -10,33 +10,61 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="buttons.js"></script>
-  <link rel="stylesheet" href="test.css">
+  <link rel="stylesheet" href="play.css">
 
   </head>
   <body>
+<div class="navbar navbar-default navbar-fixed-top" data-spy="affix" data-offset-top="1250">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="file:///C:/Users/Halla%20daamer/Documents/GitHub/Team-23-Prosjekt/Joakimspill/Fridtjof%20webside/Fridtjof%20Index.html#" class="navbar-brand"><img src="websidefiler/logo.png"> </a>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
 
+        <li><a href="file:///C:/Users/Halla%20daamer/Documents/GitHub/Team-23-Prosjekt/Spillet/Play.html"><img id="linkButtons" src="websidefiler/PlayButton.png"></a></li>
+        <li><a href="#"><img id="linkButtons" src="websidefiler/AboutButton.png"></a></li>
+        <li><a href="https://www.google.com"><img id="linkButtons" src="websidefiler/CreditsButton.png"></a></li>
+      </ul>
+      <ul class="nav navbar-right navbar-nav">
+      </ul>
+    </div>
+  </div>
+</div><!-- /.navbar -->
 <section class="first">
   <div class="container">
     <h1 class="text-center"></h1>
   </div>
 </section>
-<div class="spillcontainer">
-  <div class="gameInfo" id="theGame">
-    <canvas id="ourMap" height="400" width="400">
+<div class="container">
+<div class="row">
+  <div class="Score">
+    <span class="myScore">Din Score kommer her</span><br>
+
+    <span class="timer">0:00</span>
+    <button class="resetButton" type="button" id="reset">Reset Game</button>
+  </div>
+  <div class="gameInfo" id="left-column">
+    <canvas id="ourMap" height="600%" width="600%">
       <script src="fallbackLevel.js"></script>
       <script type="module" src="Level1.js"></script>
     </canvas>
     <br>
   </div>
-  <div class="gameInfo" id="instructions" >
+  <div class="right-column">
+  <div class="howtobilde" id="middle-column" >
     <img src="websidefiler/controls.png" width="400" height="400" id="howto">
   </div>
-  <div class="gameInfo" id="buttons">
-      <button class="button" id="controls" onclick="controls()"> Controls </button> <br>
-      <button class="button" id="items" onclick="items()"> Items </button> <br>
-      <button class="button" id="enemies" onclick="enemies()"> Enemies </button> <br>
-  </div> 
+  <div class="howtobuttons" id="right-column">
+      <button class="button" id="controls" onclick="controls()"> Controls </button>
+      <button class="button" id="items" onclick="items()"> Items </button>
+      <button class="button" id="enemies" onclick="enemies()"> Enemies </button>
+  </div>
 </div>
-
+</div> <br>
+</div>
   </body>
 </html>
