@@ -233,6 +233,16 @@ export let loadLevel2 = function() {
   let gateImage = new Image();
   gateImage.src = "Sprites/NewGate.png";
 
+   //Gate
+   let gateImg1 = new Image();
+   gateImg1.src = "Sprites/NewGate.png";
+ 
+   let gateImgLeft = new Image();
+   gateImgLeft.src = "Sprites/NewGateLeft.png";
+ 
+   let gateImgRight = new Image();
+   gateImgRight.src = "Sprites/NewGateRight.png";
+
   let enemeySprite = new Image();
   enemeySprite.onload = function() {
     console.log("Enemy loaded");
@@ -438,8 +448,8 @@ export let loadLevel2 = function() {
         console.log("found a key!");
         keyPickedUp++;
         //Midlertidig, fjernes fra canvaset
-        keyobjectArray[i].x = i;
-        keyobjectArray[i].y = 19;
+        keyitemArray[i].x = i;
+        keyitemArray[i].y = 19;
       }
     }
     console.log("x: " + player.x + " y: " + player.y);
@@ -465,18 +475,23 @@ export let loadLevel2 = function() {
 
     cantx.drawImage(terrainImage, 0, 0); //draw background
     
-    if(firstTriggers == 3){
-      for(let i = 1; i < gateObjArray.length; i++)
-      {
-        cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
+    if(firstTriggers != 3){
+        cantx.drawImage(gateImage, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
       }
-    }
-    else {
+
       for(let i = 0; i < gateObjArray.length; i++)
       {
-        cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
+        if(!winCondition){
+          cantx.drawImage(gateImg1, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+          cantx.drawImage(gateImgRight, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+          cantx.drawImage(gateImgLeft, gateObjArray[3].x * ObjectSizeWid, gateObjArray[3].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        }
+        else {
+          cantx.drawImage(gateImgRight, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+          cantx.drawImage(gateImgLeft, gateObjArray[3].x * ObjectSizeWid, gateObjArray[3].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        }
       }
-    }
+    
     
   
     //draw triggers for stones and the arrowshooters
@@ -745,6 +760,7 @@ export let loadLevel2 = function() {
   }
 
   let enemySpeed = 0.2;
+  let playerDead = false;
 
   /**
    * Decide here if all the assets are ready to start updating
@@ -842,6 +858,7 @@ export let loadLevel2 = function() {
 
     if (check_col_player(arrow_XR, arrow_Y) ||check_col_player(arrow_XL, arrow_Y)) {
       //if there is a collision with the player, gameOver() is called
+      // playerDead = true;
       gameOver();
       return;
     }
@@ -884,7 +901,7 @@ export let loadLevel2 = function() {
       $(".myScore").text(myScore);
       window.cancelAnimationFrame(update);
       cantx.drawImage(terrainImage, 150, 100);
-    } else {
+    } else if(playerDead){
       window.cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
       cantx.drawImage(gameOverImage, 150, 100);

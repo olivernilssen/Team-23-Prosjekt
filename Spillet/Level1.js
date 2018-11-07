@@ -313,8 +313,14 @@ let Level1 = function() {
   arrowImageLeft.src = "Sprites/NewArrowLeft.png";
 
   //Gate
-  let gateImage = new Image();
-  gateImage.src = "Sprites/NewGate.png";
+  let gateImg1 = new Image();
+  gateImg1.src = "Sprites/NewGate.png";
+
+  let gateImgLeft = new Image();
+  gateImgLeft.src = "Sprites/NewGateLeft.png";
+
+  let gateImgRight = new Image();
+  gateImgRight.src = "Sprites/NewGateRight.png";
 
   let enemeySprite = new Image();
   enemeySprite.onload = function() {
@@ -562,8 +568,14 @@ let Level1 = function() {
     //Draw player
     cantx.drawImage(playerImage, player.x * ObjectSizeWid, player.y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
 
-    for (let i = 0; i < gateObjArray.length; i++) {
-      cantx.drawImage(gateImage, gateObjArray[i].x * ObjectSizeWid, gateObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+    if(!winCondition){
+      cantx.drawImage(gateImg1, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      cantx.drawImage(gateImgRight, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      cantx.drawImage(gateImgLeft, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+    }
+    else {
+      cantx.drawImage(gateImgRight, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      cantx.drawImage(gateImgLeft, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
     //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
