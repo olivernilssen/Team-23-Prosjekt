@@ -16,14 +16,14 @@ function MenuLoad() {
   let cantx = canvas.getContext("2d");
 
   //letiabler for å definere spillervinduet vårt, altså en canvas i 2D
-  if ($(window).width() < 1367) {
-    cantx.canvas.height = 400;
-    cantx.canvas.width = 400;
-  }
-  if ($(window).width() < 321) {
-    cantx.canvas.height = 250;
-    cantx.canvas.width = 250;
-  }
+  // if ($(window).width() < 1367) {
+  //   cantx.canvas.height = 400;
+  //   cantx.canvas.width = 400;
+  // }
+  // if ($(window).width() < 321) {
+  //   cantx.canvas.height = 250;
+  //   cantx.canvas.width = 250;
+  // }
 
   let background;
   let startButton;
@@ -105,7 +105,7 @@ function MenuLoad() {
   }
 }
 
-/**
+  /**
    * State to Level 1, hold all the coordinates and values of different objects
    * @function
    * @name Level1
@@ -114,15 +114,15 @@ let Level1 = function() {
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
 
-  //letiabler for å definere spillervinduet vårt, altså en canvas i 2D
-  if ($(window).width() < 1367) {
-    cantx.canvas.height = 400;
-    cantx.canvas.width = 400;
-  }
-  if ($(window).width() < 321) {
-    cantx.canvas.height = 250;
-    cantx.canvas.width = 250;
-  }
+  //var for å definere spillervinduet vårt, altså en canvas i 2D
+  // if ($(window).width() < 1367) {
+  //   cantx.canvas.height = 400;
+  //   cantx.canvas.width = 400;
+  // }
+  // if ($(window).width() < 321) {
+  //   cantx.canvas.height = 250;
+  //   cantx.canvas.width = 250;
+  // }
 
   let wid = canvas.offsetWidth;
   let hig = canvas.offsetHeight;
@@ -145,8 +145,8 @@ let Level1 = function() {
 
   let keyPickedUp = 0;
   let modifier = 10;
-  let ObjectSizeWid = wid / 20;
-  let ObjectSizeHei = hig / 20;
+  let ObjectSizeWid = 30;
+  let ObjectSizeHei = 30;
 
   let arrow_XR = 18;
   let arrow_XL = 1;
@@ -642,8 +642,6 @@ let Level1 = function() {
    * @param {Integer} x - The x axis
    * @param {Integer} y - The y axis
    */
-
-  //Sjekker kollisjonen på, kanten av mappen, busker og steiner med andre steiner
   function check_collision(x, y) {
     let foundCollision = false;
 
