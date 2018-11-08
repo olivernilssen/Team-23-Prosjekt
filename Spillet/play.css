@@ -3,7 +3,6 @@ body {
   width: 100%;
   background: url("websidefiler/bakgrunn team23.png");
   background-size: 100%;
-  padding-top: 10%;
   overflow-y:hidden;
   overflow-x: hidden;
 
@@ -81,26 +80,26 @@ color:#23272a;
   width:100%;
   height:100%;
 }
-#left-column {
+/* #left-column {
 float:left;
 width:35%;
 height:100%
-}
+} */
 #ourMap {
   /* height:100%;
   width:100%; */
 }
-#middle-column {
+/* #middle-column {
 float:left;
 width:35%;
 height:100%;
 padding-left: 5%;
-}
+} */
 #howto {
   height:100%;
   width:100%;
 }
-#right-column {
+/* #right-column {
 float:left;
 width:15%
-}
+} */

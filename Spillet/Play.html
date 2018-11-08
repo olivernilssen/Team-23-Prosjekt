@@ -15,7 +15,7 @@
   </head>
   <body>
 
-<div class="navbar navbar-default navbar-fixed-top" data-spy="affix" data-offset-top="1250">
+<div class="navbar navbar-default navbar-static-top" data-spy="affix" data-offset-top="1250">
   <div class="container">
     <div class="navbar-header">
       <a href="file:///C:/Users/Halla%20daamer/Documents/GitHub/Team-23-Prosjekt/Joakimspill/Fridtjof%20webside/Fridtjof%20Index.html#" class="navbar-brand"><img src="websidefiler/logo.png"> </a>
@@ -35,30 +35,27 @@
     </div>
   </div>
 </div><!-- /.navbar -->
-<section class="first">
-  <div class="container">
-    <h1 class="text-center"></h1>
-  </div>
-</section>
+
 <div class="container">
 <div class="row">
-  <div class="Score">
-    <span class="myScore">Din Score kommer her</span><br>
 
-    <span class="timer">0:00</span>
-    <button class="resetButton" type="button" id="reset">Reset Game</button>
-  </div>
-  <div class="gameInfo" id="left-column">
+  <div class="col-sm-5" id="left-column">
     <canvas id="ourMap" height="600" width="600">
       <script src="fallbackLevel.js"></script>
       <script type="module" src="Level1.js"></script>
     </canvas>
     <br>
+    <div class="Score">
+      <span class="myScore">Din Score kommer her</span><br>
+
+      <span class="timer">0:00</span>
+      <button class="resetButton" type="button" id="reset">Reset Game</button>
+    </div>
   </div>
-  <div class="gameInfo" id="middle-column" >
-    <img src="websidefiler/controls.png" width="400" height="400" id="howto">
+  <div class="col-sm-5" id="middle-column" >
+    <img src="websidefiler/controls.png"  id="howto">
   </div>
-  <div class="gameInfo" id="right-column">
+  <div class="col-sm-2" id="right-column">
       <button class="button" id="controls" onclick="controls()"> Controls </button> <br>
       <button class="button" id="items" onclick="items()"> Items </button> <br>
       <button class="button" id="enemies" onclick="enemies()"> Enemies </button> <br>
