@@ -25,24 +25,28 @@ function MenuLoad() {
   //   cantx.canvas.width = 250;
   // }
 
+  function getMousePos(canvas, e) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.x) / rect.width * canvas.width,
+      y: (e.clientY - rect.y) / rect.width * canvas.width
+    };
+  }
+
+  let startButtonHeight =  600 / 6;
+  let startButtonWidth =  600 / 2;
+
+  let STB_x = 600 / 2 - startButtonWidth / 2;
+  let STB_y = 600 / 2 - startButtonHeight / 2;
+
   let background;
   let startButton;
-
   let backgroundLoaded = false;
   let startButtonLoaded = false;
   let startClicked = false;
   let gameStarted = false;
 
-  let startButtonHeight = cantx.canvas.width / 6;
-  let startButtonWidth = cantx.canvas.width / 2;
-
-  let STB_x = cantx.canvas.width / 2 - startButtonWidth / 2;
-  let STB_y = cantx.canvas.height / 2 - startButtonHeight / 2;
-
-  let offLeft = canvas.offsetLeft;
-  let offTop = canvas.offsetTop;
-
-  loadAssets();
+  loadAssets(); 
 
   function loadAssets() {
     background = new Image();
@@ -62,30 +66,42 @@ function MenuLoad() {
 
   if (gameStarted) {
   } else {
-    $(cantx.canvas).mousemove(function(event) {
-      if ((event.clientX > offLeft + STB_x && event.clientX < offLeft + STB_x + startButtonWidth) &&
-        (event.clientY > offTop + STB_y && event.clientY < offTop + STB_y + startButtonHeight) &&
-        !gameStarted
-      ) {
-        console.log("Over button");
+    canvas.addEventListener('mousemove', function(evt){
+      var mousePos = getMousePos(canvas, evt)
+      if ((mousePos.x >= STB_x && mousePos.x <= STB_x + startButtonWidth) &&
+          (mousePos.y >= STB_y && mousePos.y <= STB_y + startButtonHeight) &&
+          !gameStarted) {
+        //console.log("Over button" + " " + (STB_x+startButtonWidth) + " " + mousePos.x);
         startButton.src = "Sprites/startBH.png";
         startClicked = true;
       } else {
         startButton.src = "Sprites/startB.png";
         startClicked = false;
       }
-    });
+    }
+  )};
+
+  // if ((mousePos.x >= STB_x && mousePos.x < STB_x + startButtonWidth) &&
+  //       (mousePos.y >= STB_y && mousePos.y <= STB_y + startButtonHeight) &&
+  //       !gameStarted) {
+  //       console.log("Over button" + " " + (STB_x+startButtonWidth) + " " + mousePos.x);
+  //       startButton.src = "Sprites/startBH.png";
+  //       startClicked = true;
+  //     } else {
+  //       startButton.src = "Sprites/startB.png";
+  //       startClicked = false;
+  //     }
+  //   }
 
     $("#ourMap").click(function() {
       console.log("clicked on canvas");
       if (startClicked == true) {
         Level1();
         gameStarted = true;
-        $(window).unbind("mousemove");
+        $(canvas).unbind("mousemove");
         $("#ourMap").unbind("click");
       }
     });
-  }
 
   function startMenuupdate() {
     cantx.drawImage(background, 0, 0);
@@ -233,7 +249,7 @@ let Level1 = function() {
   //Terraine bilde / Bakgrunns bilde
 
   let gameOverImage = new Image();
-  gameOverImage.src = "Sprites/gameover.png";
+  gameOverImage.src = "Sprites/deadScreen.png";
 
   let terrainImage = new Image();
   terrainImage.onload = function() {
@@ -968,7 +984,7 @@ let Level1 = function() {
    * @function
    * @name gameOver()
    */
-  let isGameover = false;
+  let isGameover;
 
   function gameOver() {
     isGameover = true;
@@ -985,7 +1001,7 @@ let Level1 = function() {
     } else if(playerDead){
       window.cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
-      cantx.drawImage(gameOverImage, 150, 100);
+      cantx.drawImage(gameOverImage, 0, 0, 600, 600);
     }
   }
 
