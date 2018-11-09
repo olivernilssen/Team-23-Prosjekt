@@ -164,7 +164,7 @@ export let loadLevel2 = function() {
   gameOverImage.src = "Sprites/deadScreen.png";
 
   let gameWonImg = new Image();
-  gameOverImage.src = "Sprites/endScreen.png";
+  gameWonImg.src = "Sprites/endScreen.png";
 
   let terrainImage = new Image();
   terrainImage.onload = function() {
@@ -477,16 +477,20 @@ export let loadLevel2 = function() {
   let waitArrow = 0;
 
   /**
-   * Handle all the updates of the canvas and creates the objects
+   * Handle all the updatelvl2s of the canvas and creates the objects
    * @function
-   * @name update
+   * @name updatelvl2
    */
-  function update() {
-    if (isGameover) {
+  function updatelvl2() {
+    if (isGameover && winCondition) {
+      cantx.drawImage(gameWonImg, 0, 0, 600, 600);
       return;
     }
-
-    requestAnimationFrame(update);
+    else if (isGameover && playerDead)
+    {
+      cantx.drawImage(gameOverImage, 0, 0, 600, 600);
+      return;
+    }
 
     cantx.drawImage(terrainImage, 0, 0); //draw background
     
@@ -588,6 +592,8 @@ export let loadLevel2 = function() {
 
     cantx.drawImage(enemeySprite, soldierArray[0].spriteFrameON, 0, 40, 40, soldierArray[0].x * ObjectSizeHei, soldierArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
     cantx.drawImage(enemeySprite, soldierArray[1].spriteFrameON, 0, 40, 40, soldierArray[1].x * ObjectSizeHei, soldierArray[1].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
+    
+    requestAnimationFrame(updatelvl2);
     //enemyX * ObjectSizeHei, enemyY * ObjectSizeHei
   }
 
@@ -616,7 +622,6 @@ export let loadLevel2 = function() {
     if (winCondition) {
           for (let i = 1; i < gateObjArray.length; i++) {
             if (x == gateObjArray[i].x && y == gateObjArray[i].y) {
-              update();
               gameOver();
               return foundCollision = false;
             }
@@ -811,7 +816,7 @@ export let loadLevel2 = function() {
       startTimer();
       resetTimer();
       level2Started = true;
-      requestAnimationFrame(update);
+      requestAnimationFrame(updatelvl2);
     }
   }
 
@@ -900,7 +905,7 @@ export let loadLevel2 = function() {
 
   /**
    * Function for when the arrows are beeing shot
-   * it updates each time there it moved the x amount
+   * it updatelvl2s each time there it moved the x amount
    * @function
    * @name shoot
    */
@@ -914,7 +919,7 @@ export let loadLevel2 = function() {
 
     if (check_col_player(arrow_XR, arrow_Y) ||check_col_player(arrow_XL, arrow_Y)) {
       //if there is a collision with the player, gameOver() is called
-      // playerDead = true;
+      playerDead = true;
       gameOver();
       return;
     }
@@ -955,10 +960,9 @@ export let loadLevel2 = function() {
       scoreCalc();
       let myScore = "Your score was: " + String(scoreLvl2);
       $(".myScore").text(myScore);
-      window.cancelAnimationFrame(update);
       cantx.drawImage(gameWonImg, 0, 0, 600, 600);
+      console.log("done");
     } else if(playerDead){
-      window.cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
       cantx.drawImage(gameOverImage, 0, 0, 600, 600);
     }
@@ -993,7 +997,7 @@ export let loadLevel2 = function() {
       keyPickedUp = 0;
       isGameover = false;
       makeArrays();
-      window.cancelAnimationFrame(update);
+      window.cancelAnimationFrame(updatelvl2);
       assetsLoaded();
     }
   });

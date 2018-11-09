@@ -1,8 +1,9 @@
 import { loadLevel2 } from './Level2.js';
 export let score = 0; //Score value is export, so it can be used in Level 2 aswell
+let gameStarted = false;
 
 window.onload = function() {
-  loadLevel2();
+  MenuLoad();
 };
 
 // Sound effects
@@ -24,16 +25,7 @@ function MenuLoad() {
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
 
-  //letiabler for å definere spillervinduet vårt, altså en canvas i 2D
-  // if ($(window).width() < 1367) {
-  //   cantx.canvas.height = 400;
-  //   cantx.canvas.width = 400;
-  // }
-  // if ($(window).width() < 321) {
-  //   cantx.canvas.height = 250;
-  //   cantx.canvas.width = 250;
-  // }
-
+  //get mouseposition on canvas
   function getMousePos(canvas, e) {
     var rect = canvas.getBoundingClientRect();
     return {
@@ -42,28 +34,60 @@ function MenuLoad() {
     };
   }
 
-  let startButtonHeight =  600 / 6;
-  let startButtonWidth =  600 / 2;
+  let btnHeight =  600 / 6;
+  let btnWidth =  600 / 2;
 
-  let STB_x = 600 / 2 - startButtonWidth / 2;
-  let STB_y = 600 / 2 - startButtonHeight / 2;
+  //startbutton x position
+  let STB_x = 600 / 2 - btnWidth / 2;
+  let STB_y = 600 / 3.5 - btnHeight / 2;
+
+  let HWB_x = STB_x;
+  let HWB_y = STB_y + btnHeight + 25;
+
+  let CTB_x = STB_x;
+  let CTB_y = STB_y + btnHeight + btnHeight + 50;
+
+  let BackBtn_x = 50;
+  let BackBtn_y = 600 - 100;
 
   let background;
   let startButton;
+  let ctrlImg, ctrlbtnImg;
+  let howtoImg, howTobtnImg;
+  let isOnMenu;
+  let backImg;
   let backgroundLoaded = false;
   let startButtonLoaded = false;
   let startClicked = false;
-  let gameStarted = false;
+  let howToClicked = false;
+  let ctrlClicked = false;
+  let BackBtnClicked = false;
 
   loadAssets();
 
   function loadAssets() {
+    isOnMenu = true;
     background = new Image();
     background.onload = function() {
       backgroundLoaded = true;
       isAssetsLoaded();
     };
     background.src = "Sprites/bakgrunngress.png";
+
+    ctrlImg = new Image();
+    ctrlImg.src = "Sprites/controls.png";
+
+    ctrlbtnImg = new Image();
+    ctrlbtnImg.src = "Sprites/startB.png";
+
+    howtoImg = new Image();
+    howtoImg.src = "Sprites/items.png";
+
+    howTobtnImg = new Image();
+    howTobtnImg.src = "Sprites/startB.png";
+
+    backImg = new Image();
+    backImg.src = "Sprites/startB.png";
 
     startButton = new Image();
     startButton.onload = function() {
@@ -73,59 +97,91 @@ function MenuLoad() {
     startButton.src = "Sprites/startB.png";
   }
 
+  //if game has started, then check where the mouse is and if it is over the buttons
   if (gameStarted) {
+    canvas.removeEventListener('mousemove', function(){});
   } else {
     canvas.addEventListener('mousemove', function(evt){
       var mousePos = getMousePos(canvas, evt)
-      if ((mousePos.x >= STB_x && mousePos.x <= STB_x + startButtonWidth) &&
-          (mousePos.y >= STB_y && mousePos.y <= STB_y + startButtonHeight) &&
-          !gameStarted) {
-        //console.log("Over button" + " " + (STB_x+startButtonWidth) + " " + mousePos.x);
-        startButton.src = "Sprites/startBH.png";
-        startClicked = true;
-      } else {
-        startButton.src = "Sprites/startB.png";
-        startClicked = false;
-      }
-    }
-  )};
-
-  // if ((mousePos.x >= STB_x && mousePos.x < STB_x + startButtonWidth) &&
-  //       (mousePos.y >= STB_y && mousePos.y <= STB_y + startButtonHeight) &&
-  //       !gameStarted) {
-  //       console.log("Over button" + " " + (STB_x+startButtonWidth) + " " + mousePos.x);
-  //       startButton.src = "Sprites/startBH.png";
-  //       startClicked = true;
-  //     } else {
-  //       startButton.src = "Sprites/startB.png";
-  //       startClicked = false;
-  //     }
-  //   }
-
+      if ((
+        mousePos.x >= STB_x && mousePos.x <= STB_x + btnWidth) &&
+        (mousePos.y >= STB_y && mousePos.y <= STB_y + btnHeight) &&
+        !gameStarted && isOnMenu) {
+          //console.log("Over button" + " " + (STB_x+btnWidth) + " " + mousePos.x);
+          startButton.src = "Sprites/startBH.png";
+          startClicked = true;
+        }
+        else if ((
+          mousePos.x >= HWB_x && mousePos.x <= HWB_x + btnWidth) &&
+          (mousePos.y >= HWB_y && mousePos.y <= HWB_y + btnHeight) &&
+          !gameStarted && isOnMenu) {
+            howTobtnImg.src = "Sprites/startBH.png";
+            howToClicked = true;
+          } 
+          else if 
+            ((mousePos.x >= CTB_x && mousePos.x <= CTB_x + btnWidth) &&
+            (mousePos.y >= CTB_y && mousePos.y <= CTB_y + btnHeight) &&
+            !gameStarted && isOnMenu) {
+            ctrlbtnImg.src = "Sprites/startBH.png";
+            ctrlClicked = true;
+          } 
+          else if 
+            ((mousePos.x >= BackBtn_x && mousePos.x <= BackBtn_x + btnWidth) &&
+            (mousePos.y >= BackBtn_y && mousePos.y <= BackBtn_y + btnHeight) &&
+            !gameStarted && !isOnMenu) {
+              backImg.src = "Sprites/startBH.png";
+              BackBtnClicked = true;
+            } else {
+              startButton.src = "Sprites/startB.png";
+              backImg.src = "Sprites/startB.png";
+              ctrlbtnImg.src = "Sprites/startB.png";
+              howTobtnImg.src = "Sprites/startB.png";
+              ctrlClicked = false;
+              howToClicked = false;
+              startClicked = false;
+              BackBtnClicked = false;
+            }
+          }
+          )};
+  //
     $("#ourMap").click(function() {
       console.log("clicked on canvas");
+      console.log(isOnMenu);
       if (startClicked == true) {
         backgroundMusic.play();
         Level1();
         gameStarted = true;
-        $(canvas).unbind("mousemove");
+        $("#ourMap").unbind("mousemove");
         $("#ourMap").unbind("click");
+      }
+      else if (howToClicked)
+      {
+        isOnMenu = false;
+        cantx.drawImage(howtoImg, 0, 0, 600, 600);
+        cantx.drawImage(backImg, BackBtn_x, BackBtn_y, 150, 50);
+      }
+      else if (ctrlClicked)
+      {
+        isOnMenu = false;
+        cantx.drawImage(ctrlImg, 0, 0, 600, 600);
+        cantx.drawImage(backImg, BackBtn_x, BackBtn_y, 150, 50);
+      }
+      else if (BackBtnClicked)
+      {
+        isOnMenu = true;
+        startMenuupdate();
       }
     });
 
   function startMenuupdate() {
-    cantx.drawImage(background, 0, 0);
-    cantx.drawImage(
-      startButton,
-      STB_x,
-      STB_y,
-      startButtonWidth,
-      startButtonHeight
-    );
+    cantx.drawImage(background, 0, 0, 600, 600);
+    cantx.drawImage(startButton, STB_x, STB_y, btnWidth, btnHeight);
+    cantx.drawImage(howTobtnImg, HWB_x, HWB_y, btnWidth, btnHeight);
+    cantx.drawImage(ctrlbtnImg, CTB_x, CTB_y, btnWidth, btnHeight);
   }
 
   function isAssetsLoaded() {
-    if (backgroundLoaded == true && startButtonLoaded == true) {
+    if (backgroundLoaded == true && startButtonLoaded == true && !gameStarted && isOnMenu) {
       startMenuupdate();
     }
   }
@@ -565,11 +621,11 @@ let Level1 = function() {
    * @name update
    */
   function update() {
-    if (isGameover) {
+    if (isGameover && playerDead)
+    {
+      cantx.drawImage(gameOverImage, 0, 0, 600, 600);
       return;
     }
-
-    requestAnimationFrame(update);
 
     cantx.drawImage(terrainImage, 0, 0); //draw background
 
@@ -661,6 +717,7 @@ let Level1 = function() {
     }
 
     cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
+    requestAnimationFrame(update);
     //enemyX * ObjectSizeHei, enemyY * ObjectSizeHei
   }
 
