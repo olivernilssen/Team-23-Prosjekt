@@ -2,90 +2,275 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
-    <link rel="icon" href="joakimbilder/LogoTab.png" type="image/png" sizes="18x18">
+    <title>Play Preussens Labyrint</title>
+    <link rel="icon" href="websidefiler/LogoTab.png" type="image/png" sizes="18x18">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="joakimprog.js"></script>
   <link rel="stylesheet" href="joakimstylish.css">
-  </head>
-  <body>
 
-<div class="navbar navbar-default navbar-fixed-top" data-spy="affix" data-offset-top="850">
-  <div class="container">
+  </head>
+
+<!-- <div class="navbar navbar-default navbar-static-top" data-spy="affix" data-offset-top="1250">
+  <div class="container-fluid">
     <div class="navbar-header">
-      <a href="#" class="navbar-brand"><img src="joakimbilder/logo.png"> </a>
+      <a href="index.html" class="navbar-brand"><img alt="brand" src="websidefiler/logo.png"> </a>
       <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <i class="fa fa-bars"></i>
+        <i class="fa fa-bars" style="font-size:36px;color:white;"></i>
       </a>
     </div>
-    <div class="navbar-collapse collapse">
+    <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="#"><img id="linkButtons" src="joakimbilder/PlayButton.png"></a></li>
-        <li><a href="#"><img id="linkButtons" src="joakimbilder/AboutButton.png"></a></li>
-        <li><a href="#"><img id="linkButtons" src="joakimbilder/CreditsButton.png"></a></li>
+
+        <li><a href="play.html"><img class="linkButtons" src="websidefiler/PlayButton.png"></a></li>
+        <li><a href="#"><img class="linkButtons" src="websidefiler/AboutButton.png"></a></li>
+        <li><a href="https://www.google.com"><img class="linkButtons" src="websidefiler/CreditsButton.png"></a></li>
       </ul>
       <ul class="nav navbar-right navbar-nav">
-        <li>
-          <a href="#"><img src="joakimbilder/test.png"></a>
-        </li>
-        <li>
-          <a href="#"><span class="badge">2</span></a>
-        </li>
       </ul>
     </div>
   </div>
-</div><!-- /.navbar -->
+</div>< /.navbar --> -->
 
-<section class="first">
-  <div class="container">
-    <h1 class="text-center">Hello.</h1>
+<!-- ny html and shit  -->
+<body id="hjemmeside" data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-default navbar-fixed-top" data-spy="affix" data-offset-top="100px">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#myPage"><img src="joakimbilder/logo.png"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="play.html">Spillet</a></li>
+        <li><a href="#Teamet">Teamet</a></li>
+        <li><a href="#contact">Kontakt oss</a></li>
+      </ul>
+    </div>
   </div>
-</section>
+</nav>
 
-<section class="second">
-  <div class="container">
-    <img src="KongSverreFront.png" id='kongsverre'>
-    <img src="Jørgen.png" id="jørgen">
-    <img src=""
+
+<!-- container for game -->
+<div id="play" class="container">
+  <h3>The game!</h3>
+  <p>Help Kong Sverre win his beloved Jürgen of Preussens hand</p>
+
+<!-- Container (The Band Section) -->
+<div id="Teamet" class="container">
+  <h3>Teamet</h3>
+  <p><em>The cake is a lie!</em></p>
+  <p>
+  <br>
+  <div class="row">
+    <div class="col-sm-3">
+      <p class="text-center"><strong>Fridtjof</strong></p><br>
+      <a href="#demo" data-toggle="collapse">
+        <img src="fridtjof.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="demo" class="collapse">
+        <p>Guitarist and Lead Vocalist</p>
+        <p>Loves long walks on the beach</p>
+        <p>Member since 1988</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <p class="text-center"><strong>Joakim</strong></p><br>
+      <a href="#demo2" data-toggle="collapse">
+        <img src="bandmember.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="demo2" class="collapse">
+        <p>Drummer</p>
+        <p>Loves drummin'</p>
+        <p>Member since 1988</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <p class="text-center"><strong>Oliver</strong></p><br>
+      <a href="#demo3" data-toggle="collapse">
+        <img src="bandmember.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="demo3" class="collapse">
+        <p>Bass player</p>
+        <p>Loves math</p>
+        <p>Member since 2005</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <p class="text-center"><strong>Tharmika</strong></p><br>
+      <a href="#demo4" data-toggle="collapse">
+        <img src="bandmember.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="demo4" class="collapse">
+        <p>Bass player</p>
+        <p>Loves math</p>
+        <p>Member since 2005</p>
+      </div>
+    </div>
   </div>
-</section>
+</div>
 
-<section class="third">
-
+<!-- Container (TOUR Section) -->
+<div id="tour" class="bg-1">
   <div class="container">
+    <h3 class="text-center">TOUR DATES</h3>
+    <p class="text-center">Lorem ipsum we'll play you some music.<br> Remember to book your tickets!</p>
+    <ul class="list-group">
+      <li class="list-group-item">September <span class="label label-danger">Sold Out!</span></li>
+      <li class="list-group-item">October <span class="label label-danger">Sold Out!</span></li>
+      <li class="list-group-item">November <span class="badge">3</span></li>
+    </ul>
 
-    <h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-<h1>Here is some more contentjfffffffffffffffffffffffffffffffffffffff</h1>
-
+    <div class="row text-center">
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img src="paris.jpg" alt="Paris" width="400" height="300">
+          <p><strong>Paris</strong></p>
+          <p>Friday 27 November 2015</p>
+          <button class="btn" data-toggle="modal" data-target="#myModal">Buy Tickets</button>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img src="newyork.jpg" alt="New York" width="400" height="300">
+          <p><strong>New York</strong></p>
+          <p>Saturday 28 November 2015</p>
+          <button class="btn" data-toggle="modal" data-target="#myModal">Buy Tickets</button>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img src="sanfran.jpg" alt="San Francisco" width="400" height="300">
+          <p><strong>San Francisco</strong></p>
+          <p>Sunday 29 November 2015</p>
+          <button class="btn" data-toggle="modal" data-target="#myModal">Buy Tickets</button>
+        </div>
+      </div>
+    </div>
   </div>
 
-</section>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
 
-<section>
-
-  <div class="container">
-
-    <h1>Here is some more content</h1>
-
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h4><span class="glyphicon glyphicon-lock"></span> Tickets</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="form-group">
+              <label for="psw"><span class="glyphicon glyphicon-shopping-cart"></span> Tickets, $23 per person</label>
+              <input type="number" class="form-control" id="psw" placeholder="How many?">
+            </div>
+            <div class="form-group">
+              <label for="usrname"><span class="glyphicon glyphicon-user"></span> Send To</label>
+              <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+            </div>
+              <button type="submit" class="btn btn-block">Pay
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+            <span class="glyphicon glyphicon-remove"></span> Cancel
+          </button>
+          <p>Need <a href="#">help?</a></p>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
-</section>
+<!-- Container (Contact Section) -->
+<div id="contact" class="container">
+  <h3 class="text-center">Contact</h3>
+  <p class="text-center"><em>We love our fans!</em></p>
+
+  <div class="row">
+    <div class="col-md-4">
+      <p>Fan? Drop a note.</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span>Chicago, US</p>
+      <p><span class="glyphicon glyphicon-phone"></span>Phone: +00 1515151515</p>
+      <p><span class="glyphicon glyphicon-envelope"></span>Email: mail@mail.com</p>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea>
+      <br>
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <button class="btn pull-right" type="submit">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <h3 class="text-center">From The Blog</h3>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Mike</a></li>
+    <li><a data-toggle="tab" href="#menu1">Chandler</a></li>
+    <li><a data-toggle="tab" href="#menu2">Peter</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <h2>Mike Ross, Manager</h2>
+      <p>Man, we've been on the road for some time now. Looking forward to lorem ipsum.</p>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <h2>Chandler Bing, Guitarist</h2>
+      <p>Always a pleasure people! Hope you enjoyed it as much as I did. Could I BE.. any more pleased?</p>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h2>Peter Griffin, Bass player</h2>
+      <p>I mean, sometimes I enjoy the show, but other times I enjoy other things.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Image of location/map -->
+<img src="map.jpg" class="img-responsive" style="width:100%">
+
+<!-- Footer -->
+<footer class="text-center">
+  <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a><br><br>
+  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com" data-toggle="tooltip" title="Visit w3schools">www.w3schools.com</a></p>
+</footer>
+
+<script>
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
 
   </body>
 </html>
