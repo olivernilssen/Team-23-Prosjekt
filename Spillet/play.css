@@ -62,7 +62,7 @@ color:#23272a;
   background-color: #0E4023;
   border: none;
   color: #ffffff;
-  padding: 10% 20%;
+  padding: 2% 2%;
   text-decoration: none;
   font-size: 120%;
 }
@@ -73,15 +73,15 @@ color:#23272a;
 }
 
 .Score {
-  padding-top: 10%;
-  float:left;
+  padding-top: 0;
+  text-align: left;
   color:white;
-  width:10%;
+  width:100%;
   font-size: 75%;
 }
 
 .myScore {
-    font-size:200%;
+    font-size:120%;
 }
 
 .timer {
@@ -93,7 +93,7 @@ color:#23272a;
   height:100%;
 }
 
-canvas { 
+canvas {
   width: 100%;
   height: auto;
 }
