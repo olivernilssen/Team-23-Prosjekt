@@ -1,0 +1,21 @@
+.Score {
+  padding-top: 0;
+  text-align: left;
+  color:white;
+  width:100%;
+  font-size: 75%;
+}
+
+.myScore {
+    font-size:120%;
+}
+
+.timer {
+  font-size: 200%;
+}
+
+canvas {
+  padding-top: 100px;
+  width: 100%;
+  height: auto;
+}
