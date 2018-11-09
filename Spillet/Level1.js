@@ -1,6 +1,9 @@
 import { loadLevel2 } from './Level2.js';
 export let score = 0; //Score value is export, so it can be used in Level 2 aswell
 let gameStarted = false;
+let isRestarted = false;
+
+var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 
 window.onload = function() {
   MenuLoad();
@@ -16,14 +19,15 @@ window.onload = function() {
   keySound.volume = 0.5;
   triggerSound.volume = 0.5;
 
+  let canvas = document.getElementById("ourMap");
+  let cantx = canvas.getContext("2d");
+
 /**
    * Function to draw the loading screen for the menu at the start of the game
    * @function
    * @name MenuLoad ()
    */
-function MenuLoad() {
-  let canvas = document.getElementById("ourMap");
-  let cantx = canvas.getContext("2d");
+let  MenuLoad = function() {
 
   //get mouseposition on canvas
   function getMousePos(canvas, e) {
@@ -66,6 +70,12 @@ function MenuLoad() {
   let BackBtnClicked = false;
 
   loadAssets();
+
+  if(isRestarted)
+  {
+    startMenuupdate();
+    isRestarted = false;
+  }
 
   function loadAssets() {
     isOnMenu = true;
@@ -155,14 +165,15 @@ function MenuLoad() {
           )};
   //
     $("#ourMap").click(function() {
-      console.log("clicked on canvas");
-      console.log(isOnMenu);
+      //console.log("clicked on canvas");
+      //console.log(isOnMenu);
       if (startClicked == true) {
         backgroundMusic.play();
-        Level1();
         gameStarted = true;
-        $("#ourMap").unbind("mousemove");
-        $("#ourMap").unbind("click");
+        cantx.clearRect(0, 0, 600, 600)
+        Level1().update();
+        //$("#ourMap").unbind("mousemove");
+        //$("#ourMap").unbind("click");
       }
       else if (howToClicked)
       {
@@ -203,18 +214,6 @@ function MenuLoad() {
    * @name Level1
    */
 let Level1 = function() {
-  let canvas = document.getElementById("ourMap");
-  let cantx = canvas.getContext("2d");
-
-  //var for å definere spillervinduet vårt, altså en canvas i 2D
-  // if ($(window).width() < 1367) {
-  //   cantx.canvas.height = 400;
-  //   cantx.canvas.width = 400;
-  // }
-  // if ($(window).width() < 321) {
-  //   cantx.canvas.height = 250;
-  //   cantx.canvas.width = 250;
-  // }
 
   let wid = canvas.offsetWidth;
   let hig = canvas.offsetHeight;
@@ -332,7 +331,7 @@ let Level1 = function() {
   let terrainImage = new Image();
   terrainImage.onload = function() {
     bakgrunnLastet = true;
-    console.log("bakgrunn lastet");
+    //console.log("bakgrunn lastet");
     assetsLoaded();
   };
   terrainImage.src = "Sprites/bakgrunngress.png";
@@ -341,7 +340,7 @@ let Level1 = function() {
   let playerImage = new Image();
   playerImage.onload = function() {
     playerLoaded = true;
-    console.log("spiller lastet");
+    //console.log("spiller lastet");
     assetsLoaded();
   };
   playerImage.src = "Sprites/KongSverreFront.png";
@@ -350,7 +349,7 @@ let Level1 = function() {
   let keyImage = new Image();
   keyImage.onload = function() {
     keysLastet = true;
-    console.log("keys lastet");
+    //console.log("keys lastet");
     assetsLoaded();
   };
   keyImage.src = "Sprites/keyItem.gif";
@@ -359,7 +358,7 @@ let Level1 = function() {
   let stoneImage = new Image();
   stoneImage.onload = function() {
     stonesLoaded = true;
-    console.log("steiner lastet");
+    // console.log("steiner lastet");
     assetsLoaded();
   };
   stoneImage.src = "Sprites/stone.png";
@@ -368,7 +367,7 @@ let Level1 = function() {
   let bushImage = new Image();
   bushImage.onload = function() {
     bushLastet = true;
-    console.log("busker lastet");
+    // console.log("busker lastet");
     assetsLoaded();
   };
   bushImage.src = "Sprites/Busk4.png";
@@ -377,7 +376,7 @@ let Level1 = function() {
   let triggerImage = new Image();
   triggerImage.onload = function() {
     triggerLastet = true;
-    console.log("triggers lastet");
+    // console.log("triggers lastet");
     assetsLoaded();
   };
   triggerImage.src = "Sprites/trigger.png";
@@ -386,7 +385,7 @@ let Level1 = function() {
   let crossbowRightImage = new Image();
   crossbowRightImage.onload = function() {
     arrowShooterLastet = true;
-    console.log("skyter høyre lastet");
+    // console.log("skyter høyre lastet");
     assetsLoaded();
   };
   crossbowRightImage.src = "Sprites/crossbowRight.png";
@@ -394,7 +393,7 @@ let Level1 = function() {
   let crossbowLeftImage = new Image();
   crossbowLeftImage.onload = function() {
     arrowShooterLastet = true;
-    console.log("skyter venstre lastet");
+    // console.log("skyter venstre lastet");
     assetsLoaded();
   };
   crossbowLeftImage.src = "Sprites/crossbowLeft.png";
@@ -418,10 +417,10 @@ let Level1 = function() {
 
   let enemeySprite = new Image();
   enemeySprite.onload = function() {
-    console.log("Enemy loaded");
+    // console.log("Enemy loaded");
   };
   enemeySprite.src = "Sprites/NewSoldier.png";
-  console.log(enemeySprite.width, ObjectSizeHei);
+  // console.log(enemeySprite.width, ObjectSizeHei);
 
 
   //Functions to set a timer in the game that counts the seconds
@@ -566,7 +565,7 @@ let Level1 = function() {
      */
     for (let i = 0; i < moveObjArray.length; i++) {
       if (player.x == moveObjArray[i].x && player.y == moveObjArray[i].y) {
-        console.log("moving stone " + i + " to: " + moveObjArray[i].x + ", " + moveObjArray[i].y);
+        // console.log("moving stone " + i + " to: " + moveObjArray[i].x + ", " + moveObjArray[i].y);
         moveHinder(moveObjArray[i].x, moveObjArray[i].y, i);
       }
     }
@@ -607,7 +606,7 @@ let Level1 = function() {
      */
     for (let i = 0; i < keyobjectArray.length; i++) {
       if (player.x == keyobjectArray[i].x && player.y == keyobjectArray[i].y) {
-        console.log("found a key!");
+        // console.log("found a key!");
         keyPickedUp++;
         keySound.play();
         //Midlertidig, fjernes fra canvaset
@@ -615,7 +614,7 @@ let Level1 = function() {
         keyobjectArray[i].y = 19;
       }
     }
-    console.log("x: " + player.x + " y: " + player.y);
+    // console.log("x: " + player.x + " y: " + player.y);
   };
 
   // values to handle the drawing of arrows and soldiers, so they have different times etc
@@ -634,6 +633,11 @@ let Level1 = function() {
     if (isGameover && playerDead)
     {
       cantx.drawImage(gameOverImage, 0, 0, 600, 600);
+      return;
+    }
+    
+    if (!gameStarted)
+    {
       return;
     }
 
@@ -708,6 +712,7 @@ let Level1 = function() {
           arrow_XR = 18;
           arrow_XL = 1;
           shoot();
+          console.log("shooting");
         }
       } else {
         shoot();
@@ -831,7 +836,7 @@ let Level1 = function() {
       (newX == player.x && y == player.y)
     ) {
       foundCollision = true;
-      console.log("There was a collision with arrow here");
+      // console.log("There was a collision with arrow here");
     }
 
     return foundCollision;
@@ -1044,7 +1049,7 @@ let Level1 = function() {
 
     if (
       check_col_player(arrow_XR, arrow_Y) ||
-      check_col_player(arrow_XL, arrow_Y)
+      check_col_player(arrow_XL + 0.8, arrow_Y)
     ) {
       //if there is a collision with the player, gameOver() is called
       playerDead = true;
@@ -1053,8 +1058,8 @@ let Level1 = function() {
     }
 
     if (
-      check_collision_stones(arrow_XL + 1, arrow_Y, moveObjArray.length + 1) ||
-      check_collision(arrow_XL + 1, arrow_Y)
+      check_collision_stones(arrow_XL + 0.8, arrow_Y, moveObjArray.length + 1) ||
+      check_collision(arrow_XL + 0.8, arrow_Y)
     ) {
       //if the arrow on the Left hits the wall, make leftArrowCol = true, as there is less room on the left side, compared to right side.
       arrow_XL = 1;
@@ -1095,11 +1100,11 @@ let Level1 = function() {
       scoreCalc();
       let myScore = "Your score was: " + String(score);
       $(".myScore").text(myScore);
-      window.cancelAnimationFrame(update);
+      cancelAnimationFrame(update);
       setTimeout(loadLevel2(), 1000);
 
     } else if(playerDead){
-      window.cancelAnimationFrame(update);
+      cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
       cantx.drawImage(gameOverImage, 0, 0, 600, 600);
     }
@@ -1119,7 +1124,6 @@ let Level1 = function() {
     else if (e.keyCode == "40" || e.keyCode == "83") player.move("down");
   });
 
-
   /**
    * What happens when player clicks the reset button
    * Resets all arrays, but keeps the timer the same
@@ -1130,7 +1134,7 @@ let Level1 = function() {
   $("#reset").click(function() {
     if (winCondition) {
     } else {
-      player.x = 13;
+      player.x = 9;
       player.y = 13;
       arrowObjArray.length = 0;
       moveObjArray.length = 0;
@@ -1142,8 +1146,23 @@ let Level1 = function() {
       keyPickedUp = 0;
       isGameover = false;
       makeArrays();
-      window.cancelAnimationFrame(update);
+      cancelAnimationFrame(update);
+      clearTimeout(update);
       assetsLoaded();
     }
   });
+
+  $("#Menu").click(function() {
+      isGameover = false;
+      cancelAnimationFrame(update);
+      clearTimeout(update);
+      resetTimer();
+      clearInterval(timer.clearTime);
+      gameStarted = false;
+      MenuLoad.isOnMenu = true;
+      MenuLoad.startClicked = false;
+      isRestarted = true;
+      MenuLoad();
+  });
 };
+
