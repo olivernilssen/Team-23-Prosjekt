@@ -5,6 +5,15 @@ window.onload = function() {
   MenuLoad();
 };
 
+// Sound effects
+  var backgroundMusic = document.getElementById('backgroundMusic');
+  var keySound = document.getElementById('key');
+  var triggerSound = document.getElementById('trigger');
+
+  //Sound effects volume
+  document.getElementById('backgroundMusic').volume = 0.15;
+  document.getElementById('key').volume = 0.5;
+  document.getElementById('trigger').volume = 0.5;
 
 /**
    * Function to draw the loading screen for the menu at the start of the game
@@ -46,7 +55,7 @@ function MenuLoad() {
   let startClicked = false;
   let gameStarted = false;
 
-  loadAssets(); 
+  loadAssets();
 
   function loadAssets() {
     background = new Image();
@@ -96,6 +105,7 @@ function MenuLoad() {
     $("#ourMap").click(function() {
       console.log("clicked on canvas");
       if (startClicked == true) {
+        backgroundMusic.play();
         Level1();
         gameStarted = true;
         $(canvas).unbind("mousemove");
@@ -159,7 +169,8 @@ let Level1 = function() {
   let speed = 10;
   let myTime = 0;
 
-  let keyPickedUp = 0;
+  let
+   = 0;
   let modifier = 10;
   let ObjectSizeWid = 30;
   let ObjectSizeHei = 30;
@@ -531,6 +542,7 @@ let Level1 = function() {
       if (player.x == keyobjectArray[i].x && player.y == keyobjectArray[i].y) {
         console.log("found a key!");
         keyPickedUp++;
+        keySound.play();
         //Midlertidig, fjernes fra canvaset
         keyobjectArray[i].x = i;
         keyobjectArray[i].y = 19;
