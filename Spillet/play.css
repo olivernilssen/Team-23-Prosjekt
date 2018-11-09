@@ -3,7 +3,7 @@ body {
   width: 100%;
   background: url("websidefiler/bakgrunn team23.png");
   background-size: 100%;
-  overflow-y:hidden;
+  overflow-y: hidden;
   overflow-x: hidden;
 
 }
@@ -15,26 +15,31 @@ body {
   padding: 1.5%;
 }
 
+.navbar-brand {
+  padding-bottom: 50px;
+}
+
 .second {
   background-color:#040E08;
   text-align: center;
 }
 
-#linkButtons {
-  width:100%;
-}
+/* #linkButtons {
+  width: 100%;
+} */
 
 .row {
   text-align:center;
   padding-left: 5%;
 }
-.gameInfo {
+/* .gameInfo {
   float: left;
   display:inline-block;
   margin-left: auto;
   margin-right: auto;
   padding-left: 5%;
-}
+} */
+
 .button {
     background-color: #13572F;
     border: none;
@@ -47,10 +52,12 @@ body {
     margin-left: 0%;
     font-size: 120%;
   }
+
 #controls {
 background-color: #2FD474;
 color:#23272a;
 }
+
 .resetButton {
   background-color: #0E4023;
   border: none;
@@ -59,10 +66,12 @@ color:#23272a;
   text-decoration: none;
   font-size: 120%;
 }
+
 .resetButton:hover {
   background-color:#2FD474;
   color:black;
 }
+
 .Score {
   padding-top: 10%;
   float:left;
@@ -70,36 +79,54 @@ color:#23272a;
   width:10%;
   font-size: 75%;
 }
+
 .myScore {
     font-size:200%;
 }
+
 .timer {
   font-size: 200%;
 }
-.container {
+
+.container-fluid {
   width:100%;
   height:100%;
 }
+
+canvas { 
+  width: 100%;
+  height: auto;
+}
+
 /* #left-column {
 float:left;
 width:35%;
 height:100%
 } */
+
 #ourMap {
   /* height:100%;
   width:100%; */
 }
+
 /* #middle-column {
 float:left;
 width:35%;
 height:100%;
 padding-left: 5%;
 } */
+
 #howto {
   height:100%;
   width:100%;
 }
+
 /* #right-column {
 float:left;
 width:15%
 } */
+
+@media only screen and (max-width: 1250px) {
+    body {
+        overflow-y: visible;
+    }
