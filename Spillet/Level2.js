@@ -1,12 +1,21 @@
 import { score } from './Level1.js';
 
+// Sound effects
+var backgroundMusic = new Audio('music/backgroundMusic.mp3');
+var keySound = new Audio('music/keySound.mp3');
+var triggerSound = new Audio('music/triggerSound.mp3');
+
+//Sound effects volume
+backgroundMusic.volume = 0.1;
+keySound.volume = 0.5;
+triggerSound.volume = 0.5;
+
+
 export let loadLevel2 = function() {
 
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
-
-  let wid = canvas.offsetWidth;
-  let hig = canvas.offsetHeight;
+  backgroundMusic.play();
 
   //letiabler for å sjekke om at bilder og elementer er lastet inn i scenen.
   let bakgrunnLastet = false;
@@ -25,8 +34,8 @@ export let loadLevel2 = function() {
   let myTime = 0;
   let keyPickedUp = 0;
   let modifier = 10;
-  let ObjectSizeWid = wid / 20;
-  let ObjectSizeHei = hig / 20;
+  let ObjectSizeWid = 30;
+  let ObjectSizeHei = 30;
   let scoreLvl2 = score;
 
   let arrow_XR = 18;
@@ -39,6 +48,8 @@ export let loadLevel2 = function() {
     this.y = y;
     this.oldX = x;
     this.oldY = y;
+    this.isTriggered = false;
+    this.stoneIndex = 0;
   }
 
   function SoldierElement(x, y) {
@@ -58,7 +69,7 @@ export let loadLevel2 = function() {
   //Liste med objekter som kan plukkes opp
   let keyitemArray = [];
   //Liste med objekter som kan steiner kan stå på
-  let stoneTriggers = [];
+  let stoneTriggerArray = [];
   //Liste over hvor gaten er
   let gateObjArray = [];
 
@@ -75,11 +86,11 @@ export let loadLevel2 = function() {
     crossbowArray.push(new aElement(1, 8));
 
     //Objekter som har en slags "trigger"
-    stoneTriggers.push(new aElement(9, 14));
-    stoneTriggers.push(new aElement(10, 14));
-    stoneTriggers.push(new aElement(10, 15));
-    stoneTriggers.push(new aElement(5, 1));
-    stoneTriggers.push(new aElement(9, 1));
+    stoneTriggerArray.push(new aElement(9, 14));
+    stoneTriggerArray.push(new aElement(10, 14));
+    stoneTriggerArray.push(new aElement(10, 15));
+    stoneTriggerArray.push(new aElement(5, 1));
+    stoneTriggerArray.push(new aElement(9, 1));
 
     //Gate objekt som kommer på slutten
     gateObjArray.push(new aElement(10, 12));
@@ -150,7 +161,10 @@ export let loadLevel2 = function() {
   //Initialize all the images into the different image objects for later use
 
   let gameOverImage = new Image();
-  gameOverImage.src = "Sprites/gameover.png";
+  gameOverImage.src = "Sprites/deadScreen.png";
+
+  let gameWonImg = new Image();
+  gameOverImage.src = "Sprites/endScreen.png";
 
   let terrainImage = new Image();
   terrainImage.onload = function() {
@@ -447,6 +461,7 @@ export let loadLevel2 = function() {
       if (player.x == keyitemArray[i].x && player.y == keyitemArray[i].y) {
         console.log("found a key!");
         keyPickedUp++;
+        keySound.play();
         //Midlertidig, fjernes fra canvaset
         keyitemArray[i].x = i;
         keyitemArray[i].y = 19;
@@ -479,24 +494,24 @@ export let loadLevel2 = function() {
         cantx.drawImage(gateImage, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
       }
 
-      for(let i = 0; i < gateObjArray.length; i++)
-      {
-        if(!winCondition){
-          cantx.drawImage(gateImg1, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-          cantx.drawImage(gateImgRight, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-          cantx.drawImage(gateImgLeft, gateObjArray[3].x * ObjectSizeWid, gateObjArray[3].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-        }
-        else {
-          cantx.drawImage(gateImgRight, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-          cantx.drawImage(gateImgLeft, gateObjArray[3].x * ObjectSizeWid, gateObjArray[3].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-        }
+    for(let i = 0; i < gateObjArray.length; i++)
+    {
+      if(!winCondition){
+        cantx.drawImage(gateImg1, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        cantx.drawImage(gateImgRight, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        cantx.drawImage(gateImgLeft, gateObjArray[3].x * ObjectSizeWid, gateObjArray[3].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
+      else {
+        cantx.drawImage(gateImgRight, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        cantx.drawImage(gateImgLeft, gateObjArray[3].x * ObjectSizeWid, gateObjArray[3].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      }
+    }
     
     
   
     //draw triggers for stones and the arrowshooters
-    for (let i = 0; i < stoneTriggers.length; i++) {
-      cantx.drawImage(triggerImage, stoneTriggers[i].x * ObjectSizeWid, stoneTriggers[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+    for (let i = 0; i < stoneTriggerArray.length; i++) {
+      cantx.drawImage(triggerImage, stoneTriggerArray[i].x * ObjectSizeWid, stoneTriggerArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
     }
 
     cantx.drawImage(crossbowImageRight, crossbowArray[0].x * ObjectSizeWid, crossbowArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
@@ -683,33 +698,74 @@ export let loadLevel2 = function() {
     return foundCollision;
   }
 
+
+  function isTriggeredTrue (el, index, arr){
+    if(el.isTriggered == true)
+    {
+      return true;
+    }
+    else if (el.isTriggered == false)
+    {
+      return false;
+    }
+  }
+
   let firstTriggers = 0;
   /**
    * Checks if the boxes/stones are on top of the trigger boxes
-   * and then returns a value of true for onallTriggers
+   * and then returns a value of true for allTriggers
    * @function
    * @name check_Trigger
    * */
   function check_Trigger() {
-    let checkCount = 0;
-    let onallTriggers = false;
-
-    for (let i = 0; i < moveObjArray.length; i++) {
-      for(let j = 0; j < stoneTriggers.length; j++){
-        if (moveObjArray[i].x == stoneTriggers[j].x && moveObjArray[i].y == stoneTriggers[j].y) {
-          checkCount++;
-          //console.log(checkCount);
+    let allTriggers = false;
+    
+    
+    if(!stoneTriggerArray.every(isTriggeredTrue)){
+      for (let i = 0; i < moveObjArray.length; i++) {
+        for(let j = 0; j < stoneTriggerArray.length; j++){
+          if (
+            moveObjArray[i].x == stoneTriggerArray[j].x &&
+            moveObjArray[i].y == stoneTriggerArray[j].y &&
+            !stoneTriggerArray[j].isTriggered
+          ) {
+            stoneTriggerArray[j].isTriggered = true;
+            stoneTriggerArray[j].stoneIndex = i;
+            triggerSound.play();
+            break;
+          }
         }
       }
-      if(checkCount >= 3) {
-        firstTriggers = 3;
-      }
+    }
 
-      if (checkCount == 5) {
-        onallTriggers = true;
+    if(firstTriggers == 3){
+      for(let i = 0; i < 3; i++){
+      if(stoneTriggerArray[i].x != moveObjArray[stoneTriggerArray[i].stoneIndex].x){
+          stoneTriggerArray[i].isTriggered = false;
+          firstTriggers = 0;
+          break;
+        }
       }
     }
-    return onallTriggers;
+
+    if (stoneTriggerArray[0].isTriggered == true && stoneTriggerArray[1].isTriggered == true && stoneTriggerArray[2].isTriggered == true){
+      firstTriggers = 3;
+    }
+
+
+    if (stoneTriggerArray.every(isTriggeredTrue)) {
+      for(let i = 0; i < stoneTriggerArray.length; i++)
+      {
+        if(stoneTriggerArray[i].x != moveObjArray[stoneTriggerArray[i].stoneIndex].x)
+        {
+          stoneTriggerArray[i].isTriggered = false;
+          return allTriggers = false;
+        }
+      }
+      return allTriggers = true;
+    }
+  
+    return allTriggers;
   }
 
   /**
@@ -900,11 +956,11 @@ export let loadLevel2 = function() {
       let myScore = "Your score was: " + String(scoreLvl2);
       $(".myScore").text(myScore);
       window.cancelAnimationFrame(update);
-      cantx.drawImage(terrainImage, 150, 100);
+      cantx.drawImage(gameWonImg, 0, 0, 600, 600);
     } else if(playerDead){
       window.cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
-      cantx.drawImage(gameOverImage, 150, 100);
+      cantx.drawImage(gameOverImage, 0, 0, 600, 600);
     }
   }
 
@@ -932,7 +988,7 @@ export let loadLevel2 = function() {
       unMoveObjArray.length = 0;
       keyitemArray.length = 0;
       crossbowArray.length = 0;
-      stoneTriggers.length = 0;
+      stoneTriggerArray.length = 0;
       gateObjArray.length = 0;
       keyPickedUp = 0;
       isGameover = false;

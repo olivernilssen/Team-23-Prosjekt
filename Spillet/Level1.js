@@ -2,9 +2,18 @@ import { loadLevel2 } from './Level2.js';
 export let score = 0; //Score value is export, so it can be used in Level 2 aswell
 
 window.onload = function() {
-  MenuLoad();
+  loadLevel2();
 };
 
+// Sound effects
+  var backgroundMusic = new Audio('music/backgroundMusic.mp3');
+  var keySound = new Audio('music/keySound.mp3');
+  var triggerSound = new Audio('music/triggerSound.mp3');
+
+  //Sound effects volume
+  backgroundMusic.volume = 0.1;
+  keySound.volume = 0.5;
+  triggerSound.volume = 0.5;
 
 /**
    * Function to draw the loading screen for the menu at the start of the game
@@ -46,7 +55,7 @@ function MenuLoad() {
   let startClicked = false;
   let gameStarted = false;
 
-  loadAssets(); 
+  loadAssets();
 
   function loadAssets() {
     background = new Image();
@@ -96,6 +105,7 @@ function MenuLoad() {
     $("#ourMap").click(function() {
       console.log("clicked on canvas");
       if (startClicked == true) {
+        backgroundMusic.play();
         Level1();
         gameStarted = true;
         $(canvas).unbind("mousemove");
@@ -174,6 +184,8 @@ let Level1 = function() {
     this.y = y;
     this.oldX = x;
     this.oldY = y;
+    this.isTriggered = false;
+    this.stoneIndex = 0;
   }
 
   //Liste med objekter som kan beveges
@@ -531,6 +543,7 @@ let Level1 = function() {
       if (player.x == keyobjectArray[i].x && player.y == keyobjectArray[i].y) {
         console.log("found a key!");
         keyPickedUp++;
+        keySound.play();
         //Midlertidig, fjernes fra canvaset
         keyobjectArray[i].x = i;
         keyobjectArray[i].y = 19;
@@ -757,6 +770,16 @@ let Level1 = function() {
     return foundCollision;
   }
 
+  function isTriggeredTrue (el, index, arr){
+    if(el.isTriggered == true)
+    {
+      return true;
+    }
+    else if (el.isTriggered == false)
+    {
+      return false;
+    }
+  }
   /**
    * Checks if the boxes/stones are on top of the trigger boxes
    * and then returns a value of true for bothTriggered
@@ -764,31 +787,41 @@ let Level1 = function() {
    * @name check_Trigger
    * */
   function check_Trigger() {
-    let checkCount = 0;
     let bothTriggered = false;
-
-    for (let i = 0; i < moveObjArray.length; i++) {
-      if (
-        moveObjArray[i].x == stoneTriggerArray[0].x &&
-        moveObjArray[i].y == stoneTriggerArray[0].y
-      ) {
-        checkCount++;
-      }
-
-      if (
-        moveObjArray[i].x == stoneTriggerArray[1].x &&
-        moveObjArray[i].y == stoneTriggerArray[1].y
-      ) {
-        checkCount++;
-      }
-
-      if (checkCount == 2) {
-        bothTriggered = true;
+    
+    
+    if(!stoneTriggerArray.every(isTriggeredTrue)){
+      for (let i = 0; i < moveObjArray.length; i++) {
+        for(let j = 0; j < stoneTriggerArray.length; j++){
+          if (
+            moveObjArray[i].x == stoneTriggerArray[j].x &&
+            moveObjArray[i].y == stoneTriggerArray[j].y &&
+            !stoneTriggerArray[j].isTriggered
+          ) {
+            stoneTriggerArray[j].isTriggered = true;
+            stoneTriggerArray[j].stoneIndex = i;
+            triggerSound.play();
+            break;
+          }
+        }
       }
     }
 
+    if (stoneTriggerArray.every(isTriggeredTrue)) {
+      for(let i = 0; i < stoneTriggerArray.length; i++)
+      {
+        if(stoneTriggerArray[i].x != moveObjArray[stoneTriggerArray[i].stoneIndex].x)
+        {
+          stoneTriggerArray[i].isTriggered = false;
+          return bothTriggered = false;
+        }
+      }
+      return bothTriggered = true;
+    }
+  
     return bothTriggered;
   }
+
 
 
   /**
