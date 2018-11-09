@@ -113,9 +113,9 @@ body {
 
 .affix-top {
   /* navbar style at top */
-  background: transparent;
+  /* background: transparent;
   border-color: transparent;
-  padding: 1.5%;
+  padding: 1.5%; */
 }
 
 h3, h4 {
@@ -124,9 +124,10 @@ h3, h4 {
     font-size: 20px;
     color: #111;
 }
-.container {
-    padding: 80px 120px;
-}
+
+/* .container {
+    padding: 200px 120px;
+} */
 
 .person {
     border: 10px solid transparent;
@@ -141,11 +142,20 @@ h3, h4 {
 }
 
 .bg-1 {
-    background: #2d2d30;
+    padding: 200px 120px;
+    padding-bottom: 400px;
+    background-image: url("joakimbilder/bakgrunn team23.png");
+    background-size: 1360px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #bdbdbd;
 }
 
-.bg-1 h3 {color: #fff;}
+.bg-1 h3 {
+  color: #fff;
+  padding-left: 30px;
+}
 .bg-1 p {font-style: italic;}
 .list-group-item:first-child {
     border-top-right-radius: 0;
@@ -157,7 +167,7 @@ h3, h4 {
     border-bottom-left-radius: 0;
 }
 
-.thumbnail {
+/* .thumbnail {
     padding: 0 0 15px 0;
     border: none;
     border-radius: 0;
@@ -180,18 +190,7 @@ h3, h4 {
     border: 1px solid #333;
     background-color: #fff;
     color: #000;
-}
-
-.modal-header, h4, .close {
-    background-color: #333;
-    color: #fff !important;
-    text-align: center;
-    font-size: 30px;
-}
-
-.modal-header, .modal-body {
-    padding: 40px 50px;
-}
+} */
 
 .nav-tabs li a {
     color: #777;
