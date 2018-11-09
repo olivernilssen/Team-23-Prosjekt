@@ -35,7 +35,7 @@ function MenuLoad() {
   }
 
   let btnHeight =  600 / 6;
-  let btnWidth =  600 / 2;
+  let btnWidth =  600 / 1.3;
 
   //startbutton x position
   let STB_x = 600 / 2 - btnWidth / 2;
@@ -52,10 +52,12 @@ function MenuLoad() {
 
   let background;
   let startButton;
-  let ctrlImg, ctrlbtnImg;
-  let howtoImg, howTobtnImg;
+  let ctrlImg;
+  let ctrlbtnImg;
+  let howtoImg;
+  let howTobtnImg;
   let isOnMenu;
-  let backImg;
+  let backbtnImg;
   let backgroundLoaded = false;
   let startButtonLoaded = false;
   let startClicked = false;
@@ -78,16 +80,16 @@ function MenuLoad() {
     ctrlImg.src = "Sprites/controls.png";
 
     ctrlbtnImg = new Image();
-    ctrlbtnImg.src = "Sprites/startB.png";
+    ctrlbtnImg.src = "Sprites/controlsB.png";
 
     howtoImg = new Image();
     howtoImg.src = "Sprites/items.png";
 
     howTobtnImg = new Image();
-    howTobtnImg.src = "Sprites/startB.png";
+    howTobtnImg.src = "Sprites/howToB.png";
 
-    backImg = new Image();
-    backImg.src = "Sprites/startB.png";
+    backbtnImg = new Image();
+    backbtnImg.src = "Sprites/backB.png";
 
     startButton = new Image();
     startButton.onload = function() {
@@ -111,34 +113,42 @@ function MenuLoad() {
           startButton.src = "Sprites/startBH.png";
           startClicked = true;
         }
-        else if ((
+        else {
+          startButton.src = "Sprites/startB.png";
+          startClicked = false;
+        }
+        if ((
           mousePos.x >= HWB_x && mousePos.x <= HWB_x + btnWidth) &&
           (mousePos.y >= HWB_y && mousePos.y <= HWB_y + btnHeight) &&
           !gameStarted && isOnMenu) {
-            howTobtnImg.src = "Sprites/startBH.png";
+            howTobtnImg.src = "Sprites/howToBH.png";
             howToClicked = true;
           } 
-          else if 
+          else {
+            howTobtnImg.src = "Sprites/howToB.png";
+            howToClicked = false;
+          }
+
+          if 
             ((mousePos.x >= CTB_x && mousePos.x <= CTB_x + btnWidth) &&
             (mousePos.y >= CTB_y && mousePos.y <= CTB_y + btnHeight) &&
-            !gameStarted && isOnMenu) {
-            ctrlbtnImg.src = "Sprites/startBH.png";
+            !gameStarted  && isOnMenu) {
+            ctrlbtnImg.src = "Sprites/controlsBH.png";
             ctrlClicked = true;
           } 
-          else if 
-            ((mousePos.x >= BackBtn_x && mousePos.x <= BackBtn_x + btnWidth) &&
-            (mousePos.y >= BackBtn_y && mousePos.y <= BackBtn_y + btnHeight) &&
+          else {
+            ctrlbtnImg.src = "Sprites/controlsB.png";
+            ctrlClicked = false;
+          }
+
+          if 
+            ((mousePos.x >= BackBtn_x && mousePos.x <= BackBtn_x + 150) &&
+            (mousePos.y >= BackBtn_y && mousePos.y <= BackBtn_y + 50) &&
             !gameStarted && !isOnMenu) {
-              backImg.src = "Sprites/startBH.png";
+              backbtnImg.src = "Sprites/backBH.png";
               BackBtnClicked = true;
             } else {
-              startButton.src = "Sprites/startB.png";
-              backImg.src = "Sprites/startB.png";
-              ctrlbtnImg.src = "Sprites/startB.png";
-              howTobtnImg.src = "Sprites/startB.png";
-              ctrlClicked = false;
-              howToClicked = false;
-              startClicked = false;
+              backbtnImg.src = "Sprites/backB.png";
               BackBtnClicked = false;
             }
           }
@@ -158,13 +168,13 @@ function MenuLoad() {
       {
         isOnMenu = false;
         cantx.drawImage(howtoImg, 0, 0, 600, 600);
-        cantx.drawImage(backImg, BackBtn_x, BackBtn_y, 150, 50);
+        cantx.drawImage(backbtnImg, BackBtn_x, BackBtn_y, 150, 50);
       }
       else if (ctrlClicked)
       {
         isOnMenu = false;
         cantx.drawImage(ctrlImg, 0, 0, 600, 600);
-        cantx.drawImage(backImg, BackBtn_x, BackBtn_y, 150, 50);
+        cantx.drawImage(backbtnImg, BackBtn_x, BackBtn_y, 150, 50);
       }
       else if (BackBtnClicked)
       {
