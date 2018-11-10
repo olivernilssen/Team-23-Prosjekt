@@ -133,25 +133,25 @@ let  MenuLoad = function() {
           !gameStarted && isOnMenu) {
             howTobtnImg.src = "Sprites/howToBH.png";
             howToClicked = true;
-          } 
+          }
           else {
             howTobtnImg.src = "Sprites/howToB.png";
             howToClicked = false;
           }
 
-          if 
+          if
             ((mousePos.x >= CTB_x && mousePos.x <= CTB_x + btnWidth) &&
             (mousePos.y >= CTB_y && mousePos.y <= CTB_y + btnHeight) &&
             !gameStarted  && isOnMenu) {
             ctrlbtnImg.src = "Sprites/controlsBH.png";
             ctrlClicked = true;
-          } 
+          }
           else {
             ctrlbtnImg.src = "Sprites/controlsB.png";
             ctrlClicked = false;
           }
 
-          if 
+          if
             ((mousePos.x >= BackBtn_x && mousePos.x <= BackBtn_x + 150) &&
             (mousePos.y >= BackBtn_y && mousePos.y <= BackBtn_y + 50) &&
             !gameStarted && !isOnMenu) {
@@ -635,7 +635,7 @@ let Level1 = function() {
       cantx.drawImage(gameOverImage, 0, 0, 600, 600);
       return;
     }
-    
+
     if (!gameStarted)
     {
       return;
@@ -860,8 +860,8 @@ let Level1 = function() {
    * */
   function check_Trigger() {
     let bothTriggered = false;
-    
-    
+
+
     if(!stoneTriggerArray.every(isTriggeredTrue)){
       for (let i = 0; i < moveObjArray.length; i++) {
         for(let j = 0; j < stoneTriggerArray.length; j++){
@@ -890,7 +890,7 @@ let Level1 = function() {
       }
       return bothTriggered = true;
     }
-  
+
     return bothTriggered;
   }
 
@@ -1098,6 +1098,7 @@ let Level1 = function() {
       myTime = timer.seconds;
       clearInterval(timer.clearTime);
       scoreCalc();
+      backgroundMusic.pause();
       let myScore = "Your score was: " + String(score);
       $(".myScore").text(myScore);
       cancelAnimationFrame(update);
@@ -1165,4 +1166,3 @@ let Level1 = function() {
       MenuLoad();
   });
 };
-
