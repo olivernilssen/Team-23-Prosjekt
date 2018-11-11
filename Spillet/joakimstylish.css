@@ -25,12 +25,10 @@ h3, h4 {
 .person:hover {
     border-color: #f1f1f1;
     opacity: 0.8;
-
-
 }
 
 .bg-1 {
-    padding: 200px 120px;
+    padding-top: 200px;
     padding-bottom: 400px;
     background-image: url("joakimbilder/bakgrunn team23.png");
     background-size: 1360px;
@@ -40,12 +38,27 @@ h3, h4 {
     color: #bdbdbd;
 }
 
-.bg-1 h3 {
-  color: #fff;
-  padding-left: 30px;
+.bg-1 p {
+  font-style: italic;
+  font-weight: bold;
+  color: #27ae60;
+  text-align: center;
 }
 
-.bg-1 .bg-2 p {font-style: italic;}
+
+.bg-1 img {
+  display: block;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bg-2 {
+  padding-top: 100px;
+}
+
+.bg-2 p {font-style: italic;}
+
 .list-group-item:first-child {
     border-top-right-radius: 0;
     border-top-left-radius: 0;
@@ -56,12 +69,16 @@ h3, h4 {
     border-bottom-left-radius: 0;
 }
 
-. p {
+/* . p {
   vertical-align: center;
+} */
+#theTeam {
+  width: 40%;
 }
 
 .bg-2 img {
   vertical-align: center;
+  width: 80%;
 }
 
 .btn {

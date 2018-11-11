@@ -1,30 +1,198 @@
 <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Play Preussens Labyrint</title>
+    <link rel="icon" href="websidefiler/LogoTab.png" type="image/png" sizes="18x18">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="joakimstylish.css">
+  </head>
 
-<html>
-<head>
-  <title>TEAM 23 Index side</title>
-  <meta  charset="utf-8">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="styleLevel.css">
+<body id="hjemmeside" data-spy="scroll" data-target=".navbar" data-offset="50">
+  <nav class="navbar navbar-default navbar-fixed-top" data-spy="affix" data-offset-top="100px">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#hjemmeside"><img src="joakimbilder/logo.png"></a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="index.html#spill">Spillet</a></li>
+          <li><a href="index.html#Teamet">Teamet</a></li>
+          <li><a href="index.html#contact">Kontakt oss</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-</head>
 
-<audio loop src="../musikk/bakgrunn/forestFanfareLoop.mp3" id="backgroundMusic"></audio>
-<audio src="../musikk/soundeffects/keySound.mp3" id="key"></audio>
-<audio src="../musikk/soundeffects/triggerSound.mp3" id="trigger"></audio>
+<!-- container for link to game -->
+  <div id="spill" class="bg-1">
+    <div class="container">
+      <div class="row">
+      <div class="col-sm-4">
+      <h3><img src="joakimbilder/gameTitle.png"></h3>
+      <p>Press the button to help Kong Sverre
+        win his beloved Jürgen of Preussens hand</p>
+      <div class="playBtn">
+        <a href="spill.html"><img src="joakimbilder/playButton.png"></a>
+      </div>
+    </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4"></div>
+    </div>
+  </div>
+</div>
 
-<body>
+<!-- Container (Teamet) -->
+  <div id="Teamet" class="bg-2">
+    <div class="container">
+      <h3><img id="theTeam" src="joakimbilder/theTeam.png"</h3>
+      <p><em>The cake is a lie!</em></p>
+      <p></p><br>
+  <div class="row">
+    <div class="col-sm-3">
+      <p class="text-center"><strong>Fridtjof</strong></p><br>
+      <a href="#fInfo" data-toggle="collapse">
+        <img src="joakimbilder/Fridtjof.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="fInfo" class="collapse">
+        <p>Tall</p>
+        <p>Loves long walks on the beach</p>
+        <p><a href="mailto:fridtjle@stud.ntnu.no">fridtjle@stud.ntnu.no</a></p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <p class="text-center"><strong>Joakim</strong></p><br>
+      <a href="#jInfo" data-toggle="collapse">
+        <img src="joakimbilder/Joakim.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="jInfo" class="collapse">
+        <p>Drummer</p>
+        <p>Loves drummin'</p>
+        <p>Member since 1988</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <p class="text-center"><strong>Oliver</strong></p><br>
+      <a href="#oInfo" data-toggle="collapse">
+        <img src="joakimbilder/oliver.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="oInfo" class="collapse">
+        <p>Bass player</p>
+        <p>Loves math</p>
+        <p>Member since 2005</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <p class="text-center"><strong>Tharmika</strong></p><br>
+      <a href="#tInfo" data-toggle="collapse">
+        <img src="joakimbilder/Tharmika.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="tInfo" class="collapse">
+        <p>Bass player</p>
+        <p>Loves math</p>
+        <p>Member since 2005</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <canvas id="ourMap" width="600" height="600">
-      <script src="fallbackLevel.js"></script>
-      <script type="module" src="Level1.js"></script>
-    </canvas>
+<!-- Container (Contact Section) -->
+<div id="contact" class="bg-3">
+  <div class="container">
+    <h3 class="text-center">Contact us</h3>
+    <p class="text-center"><em>If you have questions about the game</em></p>
+
+    <div class="row">
+      <div class="col-md-4">
+        <p>Er du en vifte? Ta kontakt</p>
+        <p><span class="glyphicon glyphicon-map-marker">Sverres gate 13, 7012 Trondheim</span></p>
+        <p><span class="glyphicon glyphicon-envelope"></span>Email: TeamTjueTre@gmail.com</p>
+
+        <!-- Image of location/map -->
+        <div class="mapouter">
+          <div class="gmap_canvas">
+            <iframe width="200" height="200" id="gmap_canvas" src="https://maps.google.com/maps?q=sverres%20gate%2013&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+            </iframe>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-sm-6 form-group">
+            <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+          </div>
+          <div class="col-sm-6 form-group">
+            <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+          </div>
+        </div>
+        <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea>
+        <br>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <button class="btn pull-right" type="submit">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <br>
-    <span class="myScore">Din Score kommer her</span><br>
+    <h3 class="text-center">Amazing quotes from the team</h3>
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#home">Oliver</a></li>
+      <li><a data-toggle="tab" href="#menu1">Joakim</a></li> <li><a data-toggle="tab" href="#menu2">Peter</a></li>
+    </ul>
 
-    <span class="timer">0:00</span>
-    <button type="button" id="reset">Reset Game</button>
+    <div class="tab-content">
+      <div id="home" class="tab-pane fade in active">
+        <h2>Oliver, Programmer</h2>
+        <p>"I just love me some CSS"</p>
+      </div>
+      <div id="menu1" class="tab-pane fade">
+      <h2>Joakim, Awesome guy</h2>
+      <p>"I have not slept in 10 days"</p>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h2>Peter Griffin, Bass player</h2>
+      <p>I mean, sometimes I enjoy the show, but other times I enjoy other things.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center">
+  <a class="up-arrow" href="#hjemmeside" data-toggle="tooltip" title="TO TOP">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a><br><br>
+  <p></p>
+</footer>
+
+<script>
+
+</script>
+
 </body>
+</html>
 
+
+
+
+
+
+
+  </body>
 </html>
