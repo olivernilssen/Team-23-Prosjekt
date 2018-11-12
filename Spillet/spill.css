@@ -1,6 +1,7 @@
 body {
     font: 400 15px/1.8 Lato, sans-serif;
     color: #777;
+    overflow-y: hidden;
 }
 
 .navbar-brand {
@@ -40,6 +41,7 @@ canvas {
 }
 
 .bg-1 {
+    padding-bottom: 200px;
     background-image: url("joakimbilder/bakgrunn team23.png");
     background-size: 1400px;
     background-position: center;

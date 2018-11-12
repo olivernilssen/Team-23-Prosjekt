@@ -60,7 +60,7 @@ h3, h4 {
 
 .bg-2 p {
   font-style: italic;
-  font-size: 1vw;
+  font-size: 15px;
 }
 
 .bg-2 img {
@@ -74,7 +74,6 @@ h3, h4 {
   color: #a7a7a7;
   text-align: center;
   display: block;
-  height: 200px;
 }
 
 
@@ -201,24 +200,24 @@ footer a:hover {
 }
 
 #mc_embed_signup {
+  padding: 30px;
   background:#2d2d30;
   font:14px Helvetica,Arial,sans-serif;
   color: black;
   width:100%;
 }
 
-#mc_embed_signup div.mc-field-group label {
-
+#mc_embedded-subscribe.button {
+  margin-left: 20px;
 }
 
-#vektor p {
+#vektor {
   border-top: solid black 2px;
-  padding: 10px;
+  padding: 20px;
 }
 
 #vektor img {
-  width: 10%;
-  padding-top: 20px;
+  width: 30%;
 }
 
 .form-control {
