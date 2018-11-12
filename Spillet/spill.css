@@ -8,6 +8,11 @@ body {
   padding-left: 25px;
 }
 
+.filler {
+  padding: 50px;
+}
+
+
 h3, h4 {
     margin: 10px 0 30px 0;
     letter-spacing: 10px;
@@ -15,9 +20,9 @@ h3, h4 {
     color: #111;
 }
 
-#ourMap {
+/* #ourMap {
   padding-top: 100px;
-}
+} */
 
 .Score {
   padding-top: 0;
@@ -167,11 +172,27 @@ footer a:hover {
     text-decoration: none;
 }
 
-#googlePlus {
-border: 1px solid #333;
-background-color: #fff;
-color: #000;
+#mc_embed_signup {
+  padding: 30px;
+  background:#2d2d30;
+  font:14px Helvetica,Arial,sans-serif;
+  color: black;
+  width:100%;
 }
+
+#mc_embedded-subscribe.button {
+  margin-left: 20px;
+}
+
+#vektor {
+  border-top: solid black 2px;
+  padding: 20px;
+}
+
+#vektor img {
+  width: 30%;
+}
+
 .form-control {
     border-radius: 0;
 }
