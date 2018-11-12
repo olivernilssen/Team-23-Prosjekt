@@ -55,9 +55,38 @@ h3, h4 {
 
 .bg-2 {
   padding-top: 100px;
+  background-color: #fbfbfb;
 }
 
-.bg-2 p {font-style: italic;}
+.bg-2 p {
+  font-style: italic;
+  font-size: 1vw;
+}
+
+.bg-2 img {
+  vertical-align: center;
+  width: 80%;
+}
+
+#wuf-adv {
+  font-family: inherit;
+  font-size: small;
+  color: #a7a7a7;
+  text-align: center;
+  display: block;
+  height: 200px;
+}
+
+
+
+.bg-3 {
+  padding-top: 50px;
+  background-color: #fbfbfb;
+}
+
+.bg-4 {
+
+}
 
 .list-group-item:first-child {
     border-top-right-radius: 0;
@@ -76,10 +105,7 @@ h3, h4 {
   width: 40%;
 }
 
-.bg-2 img {
-  vertical-align: center;
-  width: 80%;
-}
+
 
 .btn {
     padding: 10px 20px;
@@ -101,7 +127,7 @@ h3, h4 {
 
 #googleMap {
     width: 100%;
-    height: 400px;
+    height: 500px;
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
 }
@@ -172,6 +198,27 @@ footer a {
 footer a:hover {
     color: #777;
     text-decoration: none;
+}
+
+#mc_embed_signup {
+  background:#2d2d30;
+  font:14px Helvetica,Arial,sans-serif;
+  color: black;
+  width:100%;
+}
+
+#mc_embed_signup div.mc-field-group label {
+
+}
+
+#vektor p {
+  border-top: solid black 2px;
+  padding: 10px;
+}
+
+#vektor img {
+  width: 10%;
+  padding-top: 20px;
 }
 
 .form-control {

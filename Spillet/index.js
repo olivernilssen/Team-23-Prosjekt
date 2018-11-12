@@ -27,3 +27,22 @@ $(document).ready(function(){
     } // End if
   });
 })
+
+
+// spørreskjema
+var z1uuc3y213293ic;(function(d, t) {
+var s = d.createElement(t), options = {
+'userName':'teamtjuetre',
+'formHash':'z1uuc3y213293ic',
+'autoResize':true,
+'height':'731',
+'async':true,
+'host':'wufoo.com',
+'header':'show',
+'ssl':true};
+s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
+s.onload = s.onreadystatechange = function() {
+var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+try { z1uuc3y213293ic = new WufooForm();z1uuc3y213293ic.initialize(options);z1uuc3y213293ic.display(); } catch (e) {}};
+var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+})(document, 'script');
