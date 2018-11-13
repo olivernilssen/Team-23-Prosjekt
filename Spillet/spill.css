@@ -48,7 +48,7 @@ canvas {
 .bg-1 {
     padding-bottom: 200px;
     background-image: url("joakimbilder/bakgrunn team23.png");
-    background-size: 1400px;
+    background-size: 1920px;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -144,18 +144,6 @@ canvas {
     border-color: transparent;
 }
 
-.open .dropdown-toggle {
-    color: #fff;
-    background-color: #555 !important;
-}
-
-.dropdown-menu li a {
-    color: #000 !important;
-}
-
-.dropdown-menu li a:hover {
-    background-color: red !important;
-}
 
 footer {
     background-color: #2d2d30;
@@ -199,4 +187,9 @@ footer a:hover {
 
 textarea {
     resize: none;
+}
+
+@media only screen
+and (min-width : 1360px) {
+  background-size: 1360px;
 }

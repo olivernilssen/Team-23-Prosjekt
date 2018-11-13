@@ -31,7 +31,6 @@ h3, h4 {
     padding-top: 200px;
     padding-bottom: 400px;
     background-image: url("joakimbilder/bakgrunn team23.png");
-    background-size: 1360px;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -44,7 +43,6 @@ h3, h4 {
   color: #27ae60;
   text-align: center;
 }
-
 
 .bg-1 img {
   display: block;
@@ -64,8 +62,9 @@ h3, h4 {
 }
 
 .bg-2 img {
-  vertical-align: center;
-  width: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #wuf-adv {
@@ -82,16 +81,6 @@ h3, h4 {
 
 .bg-3 {
   padding-top: 50px;
-}
-
-.list-group-item:first-child {
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-}
-
-.list-group-item:last-child {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
 }
 
 #theTeam {
@@ -143,19 +132,6 @@ h3, h4 {
     border-color: transparent;
 }
 
-.open .dropdown-toggle {
-    color: #fff;
-    background-color: #555 !important;
-}
-
-.dropdown-menu li a {
-    color: #000 !important;
-}
-
-.dropdown-menu li a:hover {
-    background-color: red !important;
-}
-
 footer {
     background-color: #2d2d30;
     color: #f5f5f5;
@@ -193,7 +169,7 @@ footer a:hover {
 }
 
 .contactInfo {
-  padding: 25px
+  padding: 50px;
 }
 
 .form-control {
@@ -202,4 +178,21 @@ footer a:hover {
 
 textarea {
     resize: none;
+}
+
+@media only screen
+and (min-width : 1920px) {
+.bg-1 {
+  padding-top: 200px;
+  padding-bottom: 400px;
+  background-size: 1920px;
+}
+}
+
+
+@media only screen
+and (min-width : 1366px) {
+.bg-1 {
+  background-size: 1366px;
+}
 }
