@@ -46,7 +46,7 @@ canvas {
 }
 
 .bg-1 {
-    padding-bottom: 200px;
+    padding-bottom: 400px;
     background-image: url("joakimbilder/bakgrunn team23.png");
     background-size: 1920px;
     background-position: center;
@@ -190,6 +190,8 @@ textarea {
 }
 
 @media only screen
-and (min-width : 1360px) {
-  background-size: 1360px;
+and (max-width : 1366px) {
+.bg-1 {
+  background-size: 1366px;
+}
 }
