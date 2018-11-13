@@ -181,17 +181,7 @@ textarea {
 }
 
 @media only screen
-and (min-width : 1920px) {
-.bg-1 {
-  padding-top: 200px;
-  padding-bottom: 400px;
-  background-size: 1920px;
-}
-}
-
-
-@media only screen
-and (min-width : 1366px) {
+and (max-width : 1366px) {
 .bg-1 {
   background-size: 1366px;
 }
