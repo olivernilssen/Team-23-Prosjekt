@@ -1,13 +1,16 @@
 import { loadLevel2 } from './Level2.js';
+import { isGameWon } from './Level2.js';
 export let score = 0; //Score value is export, so it can be used in Level 2 aswell
 let gameStarted = false;
 let isRestarted = false;
-export let level1Started;
+export let level1Started = false;
+let isGameover = false;
 
 var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame;
 
 window.onload = function() {
-  loadLevel2();
+  MenuLoad();
 };
 
 // Sound effects
@@ -173,7 +176,7 @@ export let  MenuLoad = function() {
         gameStarted = true;
         cantx.clearRect(0, 0, 600, 600);
         loadLevel2.isOnMenu = false;
-        Level1().update();
+        Level1();
         //$("#ourMap").unbind("mousemove");
         //$("#ourMap").unbind("click");
       }
@@ -216,16 +219,18 @@ export let  MenuLoad = function() {
    * @name Level1
    */
 let Level1 = function() {
-  let isGameover = false;
-
-  console.log(level1Started);
+  // console.log(level1Started);
   if(isGameover)
   {
+    cantx.drawImage(gameWonImg, 0, 0, 600, 600);
     return;
   }
 
-  let wid = canvas.offsetWidth;
-  let hig = canvas.offsetHeight;
+  if(isGameWon)
+  {
+    cantx.drawImage(gameWonImg, 0, 0, 600, 600);
+    return; 
+  }
 
   //variabler for å sjekke om at bilder og elementer er lastet inn i scenen.
   let bakgrunnLastet = false;
@@ -479,7 +484,7 @@ let Level1 = function() {
 
   let player = {
     x: 13,
-    y: 10
+    y: 12
   };
 
   player.move = function(direction) {
@@ -648,101 +653,105 @@ let Level1 = function() {
     {
       return;
     }
+    else if(gameStarted && !isGameover && !playerDead && !isGameWon && level1Started) {
 
-    cantx.drawImage(terrainImage, 0, 0); //draw background
+      cantx.drawImage(terrainImage, 0, 0); //draw background
 
-    for (let i = 0; i < stoneTriggerArray.length; i++) {
-      cantx.drawImage(triggerImage, stoneTriggerArray[i].x * ObjectSizeWid, stoneTriggerArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-    }
-
-    cantx.drawImage(crossbowRightImage, crossbowArray[0].x * ObjectSizeWid, crossbowArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-
-    cantx.drawImage(crossbowLeftImage, crossbowArray[1].x * ObjectSizeWid, crossbowArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
-
-    //Draw unmovable objects
-    for (let i = 0; i < unMoveObjArray.length; i++) {
-      cantx.drawImage(bushImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei,ObjectSizeWid, ObjectSizeHei);
-      if (i < moveObjArray.length) {
-        cantx.drawImage(stoneImage, moveObjArray[i].x * ObjectSizeWid, moveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      for (let i = 0; i < stoneTriggerArray.length; i++) {
+        cantx.drawImage(triggerImage, stoneTriggerArray[i].x * ObjectSizeWid, stoneTriggerArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
-    }
 
-    for(let i = 0; i < keyobjectArray.length; i++)
-    {
-      cantx.drawImage(keyImage, keyobjectArray[i].x * ObjectSizeWid, keyobjectArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-    }
+      cantx.drawImage(crossbowRightImage, crossbowArray[0].x * ObjectSizeWid, crossbowArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
 
-    //Draw player
-    cantx.drawImage(playerImage, player.x * ObjectSizeWid, player.y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      cantx.drawImage(crossbowLeftImage, crossbowArray[1].x * ObjectSizeWid, crossbowArray[1].y * ObjectSizeHei, ObjectSizeWid,ObjectSizeHei);
 
-    if(!winCondition){
-      cantx.drawImage(gateImg1, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-      cantx.drawImage(gateImgRight, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-      cantx.drawImage(gateImgLeft, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-    }
-    else {
-      cantx.drawImage(gateImgRight, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-      cantx.drawImage(gateImgLeft, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-    }
-
-    //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
-    if (check_Trigger() && keyPickedUp == 3 && !playerDead) {
-      winCondition = true;
-    } else {
-      winCondition = false;
-    }
-
-
-
-    //Get new values for the aimation position and frames depending on how many
-    // frames has passed since last time it played etc
-    if (spriteDrawFrame == 5) {
-      spriteDrawFrame = 0;
-    }
-
-    if (arrowDrawFrame == 2) {
-      arrowDrawFrame = 0;
-    }
-
-    if (spriteDrawFrame == spriteDraw) {
-      sprite();
-      //thisFrame += 40;
-    }
-
-    if (arrowDrawFrame == arrowDraw) {
-      if (leftArrowCol && rightArrowCol) {
-        waitArrow++;
-
-        if (waitArrow == 10) {
-          waitArrow = 0;
-          leftArrowCol = false;
-          rightArrowCol = false;
-          arrow_XR = 18;
-          arrow_XL = 1;
-          shoot();
-          console.log("shooting");
+      //Draw unmovable objects
+      for (let i = 0; i < unMoveObjArray.length; i++) {
+        cantx.drawImage(bushImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei,ObjectSizeWid, ObjectSizeHei);
+        if (i < moveObjArray.length) {
+          cantx.drawImage(stoneImage, moveObjArray[i].x * ObjectSizeWid, moveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
         }
-      } else {
-        shoot();
       }
+
+      for(let i = 0; i < keyobjectArray.length; i++)
+      {
+        cantx.drawImage(keyImage, keyobjectArray[i].x * ObjectSizeWid, keyobjectArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      }
+
+      //Draw player
+      cantx.drawImage(playerImage, player.x * ObjectSizeWid, player.y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+
+      if(!winCondition){
+        cantx.drawImage(gateImg1, gateObjArray[1].x * ObjectSizeWid, gateObjArray[1].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        cantx.drawImage(gateImgRight, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        cantx.drawImage(gateImgLeft, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      }
+      else {
+        cantx.drawImage(gateImgRight, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+        cantx.drawImage(gateImgLeft, gateObjArray[2].x * ObjectSizeWid, gateObjArray[2].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      }
+
+      //hvis triggerpadene er dekket og 3 "nøkler" er plukket opp, åpne gate
+      if (check_Trigger() && keyPickedUp == 3 && !playerDead) {
+        winCondition = true;
+      } else {
+        winCondition = false;
+      }
+
+
+
+      //Get new values for the aimation position and frames depending on how many
+      // frames has passed since last time it played etc
+      if (spriteDrawFrame == 5) {
+        spriteDrawFrame = 0;
+      }
+
+      if (arrowDrawFrame == 2) {
+        arrowDrawFrame = 0;
+      }
+
+      if (spriteDrawFrame == spriteDraw) {
+        sprite();
+        //thisFrame += 40;
+      }
+
+      if (arrowDrawFrame == arrowDraw) {
+        if (leftArrowCol && rightArrowCol) {
+          waitArrow++;
+
+          if (waitArrow == 10) {
+            waitArrow = 0;
+            leftArrowCol = false;
+            rightArrowCol = false;
+            arrow_XR = 18;
+            arrow_XL = 1;
+            shoot();
+            //console.log("shooting");
+          }
+        } else {
+          shoot();
+        }
+      }
+
+      spriteDrawFrame ++;
+      arrowDrawFrame++;
+
+      //Draw the animations
+      if (!rightArrowCol) {
+        cantx.drawImage(arrowImageRight, arrow_XR * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      }
+
+      if (!leftArrowCol) {
+        cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
+      }
+
+      cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
+      requestAnimationFrame(update);
     }
-
-    spriteDrawFrame ++;
-    arrowDrawFrame++;
-
-    //Draw the animations
-    if (!rightArrowCol) {
-      cantx.drawImage(arrowImageRight, arrow_XR * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-    }
-
-    if (!leftArrowCol) {
-      cantx.drawImage(arrowImageLeft, arrow_XL * ObjectSizeWid, arrow_Y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
-    }
-
-    cantx.drawImage(enemeySprite, spriteFrame, 0, 40, 40, enemyX * ObjectSizeHei, enemyY * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
-    requestAnimationFrame(update);
     //enemyX * ObjectSizeHei, enemyY * ObjectSizeHei
   }
+
+
 
   /**
    * Our function that decides if there is a collision on the objects or not
@@ -933,16 +942,9 @@ let Level1 = function() {
    */
   function assetsLoaded() {
     if (
-      bakgrunnLastet == true &&
-      keysLastet == true &&
-      playerLoaded == true &&
-      bushLastet == true &&
-      arrowShooterLastet == true &&
-      triggerLastet == true &&
-      stonesLoaded == true &&
-      !level1Started &&
-      gameOver &&
-      !isGameover
+      bakgrunnLastet && keysLastet && playerLoaded &&
+      bushLastet && arrowShooterLastet && triggerLastet &&
+      stonesLoaded && !level1Started && !isGameWon && !isGameover
     ) {
       startTimer();
       resetTimer();
@@ -950,8 +952,6 @@ let Level1 = function() {
       update();
     }
   }
-
-  console.log(level1Started);
 
   let spriteFrame = 40;
   let enemyX = 17;
@@ -1098,7 +1098,7 @@ let Level1 = function() {
       cancelAnimationFrame(update);
       level1Started = false;
       loadLevel2();
-      console.log("loaded level 2")
+      //console.log("loaded level 2")
     } else if(playerDead){
       cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
@@ -1112,12 +1112,12 @@ let Level1 = function() {
   $(document).keydown(function(e) {
     e = e || window.event;
 
-    if (isGameover) {
+    if (isGameover || isGameWon) {
       //stop keys from working :)
-    } else if (e.keyCode == "37" || e.keyCode == "65" && level1Started) player.move("left");
-    else if (e.keyCode == "38" || e.keyCode == "87" && level1Started) player.move("up");
-    else if (e.keyCode == "39" || e.keyCode == "68" && level1Started) player.move("right");
-    else if (e.keyCode == "40" || e.keyCode == "83" && level1Started) player.move("down");
+    } else if ((e.keyCode == "37" || e.keyCode == "65") && level1Started) player.move("left");
+    else if ((e.keyCode == "38" || e.keyCode == "87") && level1Started) player.move("up");
+    else if ((e.keyCode == "39" || e.keyCode == "68") && level1Started) player.move("right");
+    else if ((e.keyCode == "40" || e.keyCode == "83") && level1Started) player.move("down");
   });
 
   /**
@@ -1129,9 +1129,10 @@ let Level1 = function() {
    */
   $("#reset").click(function() {
     if (winCondition) {
+      // console.log("clicked");
     } else {
-      player.x = 11;
-      player.y = 18;
+      player.x = 13;
+      player.y = 12;
       arrowObjArray.length = 0;
       moveObjArray.length = 0;
       unMoveObjArray.length = 0;
@@ -1159,6 +1160,8 @@ let Level1 = function() {
       MenuLoad.startClicked = false;
       isRestarted = true;
       level1Started = false;
+      loadLevel2.isGameWon = false;
+      winCondition = false;
       MenuLoad();
   });
-};
+}; 
