@@ -2,11 +2,12 @@ import { loadLevel2 } from './Level2.js';
 export let score = 0; //Score value is export, so it can be used in Level 2 aswell
 let gameStarted = false;
 let isRestarted = false;
+export let level1Started;
 
 var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 
 window.onload = function() {
-  MenuLoad();
+  loadLevel2();
 };
 
 // Sound effects
@@ -27,7 +28,7 @@ window.onload = function() {
    * @function
    * @name MenuLoad ()
    */
-let  MenuLoad = function() {
+export let  MenuLoad = function() {
 
   //get mouseposition on canvas
   function getMousePos(canvas, e) {
@@ -170,7 +171,8 @@ let  MenuLoad = function() {
       if (startClicked == true) {
         backgroundMusic.play();
         gameStarted = true;
-        cantx.clearRect(0, 0, 600, 600)
+        cantx.clearRect(0, 0, 600, 600);
+        loadLevel2.isOnMenu = false;
         Level1().update();
         //$("#ourMap").unbind("mousemove");
         //$("#ourMap").unbind("click");
@@ -202,7 +204,7 @@ let  MenuLoad = function() {
   }
 
   function isAssetsLoaded() {
-    if (backgroundLoaded == true && startButtonLoaded == true && !gameStarted && isOnMenu) {
+    if (backgroundLoaded && startButtonLoaded && !gameStarted && isOnMenu) {
       startMenuupdate();
     }
   }
@@ -214,6 +216,13 @@ let  MenuLoad = function() {
    * @name Level1
    */
 let Level1 = function() {
+  let isGameover = false;
+
+  console.log(level1Started);
+  if(isGameover)
+  {
+    return;
+  }
 
   let wid = canvas.offsetWidth;
   let hig = canvas.offsetHeight;
@@ -228,7 +237,6 @@ let Level1 = function() {
   let triggerLastet = false;
 
   let winCondition = false;
-  let level1Started = false;
 
   //variabler for gåfart, scoring og offsets.
   let speed = 10;
@@ -894,8 +902,6 @@ let Level1 = function() {
     return bothTriggered;
   }
 
-
-
   /**
    * Funksjon for å flytte på hinderet, alt etter hvor spilleren let plassert FØR dem begynte kom vedsiden av elementet
    * @function
@@ -919,19 +925,6 @@ let Level1 = function() {
       moveObjArray[i].y -= speed / modifier;
     }
   }
-  /**
-   * Score bordet nede i venstre hjørne
-   * @function
-   * @name board
-   */
-  function board() {
-    cantx.fillStyle = "rgba(0, 0, 0, 0.5)";
-    cantx.fillRect(wid - 140, hig - 110, 100, 70);
-
-    cantx.font = "14px Arial";
-    cantx.fillStyle = "rgba(255, 255, 255, 1)";
-    cantx.fillText(keyPickedUp + " key Items", wid - 120, hig - 70);
-  }
 
   /**
    * Decide here if all the assets are ready to start updating
@@ -948,15 +941,17 @@ let Level1 = function() {
       triggerLastet == true &&
       stonesLoaded == true &&
       !level1Started &&
-      gameOver
+      gameOver &&
+      !isGameover
     ) {
-      shoot();
       startTimer();
       resetTimer();
       level1Started = true;
-      requestAnimationFrame(update);
+      update();
     }
   }
+
+  console.log(level1Started);
 
   let spriteFrame = 40;
   let enemyX = 17;
@@ -1089,7 +1084,6 @@ let Level1 = function() {
    * @function
    * @name gameOver()
    */
-  let isGameover;
 
   function gameOver() {
     isGameover = true;
@@ -1102,8 +1096,9 @@ let Level1 = function() {
       let myScore = "Your score was: " + String(score);
       $(".myScore").text(myScore);
       cancelAnimationFrame(update);
-      setTimeout(loadLevel2(), 1000);
-
+      level1Started = false;
+      loadLevel2();
+      console.log("loaded level 2")
     } else if(playerDead){
       cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
@@ -1119,10 +1114,10 @@ let Level1 = function() {
 
     if (isGameover) {
       //stop keys from working :)
-    } else if (e.keyCode == "37" || e.keyCode == "65") player.move("left");
-    else if (e.keyCode == "38" || e.keyCode == "87") player.move("up");
-    else if (e.keyCode == "39" || e.keyCode == "68") player.move("right");
-    else if (e.keyCode == "40" || e.keyCode == "83") player.move("down");
+    } else if (e.keyCode == "37" || e.keyCode == "65" && level1Started) player.move("left");
+    else if (e.keyCode == "38" || e.keyCode == "87" && level1Started) player.move("up");
+    else if (e.keyCode == "39" || e.keyCode == "68" && level1Started) player.move("right");
+    else if (e.keyCode == "40" || e.keyCode == "83" && level1Started) player.move("down");
   });
 
   /**
@@ -1135,8 +1130,8 @@ let Level1 = function() {
   $("#reset").click(function() {
     if (winCondition) {
     } else {
-      player.x = 9;
-      player.y = 13;
+      player.x = 11;
+      player.y = 18;
       arrowObjArray.length = 0;
       moveObjArray.length = 0;
       unMoveObjArray.length = 0;
@@ -1163,6 +1158,7 @@ let Level1 = function() {
       MenuLoad.isOnMenu = true;
       MenuLoad.startClicked = false;
       isRestarted = true;
+      level1Started = false;
       MenuLoad();
   });
 };

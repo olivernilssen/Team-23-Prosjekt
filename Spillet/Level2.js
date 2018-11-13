@@ -1,5 +1,6 @@
 import { score } from './Level1.js';
-
+import { MenuLoad } from './Level1.js';
+import { level1Started } from './Level1.js';
 // Sound effects
 var backgroundMusic = new Audio('music/backgroundMusic.mp3');
 var keySound = new Audio('music/keySound.mp3');
@@ -12,6 +13,18 @@ triggerSound.volume = 0.5;
 
 
 export let loadLevel2 = function() {
+  if(level1Started) 
+  {
+    return;
+  }
+
+  console.log(level1Started);
+  let isGameover = false;
+
+  if(isGameover)
+  {
+    return;
+  }
 
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
@@ -81,6 +94,7 @@ export let loadLevel2 = function() {
     //Arrows
     arrowObjArray.push(new aElement(arrow_XR, arrow_Y));
     arrowObjArray.push(new aElement(arrow_XL, arrow_Y));
+    
     //Crossbows
     crossbowArray.push(new aElement(18, 8));
     crossbowArray.push(new aElement(1, 8));
@@ -159,111 +173,108 @@ export let loadLevel2 = function() {
   makeArrays();
 
   //Initialize all the images into the different image objects for later use
-
   let gameOverImage = new Image();
-  gameOverImage.src = "Sprites/deadScreen.png";
-
   let gameWonImg = new Image();
-  gameWonImg.src = "Sprites/endScreen.png";
-
   let terrainImage = new Image();
-  terrainImage.onload = function() {
-    bakgrunnLastet = true;
-    console.log("bakgrunn lastet");
-    assetsLoaded();
-  };
-  terrainImage.src = "Sprites/bakgrunngress.png";
-
-  //Spiller bilde
   let playerImage = new Image();
-  playerImage.onload = function() {
-    spillerLastet = true;
-    console.log("spiller lastet");
-    assetsLoaded();
-  };
-  playerImage.src = "Sprites/KongSverreFront.png";
-
-  //PickupItem
   let keyImage = new Image();
-  keyImage.onload = function() {
-    keysLastet = true;
-    console.log("keys lastet");
-    assetsLoaded();
-  };
-  keyImage.src = "Sprites/keyItem.gif";
-
-  //Stein
   let stoneImage = new Image();
-  stoneImage.onload = function() {
-    steinerLastet = true;
-    console.log("steiner lastet");
-    assetsLoaded();
-  };
-  stoneImage.src = "Sprites/stone.png";
-
-  //Stein
-  let buskImage = new Image();
-  buskImage.onload = function() {
-    bushLastet = true;
-    console.log("busker lastet");
-    assetsLoaded();
-  };
-  buskImage.src = "Sprites/Busk4.png";
-
-  //Triggers
+  let bushImage = new Image();
   let triggerImage = new Image();
-  triggerImage.onload = function() {
-    triggerLastet = true;
-    console.log("triggers lastet");
-    assetsLoaded();
-  };
-  triggerImage.src = "Sprites/trigger.png";
-
-  //Arrow Shooter
   let crossbowImageRight = new Image();
-  crossbowImageRight.onload = function() {
-    arrowShooterLastet = true;
-    console.log("skyter høyre lastet");
-    assetsLoaded();
-  };
-  crossbowImageRight.src = "Sprites/crossbowRight.png";
-  
   let crossbowLeftImage = new Image();
-  crossbowLeftImage.onload = function() {
-    arrowShooterLastet = true;
-    console.log("skyter venstre lastet");
-    assetsLoaded();
-  };
-  crossbowLeftImage.src = "Sprites/crossbowLeft.png";
-  
-  //Arrow
   let arrowImageRight = new Image();
-  arrowImageRight.src = "Sprites/NewArrowRight.png";
-
   let arrowImageLeft = new Image();
-  arrowImageLeft.src = "Sprites/NewArrowLeft.png";
-
-  //Gate
   let gateImage = new Image();
-  gateImage.src = "Sprites/NewGate.png";
-
-   //Gate
-   let gateImg1 = new Image();
-   gateImg1.src = "Sprites/NewGate.png";
- 
-   let gateImgLeft = new Image();
-   gateImgLeft.src = "Sprites/NewGateLeft.png";
- 
-   let gateImgRight = new Image();
-   gateImgRight.src = "Sprites/NewGateRight.png";
-
+  let gateImg1 = new Image();
+  let gateImgLeft = new Image();
+  let gateImgRight = new Image();
   let enemeySprite = new Image();
-  enemeySprite.onload = function() {
-    console.log("Enemy loaded");
-  };
 
-  enemeySprite.src = "Sprites/NewSoldier.png";
-  console.log(enemeySprite.width, ObjectSizeHei);
+  function loadAssetslvl2 () {
+    gameOverImage.src = "Sprites/deadScreen.png";
+    gameWonImg.src = "Sprites/endScreen.png";
+
+    terrainImage.onload = function() {
+      bakgrunnLastet = true;
+      console.log("bakgrunn lastet");
+      assetsLoaded();
+    };
+    terrainImage.src = "Sprites/bakgrunngress.png";
+
+    //Spiller bilde
+    playerImage.onload = function() {
+      spillerLastet = true;
+      console.log("spiller lastet");
+      assetsLoaded();
+    };
+    playerImage.src = "Sprites/KongSverreFront.png";
+
+    //PickupItem
+    keyImage.onload = function() {
+      keysLastet = true;
+      console.log("keys lastet");
+      assetsLoaded();
+    };
+    keyImage.src = "Sprites/keyItem.gif";
+
+    //Stein
+    stoneImage.onload = function() {
+      steinerLastet = true;
+      console.log("steiner lastet");
+      assetsLoaded();
+    };
+    stoneImage.src = "Sprites/stone.png";
+
+    //bush
+    bushImage.onload = function() {
+      bushLastet = true;
+      console.log("busker lastet");
+      assetsLoaded();
+    };
+    bushImage.src = "Sprites/Busk4.png";
+
+    //Trigger
+    triggerImage.onload = function() {
+      triggerLastet = true;
+      console.log("triggers lastet");
+      assetsLoaded();
+    };
+    triggerImage.src = "Sprites/trigger.png";
+
+    //Arrow Shooter
+    crossbowImageRight.onload = function() {
+      arrowShooterLastet = true;
+      console.log("skyter høyre lastet");
+      assetsLoaded();
+    };
+    crossbowImageRight.src = "Sprites/crossbowRight.png";
+    
+
+    crossbowLeftImage.onload = function() {
+      arrowShooterLastet = true;
+      console.log("skyter venstre lastet");
+      assetsLoaded();
+    };
+    crossbowLeftImage.src = "Sprites/crossbowLeft.png";
+    
+    //Arrow
+    arrowImageRight.src = "Sprites/NewArrowRight.png";
+    arrowImageLeft.src = "Sprites/NewArrowLeft.png";
+
+    //Gates
+    gateImage.src = "Sprites/NewGate.png";
+    gateImg1.src = "Sprites/NewGate.png";
+    gateImgLeft.src = "Sprites/NewGateLeft.png";
+    gateImgRight.src = "Sprites/NewGateRight.png";
+
+    enemeySprite.onload = function() {
+      console.log("Enemy loaded");
+    };
+    enemeySprite.src = "Sprites/NewSoldier.png";
+}
+
+loadAssetslvl2();
 
   let timer = {
     seconds: 0,
@@ -492,6 +503,11 @@ export let loadLevel2 = function() {
       return;
     }
 
+    if(isonMenu)
+    {
+      return;
+    }
+
     cantx.drawImage(terrainImage, 0, 0); //draw background
     
     if(firstTriggers != 3){
@@ -523,7 +539,7 @@ export let loadLevel2 = function() {
 
     //Draw unmovable objects
     for (let i = 0; i < unMoveObjArray.length; i++) {
-      cantx.drawImage(buskImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei,ObjectSizeWid, ObjectSizeHei);
+      cantx.drawImage(bushImage, unMoveObjArray[i].x * ObjectSizeWid, unMoveObjArray[i].y * ObjectSizeHei,ObjectSizeWid, ObjectSizeHei);
       if (i < moveObjArray.length) {
         cantx.drawImage(stoneImage, moveObjArray[i].x * ObjectSizeWid, moveObjArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
       }
@@ -802,22 +818,15 @@ export let loadLevel2 = function() {
    */
   function assetsLoaded() {
     if (
-      bakgrunnLastet == true &&
-      keysLastet == true &&
-      spillerLastet == true &&
-      bushLastet == true &&
-      arrowShooterLastet == true &&
-      triggerLastet == true &&
-      steinerLastet == true &&
-      !level2Started &&
-      gameOver
-    ) {
-      shoot();
-      startTimer();
-      resetTimer();
-      level2Started = true;
-      requestAnimationFrame(updatelvl2);
-    }
+      bakgrunnLastet && keysLastet && spillerLastet &&
+      bushLastet && arrowShooterLastet && triggerLastet &&
+      steinerLastet && !level2Started && !isGameover) 
+      {
+        resetTimer();
+        startTimer();
+        level2Started = true;
+        requestAnimationFrame(updatelvl2);
+      }
   }
 
   let enemySpeed = 0.2;
@@ -949,18 +958,19 @@ export let loadLevel2 = function() {
    * Game over function (NOT WORKING PROPERLY YET.)
    * @todo Do something with canvas when player dies.
    */
-  let isGameover = false;
 
   function gameOver() {
     isGameover = true;
 
-    if (winCondition) {
+    if (winCondition && !playerDead) {
       myTime = timer.seconds;
       clearInterval(timer.clearTime);
       scoreCalc();
       let myScore = "Your score was: " + String(scoreLvl2);
       $(".myScore").text(myScore);
+      cancelAnimationFrame(level2Started);  
       cantx.drawImage(gameWonImg, 0, 0, 600, 600);
+  
       console.log("done");
     } else if(playerDead){
       clearInterval(timer.clearTime);
@@ -976,10 +986,10 @@ export let loadLevel2 = function() {
 
     if (isGameover) {
       //stop keys from working :)
-    } else if (e.keyCode == "37" || e.keyCode == "65") player.move("left");
-    else if (e.keyCode == "38" || e.keyCode == "87") player.move("up");
-    else if (e.keyCode == "39" || e.keyCode == "68") player.move("right");
-    else if (e.keyCode == "40" || e.keyCode == "83") player.move("down");
+    } else if (e.keyCode == "37" || e.keyCode == "65" && !level1Started) player.move("left");
+    else if (e.keyCode == "38" || e.keyCode == "87" && !level1Started) player.move("up");
+    else if (e.keyCode == "39" || e.keyCode == "68" && !level1Started) player.move("right");
+    else if (e.keyCode == "40" || e.keyCode == "83" && !level1Started) player.move("down");
   });
 
   $("#reset").click(function() {
@@ -997,8 +1007,21 @@ export let loadLevel2 = function() {
       keyPickedUp = 0;
       isGameover = false;
       makeArrays();
-      window.cancelAnimationFrame(updatelvl2);
+      cancelAnimationFrame(loadLevel2);
       assetsLoaded();
     }
+  });
+
+  let isonMenu = false;
+  $("#Menu").click(function() {
+      isGameover = false;
+      isonMenu = true;
+      cancelAnimationFrame(updatelvl2);
+      clearTimeout(updatelvl2);
+      resetTimer();
+      clearInterval(timer.clearTime);
+      MenuLoad.isOnMenu = true;
+      MenuLoad.startClicked = false;
+      MenuLoad();
   });
 };
