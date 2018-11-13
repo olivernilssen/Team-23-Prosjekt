@@ -85,8 +85,12 @@ h3, h4 {
   padding-top: 50px;
 }
 
-#theTeam {
+/* #teamet {
   width: 40%;
+} */
+
+#teamet p {
+  text-align: center;
 }
 
 .nav-tabs li a {
