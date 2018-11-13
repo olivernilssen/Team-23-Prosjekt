@@ -76,15 +76,12 @@ h3, h4 {
   display: block;
 }
 
-
-
-.bg-3 {
-  padding-top: 50px;
+.bg-3, .bg-4 {
   background-color: #fbfbfb;
 }
 
-.bg-4 {
-
+.bg-3 {
+  padding-top: 50px;
 }
 
 .list-group-item:first-child {
@@ -97,14 +94,9 @@ h3, h4 {
     border-bottom-left-radius: 0;
 }
 
-/* . p {
-  vertical-align: center;
-} */
 #theTeam {
   width: 40%;
 }
-
-
 
 .btn {
     padding: 10px 20px;
@@ -198,6 +190,10 @@ footer a:hover {
 
 #vektor img {
   width: 30%;
+}
+
+.contactInfo {
+  padding: 25px
 }
 
 .form-control {
