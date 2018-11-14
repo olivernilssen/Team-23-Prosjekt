@@ -10,7 +10,7 @@ var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimat
 var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame;
 
 window.onload = function() {
-  MenuLoad();
+  loadLevel2();
 };
 
 // Sound effects

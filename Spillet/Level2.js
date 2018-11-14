@@ -16,6 +16,7 @@ export let isGameWon = false;
   winGameMusic.volume = 0.1;
 
 let isGameover = false;
+let playerDead = false;
 
 
 export let loadLevel2 = function() {
@@ -24,9 +25,14 @@ export let loadLevel2 = function() {
     return;
   }
 
-  if(isGameover)
+  if(isGameover && !playerDead)
   {
     cantx.drawImage(gameWonImg, 0, 0, 600, 600);
+    return;
+  }
+  else if(playerDead)
+  {
+    cantx.drawImage(gameOverImage, 0, 0, 600, 600);
     return;
   }
 
@@ -488,13 +494,13 @@ loadAssetslvl2();
    * @name updatelvl2
    */
   function updatelvl2() {
-    if (isGameover && winCondition) {
+    if (isGameover && winCondition && !playerDead) {
       winGameMusic.play();
       backgroundMusic.pause();
       cantx.drawImage(gameWonImg, 0, 0, 600, 600);
       return;
     }
-    else if (isGameover && playerDead)
+    else if (playerDead)
     {
       cantx.drawImage(gameOverImage, 0, 0, 600, 600);
       backgroundMusic.pause();
@@ -829,8 +835,6 @@ loadAssetslvl2();
   }
 
   let enemySpeed = 0.2;
-  let playerDead = false;
-
   /**
    * Decide here if all the assets are ready to start updating
    * @function
