@@ -1098,7 +1098,7 @@ let Level1 = function() {
       clearInterval(timer.clearTime);
       scoreCalc();
       backgroundMusic.pause();
-      let myScore = "Your score was: " + String(score);
+      let myScore = "Your score: " + String(score);
       $(".myScore").text(myScore);
       cancelAnimationFrame(update);
       level1Started = false;

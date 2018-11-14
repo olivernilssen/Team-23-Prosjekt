@@ -20,20 +20,49 @@ h4 {
   color: #111;
 }
 
+#ourMap {
+    display: block;
+    width: 100%;
+}
+
 .Score {
-  padding-top: 0;
-  text-align: left;
-  color: white;
-  width: 100%;
-  font-size: 75%;
+    background-image: url("Sprites/bakgrunngress.png");
+    color: white;
+    width: 100%;
+    padding: 2%;
+    float: left;
 }
 
 .myScore {
-  font-size: 120%;
+    border: 1px solid #0E4023;
+    width: 30%;
+    float: left;
+    margin: 1%;
+    text-align: center;
 }
 
 .timer {
-  font-size: 200%;
+    border: 1px solid #0E4023;
+    float: left;
+    width: 10%;
+    margin: 1%;
+    text-align: center;
+}
+
+.resetButton {
+  background-color: #0E4023;
+  border: none;
+  color: #ffffff;
+  text-decoration: none;
+    width: 25%;
+    float: right;
+    margin: 1%;
+    font-size: 100%;
+}
+
+.resetButton:hover {
+    background-color:#2FD474;
+    color:black;
 }
 
 canvas {

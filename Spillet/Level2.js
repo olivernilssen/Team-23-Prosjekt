@@ -764,6 +764,10 @@ loadAssetslvl2();
       }
     }
 
+    if (stoneTriggerArray[0].isTriggered == true && stoneTriggerArray[1].isTriggered == true && stoneTriggerArray[2].isTriggered == true){
+      firstTriggers = 3;
+    }
+
     if(firstTriggers == 3){
       for(let i = 0; i < 3; i++){
       if(stoneTriggerArray[i].x != moveObjArray[stoneTriggerArray[i].stoneIndex].x){
@@ -772,10 +776,6 @@ loadAssetslvl2();
           break;
         }
       }
-    }
-
-    if (stoneTriggerArray[0].isTriggered == true && stoneTriggerArray[1].isTriggered == true && stoneTriggerArray[2].isTriggered == true){
-      firstTriggers = 3;
     }
 
 
@@ -969,7 +969,7 @@ loadAssetslvl2();
       myTime = timer.seconds;
       clearInterval(timer.clearTime);
       scoreCalc();
-      let myScore = "Your score was: " + String(scoreLvl2);
+      let myScore = "Your score: " + String(scoreLvl2);
       $(".myScore").text(myScore);
       cancelAnimationFrame(updatelvl2);
       isGameWon = true;
