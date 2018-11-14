@@ -17,11 +17,14 @@ window.onload = function() {
   var backgroundMusic = new Audio('music/backgroundMusic.mp3');
   var keySound = new Audio('music/keySound.mp3');
   var triggerSound = new Audio('music/triggerSound.mp3');
-
+  var gameOverMusic = new Audio('music/gameOver.mp3');
+  var winGameMusic = new Audio('music/finallyTogether.mp3');
   //Sound effects volume
   backgroundMusic.volume = 0.1;
   keySound.volume = 0.5;
   triggerSound.volume = 0.5;
+  gameOverMusic.volume = 0.1;
+  winGameMusic.volume = 0.1;
 
   let canvas = document.getElementById("ourMap");
   let cantx = canvas.getContext("2d");
@@ -172,6 +175,8 @@ export let  MenuLoad = function() {
       //console.log("clicked on canvas");
       //console.log(isOnMenu);
       if (startClicked == true) {
+        gameOverMusic.pause();
+        winGameMusic.pause();
         backgroundMusic.play();
         gameStarted = true;
         cantx.clearRect(0, 0, 600, 600);
@@ -229,7 +234,7 @@ let Level1 = function() {
   if(isGameWon)
   {
     cantx.drawImage(gameWonImg, 0, 0, 600, 600);
-    return; 
+    return;
   }
 
   //variabler for å sjekke om at bilder og elementer er lastet inn i scenen.
@@ -1103,6 +1108,8 @@ let Level1 = function() {
       cancelAnimationFrame(update);
       clearInterval(timer.clearTime);
       cantx.drawImage(gameOverImage, 0, 0, 600, 600);
+      backgroundMusic.pause();
+      gameOverMusic.play();
     }
   }
 
@@ -1164,4 +1171,4 @@ let Level1 = function() {
       winCondition = false;
       MenuLoad();
   });
-}; 
+};

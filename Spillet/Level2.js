@@ -1,22 +1,25 @@
 import { score } from './Level1.js';
 import { MenuLoad } from './Level1.js';
 import { level1Started } from './Level1.js';
-export let isGameWon = false; 
+export let isGameWon = false;
 // Sound effects
-var backgroundMusic = new Audio('music/backgroundMusic.mp3');
-var keySound = new Audio('music/keySound.mp3');
-var triggerSound = new Audio('music/triggerSound.mp3');
-
-//Sound effects volume
-backgroundMusic.volume = 0.1;
-keySound.volume = 0.5;
-triggerSound.volume = 0.5;
+  var backgroundMusic = new Audio('music/backgroundMusic.mp3');
+  var keySound = new Audio('music/keySound.mp3');
+  var triggerSound = new Audio('music/triggerSound.mp3');
+  var gameOverMusic = new Audio('music/gameOver.mp3');
+  var winGameMusic = new Audio('music/finallyTogether.mp3');
+  //Sound effects volume
+  backgroundMusic.volume = 0.1;
+  keySound.volume = 0.5;
+  triggerSound.volume = 0.5;
+  gameOverMusic.volume = 0.1;
+  winGameMusic.volume = 0.1;
 
 let isGameover = false;
 
 
 export let loadLevel2 = function() {
-  if(level1Started) 
+  if(level1Started)
   {
     return;
   }
@@ -95,7 +98,7 @@ export let loadLevel2 = function() {
     //Arrows
     arrowObjArray.push(new aElement(arrow_XR, arrow_Y));
     arrowObjArray.push(new aElement(arrow_XL, arrow_Y));
-    
+
     //Crossbows
     crossbowArray.push(new aElement(18, 8));
     crossbowArray.push(new aElement(1, 8));
@@ -121,7 +124,7 @@ export let loadLevel2 = function() {
     moveObjArray.push(new aElement(11, 14));
     moveObjArray.push(new aElement(10, 16));
     moveObjArray.push(new aElement(11, 16));
-    
+
     moveObjArray.push(new aElement(4, 12));
     moveObjArray.push(new aElement(4, 13));
     moveObjArray.push(new aElement(4, 14));
@@ -159,10 +162,10 @@ export let loadLevel2 = function() {
     //ramme rundt nivået
     for (let x = 0; x < ObjectSizeWid; x++) {
       for (let y = 0; y < ObjectSizeHei; y++) {
-        if (((x > 0 && x < 6) && y == 0) || 
+        if (((x > 0 && x < 6) && y == 0) ||
         ((x > 8 && x < 20) && y == 0) ||
-        (x == 0 && y < 19) || 
-        (x < 11 && y == 19) || 
+        (x == 0 && y < 19) ||
+        (x < 11 && y == 19) ||
         (x > 11 && y == 19) || (x == 19 && y < 20)) {
           unMoveObjArray.push(new aElement(x, y));
         }
@@ -170,7 +173,7 @@ export let loadLevel2 = function() {
     }
   }
 
-  //Put all the elements into the arrays when game is initialized 
+  //Put all the elements into the arrays when game is initialized
   makeArrays();
 
   //Initialize all the images into the different image objects for later use
@@ -250,7 +253,7 @@ export let loadLevel2 = function() {
       assetsLoaded();
     };
     crossbowImageRight.src = "Sprites/crossbowRight.png";
-    
+
 
     crossbowLeftImage.onload = function() {
       arrowShooterLastet = true;
@@ -258,7 +261,7 @@ export let loadLevel2 = function() {
       assetsLoaded();
     };
     crossbowLeftImage.src = "Sprites/crossbowLeft.png";
-    
+
     //Arrow
     arrowImageRight.src = "Sprites/NewArrowRight.png";
     arrowImageLeft.src = "Sprites/NewArrowLeft.png";
@@ -332,13 +335,13 @@ loadAssetslvl2();
     {
       return;
     }
-    
+
     hold_player = {
       x: player.x,
       y: player.y
     };
 
-    
+
     //a function to keep the movable objects current position before it is potentially moved. The oldX and oldY values are used it the box collides
     // so as to stop then from moving forward, but rather keep the old position.
     for (let i = 0; i < moveObjArray.length; i++) {
@@ -382,12 +385,12 @@ loadAssetslvl2();
         }
         break;
       case "up":
-        if (playerImage.getAttribute("src") == "Sprites/KongSverreBackWalking2.png") 
+        if (playerImage.getAttribute("src") == "Sprites/KongSverreBackWalking2.png")
         {
           playerImage.src = "Sprites/KongSverreBackWalking1.png";
           player.y -= movement;
-        } 
-        else if (playerImage.getAttribute("src") == "Sprites/KongSverreBackWalking1.png") 
+        }
+        else if (playerImage.getAttribute("src") == "Sprites/KongSverreBackWalking1.png")
         {
           playerImage.src = "Sprites/KongSverreBackWalking2.png";
           player.y -= movement;
@@ -397,7 +400,7 @@ loadAssetslvl2();
         }
         break;
       case "down":
-        if (playerImage.getAttribute("src") == "Sprites/KongSverreFrontWalking2.png") 
+        if (playerImage.getAttribute("src") == "Sprites/KongSverreFrontWalking2.png")
         {
           playerImage.src = "Sprites/KongSverreFrontWalking1.png";
           player.y += movement;
@@ -445,11 +448,11 @@ loadAssetslvl2();
       } else if (moveObjArray[i].x < soldierArray[0].x + 0.5 && moveObjArray[i].x > soldierArray[0].x - 0.5 && moveObjArray[i].y == soldierArray[0].y) {
         moveObjArray[i].x = moveObjArray[i].oldX;
         moveObjArray[i].y = moveObjArray[i].oldY;
-      
+
       } else if (moveObjArray[i].x < soldierArray[1].x + 0.5 && moveObjArray[i].x > soldierArray[1].x - 0.5 && moveObjArray[i].y == soldierArray[1].y) {
         moveObjArray[i].x = moveObjArray[i].oldX;
         moveObjArray[i].y = moveObjArray[i].oldY;
-        
+
         if (check_collision_stones(player.x, player.y)) {
           player.x = hold_player.x;
           player.y = hold_player.y;
@@ -486,12 +489,16 @@ loadAssetslvl2();
    */
   function updatelvl2() {
     if (isGameover && winCondition) {
+      winGameMusic.play();
+      backgroundMusic.pause();
       cantx.drawImage(gameWonImg, 0, 0, 600, 600);
       return;
     }
     else if (isGameover && playerDead)
     {
       cantx.drawImage(gameOverImage, 0, 0, 600, 600);
+      backgroundMusic.pause();
+      gameOverMusic.play();
       return;
     }
 
@@ -502,7 +509,7 @@ loadAssetslvl2();
     else if(!isGameover && !playerDead && !isGameWon && !level1Started) {
 
       cantx.drawImage(terrainImage, 0, 0); //draw background
-      
+
       if(firstTriggers != 3){
           cantx.drawImage(gateImage, gateObjArray[0].x * ObjectSizeWid, gateObjArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid)
         }
@@ -519,9 +526,9 @@ loadAssetslvl2();
           cantx.drawImage(gateImgLeft, gateObjArray[3].x * ObjectSizeWid, gateObjArray[3].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
         }
       }
-      
-      
-    
+
+
+
       //draw triggers for stones and the arrowshooters
       for (let i = 0; i < stoneTriggerArray.length; i++) {
         cantx.drawImage(triggerImage, stoneTriggerArray[i].x * ObjectSizeWid, stoneTriggerArray[i].y * ObjectSizeHei, ObjectSizeWid, ObjectSizeHei);
@@ -584,7 +591,7 @@ loadAssetslvl2();
           shoot();
         }
       }
-      
+
       spriteDrawFrame ++;
       arrowDrawFrame++;
 
@@ -599,7 +606,7 @@ loadAssetslvl2();
 
       cantx.drawImage(enemeySprite, soldierArray[0].spriteFrameON, 0, 40, 40, soldierArray[0].x * ObjectSizeHei, soldierArray[0].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
       cantx.drawImage(enemeySprite, soldierArray[1].spriteFrameON, 0, 40, 40, soldierArray[1].x * ObjectSizeHei, soldierArray[1].y * ObjectSizeHei, ObjectSizeHei, ObjectSizeWid);
-      
+
       requestAnimationFrame(updatelvl2);
       //enemyX * ObjectSizeHei, enemyY * ObjectSizeHei
     }
@@ -648,12 +655,12 @@ loadAssetslvl2();
             return foundCollision = true;
           }
          }
-        } 
+        }
     return foundCollision;
   }
-  
+
   function check_collision_keys (x, y){
-    let foundCollision = false; 
+    let foundCollision = false;
 
     for (let i = 0; i < keyitemArray.length; i++) {
       if (x == keyitemArray[i].x && y == keyitemArray[i].y) {
@@ -732,8 +739,8 @@ loadAssetslvl2();
    * */
   function check_Trigger() {
     let allTriggers = false;
-    
-    
+
+
     if(!stoneTriggerArray.every(isTriggeredTrue)){
       for (let i = 0; i < moveObjArray.length; i++) {
         for(let j = 0; j < stoneTriggerArray.length; j++){
@@ -777,7 +784,7 @@ loadAssetslvl2();
       }
       return allTriggers = true;
     }
-  
+
     return allTriggers;
   }
 
@@ -812,7 +819,7 @@ loadAssetslvl2();
     if (
       bakgrunnLastet && keysLastet && spillerLastet &&
       bushLastet && arrowShooterLastet && triggerLastet &&
-      steinerLastet && !level2Started && !isGameover && !isGameWon) 
+      steinerLastet && !level2Started && !isGameover && !isGameWon)
       {
         resetTimer();
         startTimer();
@@ -843,26 +850,26 @@ loadAssetslvl2();
       return;
     }
 
-    //Change the direction in which the soldier is walking towards if it collides with anything 
-      if ((check_collision_stones(soldierArray[i].x - 0.2, soldierArray[i].y) || 
-        (check_collision(soldierArray[i].x, soldierArray[i].y)) && !soldierArray[i].moveRight) || 
+    //Change the direction in which the soldier is walking towards if it collides with anything
+      if ((check_collision_stones(soldierArray[i].x - 0.2, soldierArray[i].y) ||
+        (check_collision(soldierArray[i].x, soldierArray[i].y)) && !soldierArray[i].moveRight) ||
         soldierArray[i].x <= 1 ||
         (check_collision(soldierArray[i].x - 0.2, soldierArray[i].y))) {
 
           soldierArray[i].moveRight = true;
 
       } else if (
-        (check_collision_stones(soldierArray[i].x + 1, soldierArray[i].y) || 
-        (check_collision(soldierArray[i].x + 1, soldierArray[i].y)) && soldierArray[i].moveRight) || 
+        (check_collision_stones(soldierArray[i].x + 1, soldierArray[i].y) ||
+        (check_collision(soldierArray[i].x + 1, soldierArray[i].y)) && soldierArray[i].moveRight) ||
         soldierArray[i].x >= 18) {
 
           soldierArray[i].moveRight = false;
       }
 
       if (!soldierArray[i].moveRight) {
-        
+
         soldierArray[i].x -= enemySpeed;
-        
+
         if(soldierArray[i].spriteFrameON == 0 && soldierArray[i].spriteIndex == 1)
         {
           soldierArray[i].spriteFrameON = 0;
@@ -879,7 +886,7 @@ loadAssetslvl2();
         }
 
       } else if (soldierArray[i].moveRight) {
-        
+
         soldierArray[i].x += enemySpeed;
 
         if(soldierArray[i].spriteFrameON == 80 && soldierArray[i].spriteIndex == 1)
@@ -897,7 +904,7 @@ loadAssetslvl2();
           soldierArray[i].spriteFrameON = 80;
           soldierArray[i].spriteIndex++;
         }
-      } 
+      }
   }
 
   //To check collision of arrows
@@ -960,7 +967,7 @@ loadAssetslvl2();
       scoreCalc();
       let myScore = "Your score was: " + String(scoreLvl2);
       $(".myScore").text(myScore);
-      cancelAnimationFrame(updatelvl2);  
+      cancelAnimationFrame(updatelvl2);
       isGameWon = true;
       isGameover = true;
       cantx.drawImage(gameWonImg, 0, 0, 600, 600);
@@ -1007,7 +1014,7 @@ loadAssetslvl2();
   });
 
   let isonMenu = false;
-  
+
   //Draws the menu and stops the animations of level2
   $("#Menu").click(function() {
       isGameover = false;
