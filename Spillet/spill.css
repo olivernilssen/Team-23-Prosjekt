@@ -1,7 +1,7 @@
 body {
-    font: 400 15px/1.8 Lato, sans-serif;
-    color: #777;
-    overflow-y: hidden;
+  font: 400 15px/1.8 Lato, sans-serif;
+  color: #777;
+  overflow-y: hidden;
 }
 
 .navbar-brand {
@@ -12,28 +12,24 @@ body {
   padding: 50px;
 }
 
-
-h3, h4 {
-    margin: 10px 0 30px 0;
-    letter-spacing: 10px;
-    font-size: 20px;
-    color: #111;
+h3,
+h4 {
+  margin: 10px 0 30px 0;
+  letter-spacing: 10px;
+  font-size: 20px;
+  color: #111;
 }
-
-/* #ourMap {
-  padding-top: 100px;
-} */
 
 .Score {
   padding-top: 0;
   text-align: left;
-  color:white;
-  width:100%;
+  color: white;
+  width: 100%;
   font-size: 75%;
 }
 
 .myScore {
-    font-size:120%;
+  font-size: 120%;
 }
 
 .timer {
@@ -46,14 +42,14 @@ canvas {
 }
 
 .bg-1 {
-    padding-bottom: 200px;
-    background-image: url("joakimbilder/bakgrunn team23.png");
-    background-size: 1920px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-origin: border-box;
-    color: #bdbdbd;
+  padding-bottom: 200px;
+  background-image: url("joakimbilder/bakgrunn team23.png");
+  background-size: 1920px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-origin: border-box;
+  color: #bdbdbd;
 }
 
 .bg-2 {
@@ -70,68 +66,67 @@ canvas {
   margin: 10px;
 }
 
-
-
 .nav-tabs li a {
-    color: #777;
+  color: #777;
 }
 
 .navbar {
-    font-family: Montserra, sans-serif;
-    margin-bottom: 0;
-    background-color: #2d2d30;
-    border: 0;
-    font-size: 11px !important;
-    letter-spacing: 4px;
-    opacity: 0.9;
+  font-family: Montserra, sans-serif;
+  margin-bottom: 0;
+  background-color: #2d2d30;
+  border: 0;
+  font-size: 11px !important;
+  letter-spacing: 4px;
+  opacity: 0.9;
 }
 
-.navbar li a, .navbar .navbar-brand {
-    color: #d5d5d5 !important;
+.navbar li a,
+.navbar .navbar-brand {
+  color: #d5d5d5 !important;
 }
 
 .navbar-nav li a:hover {
-    color: #fff !important;
+  color: #fff !important;
 }
 
 .navbar-nav li.active a {
-    color: #fff !important;
-    background-color: #29292c !important;
+  color: #fff !important;
+  background-color: #29292c !important;
 }
 
 .navbar-default .navbar-toggle {
-    border-color: transparent;
+  border-color: transparent;
 }
 
 footer {
-    background-color: #2d2d30;
-    color: #f5f5f5;
-    padding: 32px;
+  background-color: #2d2d30;
+  color: #f5f5f5;
+  padding: 32px;
 }
 
 footer a {
-    color: #f5f5f5;
+  color: #f5f5f5;
 }
 
 footer a:hover {
-    color: #777;
-    text-decoration: none;
+  color: #777;
+  text-decoration: none;
 }
 
 #mc_embed_signup {
   padding: 30px;
-  background:#2d2d30;
-  font:14px Helvetica,Arial,sans-serif;
+  background: #2d2d30;
+  font: 14px Helvetica, Arial, sans-serif;
   color: black;
-  width:100%;
+  width: 100%;
 }
 
-#vektor {
+#socialMedia {
   border-top: solid black 2px;
   padding: 20px;
 }
 
-#vektor img {
+#socialMedia img {
   width: 30%;
 }
 
@@ -139,12 +134,8 @@ footer a:hover {
   padding: 50px;
 }
 
-.form-control {
-    border-radius: 0;
-}
-
 @media only screen and (max-width: 1366px) {
-    .bg-1 {
-      background-size: 1366px;
-    }
+  .bg-1 {
+    background-size: 1366px;
+  }
 }
