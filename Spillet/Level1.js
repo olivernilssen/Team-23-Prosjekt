@@ -1162,6 +1162,7 @@ let Level1 = function() {
       clearTimeout(update);
       resetTimer();
       clearInterval(timer.clearTime);
+      backgroundMusic.pause()
       gameStarted = false;
       MenuLoad.isOnMenu = true;
       MenuLoad.startClicked = false;

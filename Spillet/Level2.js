@@ -1027,6 +1027,7 @@ loadAssetslvl2();
       cancelAnimationFrame(loadLevel2);
       clearTimeout(loadLevel2);
       resetTimer();
+      backgroundMusic.pause();
       clearInterval(timer.clearTime);
       MenuLoad.isOnMenu = true;
       MenuLoad.startClicked = false;

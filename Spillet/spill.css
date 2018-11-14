@@ -20,6 +20,11 @@ h4 {
   color: #111;
 }
 
+#toCenter {
+  float: none;
+ margin: 0 auto;
+}
+
 #ourMap {
     display: block;
     width: 100%;
