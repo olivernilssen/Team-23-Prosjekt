@@ -1162,7 +1162,8 @@ let Level1 = function() {
       clearTimeout(update);
       resetTimer();
       clearInterval(timer.clearTime);
-      backgroundMusic.pause()
+      backgroundMusic.pause();
+      winGameMusic.pause();
       gameStarted = false;
       MenuLoad.isOnMenu = true;
       MenuLoad.startClicked = false;

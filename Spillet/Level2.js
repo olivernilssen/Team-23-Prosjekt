@@ -1028,6 +1028,7 @@ loadAssetslvl2();
       clearTimeout(loadLevel2);
       resetTimer();
       backgroundMusic.pause();
+      winGameMusic.pause();
       clearInterval(timer.clearTime);
       MenuLoad.isOnMenu = true;
       MenuLoad.startClicked = false;
